@@ -81,3 +81,14 @@ uv run oh-my-paper mock-app-server /tmp/ohmp-demo tests/fixtures/evals/unsupport
 ```
 
 See [`docs/MILESTONE4_APP_SERVER_ADAPTER.md`](docs/MILESTONE4_APP_SERVER_ADAPTER.md).
+
+## Milestone 5 harness flywheel
+
+Milestone 5 captures risky runs as fixtures and writes regression reports/changelog entries:
+
+```bash
+uv run oh-my-paper capture-fixture /tmp/ohmp-demo /tmp/captured.jsonl --fixture-id captured_c3 --purpose "capture C3 gate" --privacy redacted
+uv run oh-my-paper eval-report /tmp/captured.jsonl --output /tmp/eval-report.md --changelog /tmp/HARNESS_CHANGELOG.md
+```
+
+See [`docs/MILESTONE5_HARNESS_FLYWHEEL.md`](docs/MILESTONE5_HARNESS_FLYWHEEL.md).

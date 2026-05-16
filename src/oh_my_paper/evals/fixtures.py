@@ -8,6 +8,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+PUBLIC_FIXTURE_ROOT = Path("tests/fixtures/evals")
+
 from oh_my_paper.artifacts.store import ArtifactStore
 from oh_my_paper.gates.evidence import evaluate_claim_grounding
 from oh_my_paper.artifacts.claims import parse_claims_text
@@ -66,8 +68,10 @@ def load_fixtures(path: Path) -> list[Fixture]:
         missing = REQUIRED_FIXTURE_FIELDS - set(data)
         if missing:
             raise ValueError(f"{path}:{line_number}: missing fixture fields {sorted(missing)}")
-        if data["privacy"] != "synthetic":
-            raise ValueError(f"{path}:{line_number}: only synthetic fixtures are allowed in tests")
+        if data["privacy"] not in {"synthetic", "redacted", "private"}:
+            raise ValueError(f"{path}:{line_number}: invalid privacy mode")
+        if data["privacy"] != "synthetic" and _is_public_fixture_path(path):
+            raise ValueError(f"{path}:{line_number}: tracked fixtures must be synthetic")
         fixtures.append(Fixture(data))
     return fixtures
 
@@ -143,3 +147,8 @@ def _run_artifact_fixture(fixture: Fixture, artifacts: dict[str, str]) -> EvalRe
         report.inspected,
         None if not reasons else "create required paper and .paper-ai artifacts using the documented schemas",
     )
+
+
+def _is_public_fixture_path(path: Path) -> bool:
+    normalized = path.as_posix()
+    return normalized.startswith(PUBLIC_FIXTURE_ROOT.as_posix() + "/") or normalized == PUBLIC_FIXTURE_ROOT.as_posix()

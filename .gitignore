@@ -21,3 +21,6 @@ __pycache__/
 build/
 dist/
 .pytest_cache/
+# Local credentials/config for future real adapters
+.env
+config.yaml

@@ -31,6 +31,7 @@ The system should be useful because it is **stage-gated and evidence-aware**, no
 | Milestone 2 artifacts | `docs/MILESTONE2_ARTIFACTS.md` | Executable artifact validators, gates, fixture runner, and CLI checks |
 | Milestone 3 local MVP | `docs/MILESTONE3_LOCAL_MVP.md` | Deterministic init/run-demo path across writing, figures, layout, reviewer, rebuttal, and eval-loop |
 | Milestone 4 App Server adapter | `docs/MILESTONE4_APP_SERVER_ADAPTER.md` | Mocked JSON-RPC/thread/approval mapping that reuses local artifacts, traces, gates, and eval fixtures |
+| Milestone 5 harness flywheel | `docs/MILESTONE5_HARNESS_FLYWHEEL.md` | Capture failed/risky runs into fixtures, run regression reports, and append changelog notes with privacy guards |
 | ADR | `docs/adr/ADR-0001-design-first-dual-mode.md` | Design decision record |
 
 ## Authoritative references

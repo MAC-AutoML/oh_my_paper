@@ -7,7 +7,10 @@ import json
 from pathlib import Path
 
 from oh_my_paper.artifacts.store import ArtifactStore
+from oh_my_paper.evals.capture import capture_fixture
+from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
+from oh_my_paper.evals.report import run_eval_report, write_eval_report
 from oh_my_paper.gates.evidence import run_evidence_gate
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
@@ -18,7 +21,7 @@ def _print_json(data: object) -> None:
 
 
 def _status(_args: argparse.Namespace) -> int:
-    print("oh my paper is installed; Milestone 3 local demo workflow is available.")
+    print("oh my paper is installed; Milestone 5 harness flywheel is available.")
     return 0
 
 
@@ -39,6 +42,28 @@ def _run_eval(args: argparse.Namespace) -> int:
     results = run_fixture_file(Path(args.fixture_file))
     _print_json([result.to_dict() for result in results])
     return 0 if all(result.ok for result in results) else 1
+
+
+def _capture_fixture(args: argparse.Namespace) -> int:
+    result = capture_fixture(
+        args.workspace,
+        args.output,
+        fixture_id=args.fixture_id,
+        purpose=args.purpose,
+        privacy=args.privacy,
+    )
+    _print_json(result.to_dict())
+    return 0
+
+
+def _eval_report(args: argparse.Namespace) -> int:
+    report = run_eval_report(args.fixture_files)
+    if args.output:
+        write_eval_report(report, args.output)
+    if args.changelog:
+        append_changelog(args.changelog, report, args.note)
+    _print_json(report.to_dict())
+    return 0 if report.ok else 1
 
 
 def _mock_app_server(args: argparse.Namespace) -> int:
@@ -91,6 +116,21 @@ def build_parser() -> argparse.ArgumentParser:
     mock_app.add_argument("workspace")
     mock_app.add_argument("fixture_file")
     mock_app.set_defaults(func=_mock_app_server)
+
+    capture = subparsers.add_parser("capture-fixture", help="capture a workspace run as a regression fixture")
+    capture.add_argument("workspace")
+    capture.add_argument("output")
+    capture.add_argument("--fixture-id", required=True)
+    capture.add_argument("--purpose", required=True)
+    capture.add_argument("--privacy", choices=["synthetic", "redacted", "private"], default="redacted")
+    capture.set_defaults(func=_capture_fixture)
+
+    report = subparsers.add_parser("eval-report", help="run fixture files and optionally write report/changelog")
+    report.add_argument("fixture_files", nargs="+")
+    report.add_argument("--output")
+    report.add_argument("--changelog")
+    report.add_argument("--note", default="eval report")
+    report.set_defaults(func=_eval_report)
     return parser
 
 
