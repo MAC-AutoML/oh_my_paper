@@ -9,6 +9,7 @@ from pathlib import Path
 from oh_my_paper.artifacts.store import ArtifactStore
 from oh_my_paper.evals.fixtures import run_fixture_file
 from oh_my_paper.gates.evidence import run_evidence_gate
+from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
 
 
@@ -38,6 +39,12 @@ def _run_eval(args: argparse.Namespace) -> int:
     results = run_fixture_file(Path(args.fixture_file))
     _print_json([result.to_dict() for result in results])
     return 0 if all(result.ok for result in results) else 1
+
+
+def _mock_app_server(args: argparse.Namespace) -> int:
+    summary = run_mock_app_server_probe(args.workspace, args.fixture_file)
+    _print_json(summary)
+    return 0 if all(result["status"] == "pass" for result in summary["eval_results"]) else 1
 
 
 def _init_workspace(args: argparse.Namespace) -> int:
@@ -79,6 +86,11 @@ def build_parser() -> argparse.ArgumentParser:
     demo = subparsers.add_parser("run-demo", help="run deterministic local MVP workflow")
     demo.add_argument("workspace")
     demo.set_defaults(func=_run_demo)
+
+    mock_app = subparsers.add_parser("mock-app-server", help="run mocked App Server adapter probe")
+    mock_app.add_argument("workspace")
+    mock_app.add_argument("fixture_file")
+    mock_app.set_defaults(func=_mock_app_server)
     return parser
 
 

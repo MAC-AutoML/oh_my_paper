@@ -70,3 +70,14 @@ uv run oh-my-paper run-demo /tmp/ohmp-demo
 ```
 
 See [`docs/MILESTONE3_LOCAL_MVP.md`](docs/MILESTONE3_LOCAL_MVP.md).
+
+## Milestone 4 mocked App Server adapter
+
+Milestone 4 adds a mocked App Server runtime boundary that reuses the same trace, gate, approval, and eval semantics:
+
+```bash
+uv run oh-my-paper init /tmp/ohmp-demo
+uv run oh-my-paper mock-app-server /tmp/ohmp-demo tests/fixtures/evals/unsupported_claim.jsonl
+```
+
+See [`docs/MILESTONE4_APP_SERVER_ADAPTER.md`](docs/MILESTONE4_APP_SERVER_ADAPTER.md).
