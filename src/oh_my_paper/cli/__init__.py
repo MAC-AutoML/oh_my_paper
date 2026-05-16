@@ -16,6 +16,7 @@ from oh_my_paper.materials.intake import intake_pdf
 from oh_my_paper.packaging.skills import packaging_status
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
+from oh_my_paper.workflows.full_paper import generate_full_paper_from_pdf, review_full_paper
 
 
 def _print_json(data: object) -> None:
@@ -97,6 +98,28 @@ def _run_demo(args: argparse.Namespace) -> int:
     return 0 if result.ok else 1
 
 
+def _generate_paper(args: argparse.Namespace) -> int:
+    related = Path(args.related_context).read_text(encoding="utf-8") if args.related_context else ""
+    result = generate_full_paper_from_pdf(
+        args.pdf,
+        args.workspace,
+        env_file=args.env_file,
+        related_context=related,
+        reviewer=not args.no_review,
+    )
+    _print_json(result.to_dict())
+    return 0 if result.ok else 1
+
+
+def _review_paper(args: argparse.Namespace) -> int:
+    related = Path(args.related_context).read_text(encoding="utf-8") if args.related_context else ""
+    review = review_full_paper(args.paper, env_file=args.env_file, related_context=related)
+    if args.output:
+        Path(args.output).write_text(json.dumps(review, indent=2, ensure_ascii=False), encoding="utf-8")
+    _print_json(review)
+    return 0 if review.get("verdict") == "PASS" else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="oh-my-paper")
     subparsers = parser.add_subparsers(dest="command")
@@ -124,6 +147,21 @@ def build_parser() -> argparse.ArgumentParser:
     demo = subparsers.add_parser("run-demo", help="run deterministic local MVP workflow")
     demo.add_argument("workspace")
     demo.set_defaults(func=_run_demo)
+
+    full = subparsers.add_parser("generate-paper", help="generate a full paper draft from a local PDF and optionally run strict Gemini review")
+    full.add_argument("pdf")
+    full.add_argument("workspace")
+    full.add_argument("--env-file", default=".env")
+    full.add_argument("--related-context")
+    full.add_argument("--no-review", action="store_true")
+    full.set_defaults(func=_generate_paper)
+
+    review = subparsers.add_parser("review-paper", help="run strict Gemini-compatible review on a generated paper")
+    review.add_argument("paper")
+    review.add_argument("--env-file", default=".env")
+    review.add_argument("--related-context")
+    review.add_argument("--output")
+    review.set_defaults(func=_review_paper)
 
     mock_app = subparsers.add_parser("mock-app-server", help="run mocked App Server adapter probe")
     mock_app.add_argument("workspace")
