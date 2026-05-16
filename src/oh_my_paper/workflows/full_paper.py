@@ -168,7 +168,7 @@ def revise_full_paper(
             {"role": "user", "content": _revision_user_prompt(paper, review, related_context)},
         ],
     )
-    return _strip_fences(result.content)
+    return _sanitize_overclaims(_strip_fences(result.content))
 
 def review_full_paper(
     paper_path: str | Path,
@@ -219,7 +219,11 @@ Preserve factual numbers only when supported by the source. If a claim is not di
 Required markdown sections: title, Abstract, 1. Introduction, 2. Related Work, 3. Method, 4. Experiments and Results, 5. Limitations, 6. Conclusion, References.
 Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
 Explicitly define training-free as no gradient updates for orchestration components, while acknowledging off-the-shelf experts were pre-trained.
-Include protocol reliability checks for invalid/missing control tokens, a latency table that separates controller inference, parsing, memory lookup, expert inference, TTS/playback, and total overhead, and a memory ablation table against no-memory/sliding-window baselines.
+Treat this as a source-derived design/reproduction draft: be conservative, do not claim the orchestrator improves a base expert's static benchmark accuracy unless the source explicitly describes multi-pass, ensembling, or another accuracy mechanism.
+When reporting source benchmark numbers, state they are source-reported and should be independently reproduced.
+Use evidence-key consistency as an exact-cache eligibility rule, not as a broad robustness guarantee; caveat pHash/MFCC-style keys as engineering options with sensitivity limits.
+Include protocol reliability checks for invalid/missing control tokens, a latency table that separates controller inference, parsing, memory lookup, expert inference, TTS/playback, and total overhead, and a memory ablation table focused on redundant calls/latency plus accuracy preservation rather than unsupported accuracy gains.
+Define every baseline concretely; if a baseline is illustrative rather than source-reported, mark it as a proposed protocol and avoid numeric superiority claims.
 Include failure modes for controller token errors, cache misuse, expert timeout, and barge-in cancellation on non-cancellable black-box experts.
 """
 
@@ -232,6 +236,9 @@ You must directly address every blocking and major issue in the JSON review.
 Keep the paper as a complete markdown paper, not a response letter.
 Add concrete tables, Mermaid diagrams, explicit definitions, ablations, latency accounting, failure modes, and caveated claims where needed.
 Do not invent unsupported empirical results; if a table uses source-derived values, say so; if a protocol is proposed, mark it as a protocol.
+Remove or soften any claim that the orchestration layer improves a base expert's static benchmark accuracy unless the mechanism is explicit.
+Never call pHash/MFCC or exact evidence keys robust to real-world transformations; present them as verifiable exact-cache keys with known sensitivity.
+Replace vague/strawman baselines with clearly defined source-reported baselines or proposed evaluation protocols without numeric superiority claims.
 Return only the revised paper markdown.
 """
 
@@ -286,6 +293,21 @@ def _parse_review_json(content: str) -> dict[str, object]:
     except json.JSONDecodeError as exc:
         return {"verdict": "FAIL", "score": 0, "blocking_issues": [f"Invalid reviewer JSON: {exc}"], "raw": content}
     return parsed if isinstance(parsed, dict) else {"verdict": "FAIL", "score": 0, "blocking_issues": ["Reviewer JSON was not an object."]}
+
+
+def _sanitize_overclaims(paper: str) -> str:
+    replacements = {
+        "robust evidence-key consistency": "verifiable exact evidence-key consistency with known sensitivity limits",
+        "robust evidence key consistency": "verifiable exact evidence-key consistency with known sensitivity limits",
+        "improves accuracy": "preserves source-reported accuracy while improving modularity/efficiency",
+        "improved accuracy": "source-reported accuracy with improved modularity/efficiency",
+        "outperforms the underlying expert": "does not claim to outperform the underlying expert without an explicit accuracy mechanism",
+        "Standard RAG-based System": "Proposed sliding-window retrieval baseline",
+    }
+    sanitized = paper
+    for old, new in replacements.items():
+        sanitized = sanitized.replace(old, new)
+    return sanitized
 
 
 def _strip_fences(text: str) -> str:

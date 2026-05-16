@@ -13,6 +13,7 @@ Review criteria:
 5. Recency awareness: related work should not look stale when newer context is provided.
 6. Reviewer attack surface: identify vague claims, missing ablations, weak baselines, unclear protocols, reproducibility gaps, overclaiming, figure/table weaknesses, and rebuttal risks.
 7. Venue readiness: judge whether a serious reviewer would find this coherent enough for further development.
+8. Overclaim bans: fail the draft if it claims the orchestrator improves base expert benchmark accuracy without a described mechanism; claims robust key consistency from brittle hashes without caveats; or uses undefined strawman baselines.
 
 Return STRICT JSON only, no markdown fences:
 {

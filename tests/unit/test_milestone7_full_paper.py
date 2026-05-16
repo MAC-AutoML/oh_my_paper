@@ -90,6 +90,13 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             self.assertEqual(result.reviewer_verdict, "PASS")
             self.assertIn("revised", (root / "paper/FULL_PAPER_DRAFT.md").read_text(encoding="utf-8"))
 
+    def test_sanitizer_softens_forbidden_overclaims(self) -> None:
+        text = "robust evidence-key consistency improves accuracy over Standard RAG-based System"
+        sanitized = full_paper._sanitize_overclaims(text)
+        self.assertIn("known sensitivity limits", sanitized)
+        self.assertIn("preserves source-reported accuracy", sanitized)
+        self.assertIn("Proposed sliding-window retrieval baseline", sanitized)
+
 
 if __name__ == "__main__":
     unittest.main()
