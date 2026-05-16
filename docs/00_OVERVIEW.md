@@ -29,6 +29,7 @@ The system should be useful because it is **stage-gated and evidence-aware**, no
 | Acceptance/evals | `docs/ACCEPTANCE_EVALS.md` | Testable acceptance criteria and future eval shapes |
 | Materials mapping | `docs/MATERIALS_MAPPING.md` | Which local materials inform each skill |
 | Milestone 2 artifacts | `docs/MILESTONE2_ARTIFACTS.md` | Executable artifact validators, gates, fixture runner, and CLI checks |
+| Milestone 3 local MVP | `docs/MILESTONE3_LOCAL_MVP.md` | Deterministic init/run-demo path across writing, figures, layout, reviewer, rebuttal, and eval-loop |
 | ADR | `docs/adr/ADR-0001-design-first-dual-mode.md` | Design decision record |
 
 ## Authoritative references

@@ -59,3 +59,14 @@ uv run oh-my-paper validate-artifacts examples/toy-paper-workspace
 uv run oh-my-paper evidence-gate examples/toy-paper-workspace  # expected fail: synthetic C3 is unsupported
 uv run oh-my-paper run-eval tests/fixtures/evals/unsupported_claim.jsonl
 ```
+
+## Milestone 3 local MVP
+
+Milestone 3 adds a deterministic end-to-end local demo path from workspace init to eval report:
+
+```bash
+uv run oh-my-paper init /tmp/ohmp-demo
+uv run oh-my-paper run-demo /tmp/ohmp-demo
+```
+
+See [`docs/MILESTONE3_LOCAL_MVP.md`](docs/MILESTONE3_LOCAL_MVP.md).
