@@ -58,6 +58,38 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             self.assertTrue((root / "paper/CLAIMS.md").exists())
             self.assertTrue((root / "paper/EVIDENCE_MAP.md").exists())
 
+    def test_review_loop_revises_after_failed_round(self) -> None:
+        initial = "# Draft\n\n" + "## Abstract " + "short " * 600
+        revised = "# Draft\n\n" + "\n\n".join([
+            "## Abstract " + "revised " * 350,
+            "## 1. Introduction " + "revised " * 350,
+            "## 2. Related Work " + "revised " * 350,
+            "## 3. Method\n- C1: The revised system handles reviewer issues. " + "revised " * 330,
+            "## 4. Experiments and Results " + "revised " * 350,
+            "## 5. Limitations " + "revised " * 350,
+            "## 6. Conclusion " + "revised " * 350,
+            "## References " + "revised " * 350,
+        ])
+        reviews = iter([
+            {"verdict": "FAIL", "score": 5, "blocking_issues": ["missing details"]},
+            {"verdict": "PASS", "score": 8, "blocking_issues": []},
+        ])
+        with tempfile.TemporaryDirectory() as tempdir, mock.patch.object(full_paper, "extract_pdf_text") as extract:
+            root = (Path(tempdir) / "workspace").resolve()
+            source = root / ".paper-ai/SOURCE_TEXT.txt"
+            extract.side_effect = lambda _pdf, _out: source
+            source.parent.mkdir(parents=True)
+            source.write_text("source pdf text", encoding="utf-8")
+            with mock.patch.object(full_paper, "load_llm_config") as cfg, \
+                 mock.patch.object(full_paper, "_write_full_paper", return_value=initial), \
+                 mock.patch.object(full_paper, "review_full_paper", side_effect=lambda *_a, **_k: next(reviews)), \
+                 mock.patch.object(full_paper, "revise_full_paper", return_value=revised):
+                cfg.return_value = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
+                result = full_paper.generate_full_paper_from_pdf("paper.pdf", root, reviewer=True, max_review_rounds=2)
+            self.assertTrue(result.ok, result.to_dict())
+            self.assertEqual(result.reviewer_verdict, "PASS")
+            self.assertIn("revised", (root / "paper/FULL_PAPER_DRAFT.md").read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

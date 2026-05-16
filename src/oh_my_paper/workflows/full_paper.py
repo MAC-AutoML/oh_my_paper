@@ -70,6 +70,7 @@ def generate_full_paper_from_pdf(
     env_file: str | Path = ".env",
     related_context: str = "",
     reviewer: bool = True,
+    max_review_rounds: int = 1,
 ) -> FullPaperResult:
     store = ArtifactStore.from_path(workspace)
     store.paper_dir.mkdir(parents=True, exist_ok=True)
@@ -107,26 +108,67 @@ def generate_full_paper_from_pdf(
     verdict: str | None = None
     score: int | None = None
     if reviewer:
-        review = review_full_paper(paper_path, env_file=env_file, related_context=related_context)
-        review_path = store.paper_dir / "GEMINI_REVIEW.json"
-        review_path.write_text(json.dumps(review, indent=2, ensure_ascii=False), encoding="utf-8")
-        verdict = str(review.get("verdict", "FAIL"))
-        raw_score = review.get("score")
-        score = raw_score if isinstance(raw_score, int) else None
-        recorder.record(
-            phase="gemini-review",
-            skill="paper-ai-reviewer",
-            action="strict_review_gate",
-            inputs=["paper/FULL_PAPER_DRAFT.md"],
-            outputs=["paper/GEMINI_REVIEW.json"],
-            gate_name="gemini_reviewer",
-            gate_status="pass" if verdict == "PASS" else "fail",
-            human_required=verdict != "PASS",
-            summary=f"Gemini reviewer verdict: {verdict}; score: {score}.",
-        )
+        rounds = max(1, max_review_rounds)
+        for round_index in range(1, rounds + 1):
+            review = review_full_paper(paper_path, env_file=env_file, related_context=related_context)
+            review_path = store.paper_dir / f"GEMINI_REVIEW_ROUND_{round_index}.json"
+            review_path.write_text(json.dumps(review, indent=2, ensure_ascii=False), encoding="utf-8")
+            verdict = str(review.get("verdict", "FAIL"))
+            raw_score = review.get("score")
+            score = raw_score if isinstance(raw_score, int) else None
+            recorder.record(
+                phase="gemini-review",
+                skill="paper-ai-reviewer",
+                action="strict_review_gate",
+                inputs=["paper/FULL_PAPER_DRAFT.md"],
+                outputs=[f"paper/GEMINI_REVIEW_ROUND_{round_index}.json"],
+                gate_name="gemini_reviewer",
+                gate_status="pass" if verdict == "PASS" else "fail",
+                human_required=verdict != "PASS",
+                summary=f"Gemini reviewer round {round_index} verdict: {verdict}; score: {score}.",
+            )
+            if verdict == "PASS" or round_index == rounds:
+                break
+            revised = revise_full_paper(paper_path, review_path, env_file=env_file, related_context=related_context)
+            paper_path.write_text(revised, encoding="utf-8")
+            _write_claim_artifacts(store, revised)
+            recorder.record(
+                phase="full-paper-revision",
+                skill="paper-ai-writing",
+                action="revise_against_gemini_review",
+                inputs=["paper/FULL_PAPER_DRAFT.md", f"paper/GEMINI_REVIEW_ROUND_{round_index}.json"],
+                outputs=["paper/FULL_PAPER_DRAFT.md", "paper/CLAIMS.md", "paper/EVIDENCE_MAP.md"],
+                gate_name="revision",
+                gate_status="pass" if validate_paper_sections(revised) else "fail",
+                human_required=not validate_paper_sections(revised),
+                summary="Revised full paper draft against strict Gemini review findings.",
+            )
     trace_ok = validate_trace(store.trace_path).ok
     return FullPaperResult(store.root, paper_path, review_path, trace_ok, verdict, score)
 
+
+
+def revise_full_paper(
+    paper_path: str | Path,
+    review_path: str | Path,
+    *,
+    env_file: str | Path = ".env",
+    related_context: str = "",
+) -> str:
+    config = load_llm_config(env_file)
+    paper = Path(paper_path).read_text(encoding="utf-8")
+    review = Path(review_path).read_text(encoding="utf-8")
+    result = chat_completion(
+        config,
+        model=config.writer_model,
+        temperature=0.15,
+        max_tokens=18000,
+        messages=[
+            {"role": "system", "content": _revision_system_prompt()},
+            {"role": "user", "content": _revision_user_prompt(paper, review, related_context)},
+        ],
+    )
+    return _strip_fences(result.content)
 
 def review_full_paper(
     paper_path: str | Path,
@@ -175,9 +217,40 @@ Write a coherent complete ML paper draft in markdown from provided source materi
 Use the source as test input, but do not merely copy it; reorganize it into a cleaner paper with consistent terminology.
 Preserve factual numbers only when supported by the source. If a claim is not directly supported, mark it as proposed or future work.
 Required markdown sections: title, Abstract, 1. Introduction, 2. Related Work, 3. Method, 4. Experiments and Results, 5. Limitations, 6. Conclusion, References.
-Also include concise Figure/Table plans inline where relevant.
+Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
+Explicitly define training-free as no gradient updates for orchestration components, while acknowledging off-the-shelf experts were pre-trained.
+Include protocol reliability checks for invalid/missing control tokens, a latency table that separates controller inference, parsing, memory lookup, expert inference, TTS/playback, and total overhead, and a memory ablation table against no-memory/sliding-window baselines.
+Include failure modes for controller token errors, cache misuse, expert timeout, and barge-in cancellation on non-cancellable black-box experts.
 """
 
+
+
+def _revision_system_prompt() -> str:
+    return """You are the oh_my_paper revision agent.
+Revise the full paper so it can pass a hostile top-tier ML reviewer.
+You must directly address every blocking and major issue in the JSON review.
+Keep the paper as a complete markdown paper, not a response letter.
+Add concrete tables, Mermaid diagrams, explicit definitions, ablations, latency accounting, failure modes, and caveated claims where needed.
+Do not invent unsupported empirical results; if a table uses source-derived values, say so; if a protocol is proposed, mark it as a protocol.
+Return only the revised paper markdown.
+"""
+
+
+def _revision_user_prompt(paper: str, review: str, related_context: str) -> str:
+    return f"""Strict reviewer JSON:
+<<<REVIEW
+{review}
+REVIEW
+>>>
+
+Recent/context notes:
+{related_context or '(none)'}
+
+Current paper draft:
+<<<PAPER
+{paper[:120000]}
+PAPER
+>>>"""
 
 def _writer_user_prompt(source_text: str, related_context: str) -> str:
     return f"""Generate a complete paper draft using this extracted PDF as the primary test material.

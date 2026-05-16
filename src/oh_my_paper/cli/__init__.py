@@ -16,7 +16,7 @@ from oh_my_paper.materials.intake import intake_pdf
 from oh_my_paper.packaging.skills import packaging_status
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
-from oh_my_paper.workflows.full_paper import generate_full_paper_from_pdf, review_full_paper
+from oh_my_paper.workflows.full_paper import generate_full_paper_from_pdf, revise_full_paper, review_full_paper
 
 
 def _print_json(data: object) -> None:
@@ -106,6 +106,7 @@ def _generate_paper(args: argparse.Namespace) -> int:
         env_file=args.env_file,
         related_context=related,
         reviewer=not args.no_review,
+        max_review_rounds=args.max_review_rounds,
     )
     _print_json(result.to_dict())
     return 0 if result.ok else 1
@@ -118,6 +119,14 @@ def _review_paper(args: argparse.Namespace) -> int:
         Path(args.output).write_text(json.dumps(review, indent=2, ensure_ascii=False), encoding="utf-8")
     _print_json(review)
     return 0 if review.get("verdict") == "PASS" else 1
+
+
+def _revise_paper(args: argparse.Namespace) -> int:
+    related = Path(args.related_context).read_text(encoding="utf-8") if args.related_context else ""
+    revised = revise_full_paper(args.paper, args.review, env_file=args.env_file, related_context=related)
+    Path(args.output).write_text(revised, encoding="utf-8")
+    _print_json({"output": args.output, "words": len(revised.split())})
+    return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -154,6 +163,7 @@ def build_parser() -> argparse.ArgumentParser:
     full.add_argument("--env-file", default=".env")
     full.add_argument("--related-context")
     full.add_argument("--no-review", action="store_true")
+    full.add_argument("--max-review-rounds", type=int, default=1)
     full.set_defaults(func=_generate_paper)
 
     review = subparsers.add_parser("review-paper", help="run strict Gemini-compatible review on a generated paper")
@@ -162,6 +172,14 @@ def build_parser() -> argparse.ArgumentParser:
     review.add_argument("--related-context")
     review.add_argument("--output")
     review.set_defaults(func=_review_paper)
+
+    revise = subparsers.add_parser("revise-paper", help="revise a paper against a strict reviewer JSON file")
+    revise.add_argument("paper")
+    revise.add_argument("review")
+    revise.add_argument("output")
+    revise.add_argument("--env-file", default=".env")
+    revise.add_argument("--related-context")
+    revise.set_defaults(func=_revise_paper)
 
     mock_app = subparsers.add_parser("mock-app-server", help="run mocked App Server adapter probe")
     mock_app.add_argument("workspace")
