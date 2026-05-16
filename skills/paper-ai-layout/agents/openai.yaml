@@ -1,0 +1,3 @@
+display_name: paper-ai-layout
+short_description: Check LaTeX/Word layout, page budget, section ordering, figure/table placement, and camera-ready formatting assumptions.
+default_prompt: Use paper-ai-layout on the current paper workspace.

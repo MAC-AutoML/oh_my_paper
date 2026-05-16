@@ -1,0 +1,3 @@
+display_name: paper-ai-rebuttal
+short_description: Build evidence-backed, AC-aware rebuttal plans and responses from reviewer comments and paper evidence.
+default_prompt: Use paper-ai-rebuttal on the current paper workspace.

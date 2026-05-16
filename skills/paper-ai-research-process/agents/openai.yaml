@@ -1,0 +1,3 @@
+display_name: paper-ai-research-process
+short_description: Turn research ideas, project notes, and experiment summaries into paper briefs, claims, evidence maps, and experiment plans.
+default_prompt: Use paper-ai-research-process on the current paper workspace.

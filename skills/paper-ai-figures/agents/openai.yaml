@@ -1,0 +1,3 @@
+display_name: paper-ai-figures
+short_description: Plan paper figures, experiment charts, tables, titles, and captions around single takeaways and claim support.
+default_prompt: Use paper-ai-figures on the current paper workspace.

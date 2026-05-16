@@ -1,0 +1,23 @@
+[project]
+name = "oh-my-paper"
+version = "0.1.0"
+description = "Local-first Codex skill group for evidence-gated AI paper workflows."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "MAC-AutoML", email = "3040841088@qq.com" }]
+license = { text = "MIT" }
+keywords = ["codex-skills", "academic-writing", "paper-ai", "rebuttal"]
+dependencies = []
+
+[project.scripts]
+oh-my-paper = "oh_my_paper.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = []

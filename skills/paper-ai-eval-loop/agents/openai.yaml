@@ -1,0 +1,3 @@
+display_name: paper-ai-eval-loop
+short_description: Convert weak workflow outputs into trace-backed eval fixtures and regression checks for continuous skill improvement.
+default_prompt: Use paper-ai-eval-loop on the current paper workspace.

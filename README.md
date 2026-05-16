@@ -32,3 +32,19 @@ Consensus handoff plan:
 ## Local material policy
 
 Raw references live under `materials/` and `temp/` and are intentionally excluded by `.gitignore`. Public commits should contain only curated design docs, source code, examples, and lightweight references that do not copy private or copyrighted material.
+
+## Milestone 1 skeleton
+
+This repository now includes the local-first skeleton for the skill group:
+
+- `.codex-plugin/plugin.json` — local plugin metadata.
+- `skills/paper-ai-*/` — eight progressive-disclosure skill stubs.
+- `examples/toy-paper-workspace/` — synthetic paper workspace for future e2e tests.
+- `tests/fixtures/evals/` — placeholder for canonical synthetic eval fixtures in Milestone 2.
+- `src/oh_my_paper/` — placeholder Python package for Milestone 2 implementation.
+
+Run the placeholder CLI with:
+
+```bash
+uv run oh-my-paper status
+```

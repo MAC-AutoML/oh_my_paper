@@ -1,0 +1,3 @@
+display_name: paper-ai-orchestrator
+short_description: Route full AI-paper workflows across planning, writing, figures, layout, review, rebuttal, and eval phases while maintaining durable artifacts and gates.
+default_prompt: Use paper-ai-orchestrator on the current paper workspace.

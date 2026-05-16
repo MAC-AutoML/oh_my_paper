@@ -1,0 +1,36 @@
+{
+  "name": "oh-my-paper",
+  "version": "0.1.0",
+  "description": "Modular Codex skills for an evidence-gated AI-paper workflow from idea to rebuttal.",
+  "author": {
+    "name": "MAC-AutoML",
+    "email": "3040841088@qq.com",
+    "url": "https://github.com/MAC-AutoML"
+  },
+  "homepage": "https://github.com/MAC-AutoML/oh_my_paper",
+  "repository": "https://github.com/MAC-AutoML/oh_my_paper",
+  "license": "MIT",
+  "keywords": [
+    "codex-skills",
+    "academic-writing",
+    "paper-ai",
+    "rebuttal",
+    "research-workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "oh my paper",
+    "shortDescription": "Evidence-gated AI paper workflow skills.",
+    "longDescription": "A local-first Codex skill group for planning, writing, figures, layout, reviewer simulation, rebuttal, and eval-driven improvement of AI research papers.",
+    "developerName": "MAC-AutoML",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://github.com/MAC-AutoML/oh_my_paper",
+    "defaultPrompt": [
+      "Start an evidence-gated paper workflow.",
+      "Audit this paper draft like a strict reviewer.",
+      "Build a rebuttal plan from reviewer comments."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
