@@ -1,17 +1,64 @@
-# oh_my_paper
+# 🚀 oh_my_paper
 
-`oh my paper` is a design-first project for a modular Codex skill group that supports the AI-paper lifecycle:
+**oh my paper** is a local-first Codex skill group for building better AI research papers with evidence, iteration, and review pressure built in.
+
+It is **not** a magic one-click paper generator. It is a practical workflow system for moving from idea to paper sections, figures/tables, layout polish, reviewer simulation, and rebuttal defense — with a harness-style loop that can keep improving as new writing/review materials arrive.
 
 ```text
-idea/results → paper planning → writing → figures/tables → layout → reviewer simulation → fixes → rebuttal/defense → eval-driven improvement
+💡 idea/results
+  → 🧭 paper plan + claims/evidence map
+  → ✍️ section writing
+  → 📊 figures/tables
+  → 🧩 layout + polish
+  → 🧑‍⚖️ reviewer simulation
+  → 🛠️ fix plan
+  → 🛡️ rebuttal/defense
+  → 🔁 eval-driven skill evolution
 ```
 
-The first milestone is **not** a UI product and not a magic one-click paper generator. It is an implementation-ready design package for two delivery modes:
+## ✨ What is in this repo now
 
-1. **Local installed skills mode** — installable Codex skills running in a user workspace.
-2. **Codex App Server mode** — a client/server integration that drives the same workflows through Codex App Server events, approvals, and thread state.
+- 🧠 **13 natural paper workflow skills** under `skills/paper-ai-*`.
+- 📚 **Material-derived references** inside each skill: case cards, examples, bad/good contrasts, and imitation recipes distilled from the local material library.
+- 🔒 **Local-only material intake**: raw PDFs/repos/notes stay under ignored `materials/` and `temp/`.
+- ✅ **Executable validators and gates** for claims, evidence maps, trace integrity, packaging status, and synthetic eval fixtures.
+- 🔁 **Harness flywheel prototype** for capturing risky runs into future regression fixtures.
+- 🧱 **Dual-mode design** for both local installed Codex skills and future Codex App Server integration.
 
-## Design package
+## 🧭 Skill map
+
+The skill group intentionally follows the natural paper lifecycle instead of exposing too many management-style micro-skills. OMX-style depth is internalized as gates, references, checklists, and trace/eval discipline inside each stage.
+
+| Stage | Skill | Purpose |
+| --- | --- | --- |
+| 🧭 Full workflow routing | `paper-ai-orchestrator` | Choose the right paper workflow path and hand off between skills. |
+| 💡 Idea / research question | `paper-ai-idea` | Sharpen idea, contribution, novelty, and evidence pressure. |
+| ✍️ Whole-paper coherence | `paper-ai-writing` | Keep claims, story, sections, and evidence aligned. |
+| 🏷️ Title + abstract | `paper-ai-title-abstract` | Optimize first impression, searchability, and claim discipline. |
+| 🚪 Introduction | `paper-ai-introduction` | Build motivation, gap, contribution, and reader momentum. |
+| 🧾 Related work | `paper-ai-related-work` | Position against prior work without turning into a literature dump. |
+| ⚙️ Method | `paper-ai-method` | Explain the method from intuition to formal detail. |
+| 🧪 Experiments / results | `paper-ai-experiments` | Design evidence, ablations, comparisons, and result narrative. |
+| 📊 Figures and tables | `paper-ai-figures` | Make visuals claim-linked, readable, and reviewer-friendly. |
+| ⚠️ Limitations / caveats | `paper-ai-limitations` | State boundaries without weakening the contribution. |
+| 🧩 Layout + language polish | `paper-ai-layout` | Improve page budget, flow, readability, and final polish. |
+| 🧑‍⚖️ Strict review simulation | `paper-ai-reviewer` | Stress-test the paper from reviewer/AC perspective. |
+| 🛡️ Rebuttal / defense | `paper-ai-rebuttal` | Draft grounded rebuttals and safe revision promises. |
+
+## 🏗️ Architecture at a glance
+
+Two delivery modes share the same skill knowledge, artifacts, gates, and eval loop:
+
+1. 🖥️ **Local installed skills mode**
+   - Skills are installed into the user's Codex skill directory.
+   - The user works inside a paper workspace with local artifacts such as `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl`.
+   - The CLI provides deterministic checks and toy demos.
+
+2. 🌐 **Codex App Server mode**
+   - A future adapter drives the same workflows through App Server events, approvals, and thread state.
+   - The current repo includes a mocked App Server boundary so the event/gate/eval semantics can be tested before real integration.
+
+## 📚 Design docs
 
 Start here:
 
@@ -21,110 +68,103 @@ Start here:
 - [`docs/DUAL_MODE_TECH_DESIGN.md`](docs/DUAL_MODE_TECH_DESIGN.md) — local skills vs App Server runtime design.
 - [`docs/HARNESS_EVAL_LOOP.md`](docs/HARNESS_EVAL_LOOP.md) — trace/eval/continuous-improvement loop.
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) — milestone order.
-- [`docs/REPO_STRUCTURE_SPEC.md`](docs/REPO_STRUCTURE_SPEC.md) — future repository skeleton.
+- [`docs/REPO_STRUCTURE_SPEC.md`](docs/REPO_STRUCTURE_SPEC.md) — repository structure contract.
 - [`docs/ACCEPTANCE_EVALS.md`](docs/ACCEPTANCE_EVALS.md) — acceptance checks and future eval fixture shapes.
 - [`docs/MATERIALS_MAPPING.md`](docs/MATERIALS_MAPPING.md) — local material mapping without publishing raw materials.
+- [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md) — how new PDFs/repos/notes get fused into skills.
+- [`docs/LOCAL_PUSH_NOTES.md`](docs/LOCAL_PUSH_NOTES.md) — local push workflow notes for this development environment.
 
-Consensus handoff plan:
+Local OMX planning artifacts such as `.omx/plans/ralplan-oh-my-paper-design.md` are intentionally gitignored.
 
-- `.omx/plans/ralplan-oh-my-paper-design.md` *(local OMX planning artifact, intentionally gitignored)*
+## 🔒 Material policy
 
-## Local material policy
+Raw references live under ignored local folders:
 
-Raw references live under `materials/` and `temp/` and are intentionally excluded by `.gitignore`. Public commits should contain only curated design docs, source code, examples, and lightweight references that do not copy private or copyrighted material.
+- `materials/`
+- `temp/`
 
-Continuous material updates use the local-only intake command documented in [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md). New material is first extracted/classified into the ignored cache, then fused into public skill instructions or synthetic evals only after privacy-safe synthesis.
+Public commits should contain only curated design docs, source code, examples, eval fixtures, and selected skill references that are safe to publish. New material should follow this loop:
 
-## Natural paper workflow skills
+1. 📥 place/download source material into `temp/` or `materials/`;
+2. 🔎 extract/classify it locally;
+3. 🧠 fuse the lessons into skill references, case cards, checklists, or eval fixtures;
+4. ✅ validate skills and tests;
+5. 🚫 keep raw materials out of git.
 
-The installable skill group intentionally stays close to the paper lifecycle instead of exposing many management-style micro-skills. OMX-style depth is internalized as gates, references, checklists, and trace/eval discipline inside these natural skills.
+## ⚡ Quick start
 
-| Stage | Skill |
-| --- | --- |
-| Full workflow routing | `paper-ai-orchestrator` |
-| Idea / research question | `paper-ai-idea` |
-| Whole-paper writing coherence | `paper-ai-writing` |
-| Title and abstract | `paper-ai-title-abstract` |
-| Introduction | `paper-ai-introduction` |
-| Related work | `paper-ai-related-work` |
-| Method | `paper-ai-method` |
-| Experiments / results | `paper-ai-experiments` |
-| Figures and tables | `paper-ai-figures` |
-| Limitations / caveats | `paper-ai-limitations` |
-| Layout and language polish | `paper-ai-layout` |
-| Strict review simulation | `paper-ai-reviewer` |
-| Rebuttal / defense | `paper-ai-rebuttal` |
-
-Install metadata is generated from the official Codex skill folders under `skills/paper-ai-*`; use `uv run oh-my-paper packaging-status` to print the official `install-skill-from-github.py --repo ... --path ...` command.
-
-## Milestone 1 skeleton
-
-This repository includes the local-first skeleton for the skill group:
-
-- `.codex-plugin/plugin.json` — local plugin metadata.
-- `skills/paper-ai-*/` — 13 progressive-disclosure paper workflow skills.
-- `examples/toy-paper-workspace/` — synthetic paper workspace for e2e tests.
-
-## Milestone 2 validators and eval fixtures
-
-Milestone 2 adds the first executable artifact checks:
-
-- `src/oh_my_paper/artifacts/` — parsers and schema validators for `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl`.
-- `src/oh_my_paper/gates/` — unsupported-claim evidence gate.
-- `src/oh_my_paper/evals/` — synthetic JSONL fixture loader and evaluator dispatch.
-- `tests/fixtures/evals/` — supported/unsupported claim and trace integrity fixtures.
-- [`docs/MILESTONE2_ARTIFACTS.md`](docs/MILESTONE2_ARTIFACTS.md) — implementation notes and verification commands.
-
-Run local checks with:
+This project uses **uv** for Python management.
 
 ```bash
 uv run oh-my-paper status
-uv run oh-my-paper validate-artifacts examples/toy-paper-workspace
-uv run oh-my-paper evidence-gate examples/toy-paper-workspace  # expected fail: synthetic C3 is unsupported
-uv run oh-my-paper run-eval tests/fixtures/evals/unsupported_claim.jsonl
+uv run oh-my-paper packaging-status
 ```
 
-## Milestone 3 local MVP
-
-Milestone 3 adds a deterministic end-to-end local demo path from workspace init to eval report:
+Run the deterministic toy workflow:
 
 ```bash
 uv run oh-my-paper init /tmp/ohmp-demo
 uv run oh-my-paper run-demo /tmp/ohmp-demo
 ```
 
-See [`docs/MILESTONE3_LOCAL_MVP.md`](docs/MILESTONE3_LOCAL_MVP.md).
-
-## Milestone 4 mocked App Server adapter
-
-Milestone 4 adds a mocked App Server runtime boundary that reuses the same trace, gate, approval, and eval semantics:
+Validate the toy workspace artifacts:
 
 ```bash
-uv run oh-my-paper init /tmp/ohmp-demo
-uv run oh-my-paper mock-app-server /tmp/ohmp-demo tests/fixtures/evals/unsupported_claim.jsonl
+uv run oh-my-paper validate-artifacts examples/toy-paper-workspace
+uv run oh-my-paper evidence-gate examples/toy-paper-workspace  # expected fail: synthetic C3 is unsupported
+uv run oh-my-paper run-eval tests/fixtures/evals/unsupported_claim.jsonl
 ```
 
-See [`docs/MILESTONE4_APP_SERVER_ADAPTER.md`](docs/MILESTONE4_APP_SERVER_ADAPTER.md).
+## 📦 Installing skills
 
-## Milestone 5 harness flywheel
-
-Milestone 5 captures risky runs as fixtures and writes regression reports/changelog entries:
-
-```bash
-uv run oh-my-paper capture-fixture /tmp/ohmp-demo /tmp/captured.jsonl --fixture-id captured_c3 --purpose "capture C3 gate" --privacy redacted
-uv run oh-my-paper eval-report /tmp/captured.jsonl --output /tmp/eval-report.md --changelog /tmp/HARNESS_CHANGELOG.md
-```
-
-See [`docs/MILESTONE5_HARNESS_FLYWHEEL.md`](docs/MILESTONE5_HARNESS_FLYWHEEL.md).
-
-## Milestone 6 packaging
-
-Milestone 6 aligns packaging with the official Codex `skill-installer` standard. Use the official installer with this repo's skill paths, and use the local CLI only to inspect packaging metadata:
+Packaging follows the official Codex `skill-installer` standard. Use the repo's skill folders as install paths:
 
 ```bash
 uv run oh-my-paper packaging-status
-# Official installer helper:
-install-skill-from-github.py --repo MAC-AutoML/oh_my_paper --path skills/paper-ai-orchestrator --path skills/paper-ai-writing
+
+# Example official installer usage:
+install-skill-from-github.py \
+  --repo MAC-AutoML/oh_my_paper \
+  --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-writing \
+  --path skills/paper-ai-reviewer \
+  --path skills/paper-ai-rebuttal
 ```
 
-See [`docs/MILESTONE6_PACKAGING.md`](docs/MILESTONE6_PACKAGING.md).
+Install any subset of `skills/paper-ai-*` depending on the workflow surface you want.
+
+## 🧪 Milestones implemented
+
+| Milestone | Status | Highlights |
+| --- | --- | --- |
+| ✅ M1 Skeleton | Done | Plugin metadata, 13 skill folders, toy workspace. |
+| ✅ M2 Validators | Done | `CLAIMS.md`, `EVIDENCE_MAP.md`, trace validation, evidence gate, eval fixtures. |
+| ✅ M3 Local MVP | Done | Deterministic `init` and `run-demo` workflow. |
+| ✅ M4 Mock App Server | Done | Mock adapter using the same trace/gate/eval semantics. |
+| ✅ M5 Harness flywheel | Done | Fixture capture, eval reports, harness changelog. |
+| ✅ M6 Packaging | Done | Official Codex skill-installer-compatible packaging metadata. |
+
+Relevant milestone notes:
+
+- [`docs/MILESTONE1_SKELETON.md`](docs/MILESTONE1_SKELETON.md)
+- [`docs/MILESTONE2_ARTIFACTS.md`](docs/MILESTONE2_ARTIFACTS.md)
+- [`docs/MILESTONE3_LOCAL_MVP.md`](docs/MILESTONE3_LOCAL_MVP.md)
+- [`docs/MILESTONE4_APP_SERVER_ADAPTER.md`](docs/MILESTONE4_APP_SERVER_ADAPTER.md)
+- [`docs/MILESTONE5_HARNESS_FLYWHEEL.md`](docs/MILESTONE5_HARNESS_FLYWHEEL.md)
+- [`docs/MILESTONE6_PACKAGING.md`](docs/MILESTONE6_PACKAGING.md)
+
+## ✅ Development checks
+
+```bash
+uv run python -m unittest discover -s tests -p 'test_*.py' -v
+uv run python scripts/validate_m1_skeleton.py
+uv run --with pyyaml python /root/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/paper-ai-orchestrator
+```
+
+Before pushing, also confirm ignored local material is not tracked:
+
+```bash
+git ls-files materials temp .omx .spec-workflow node_modules package-lock.json package.json .venv .env config.yaml
+```
+
+Expected output: empty.
