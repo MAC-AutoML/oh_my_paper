@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import tempfile
 import unittest
 from pathlib import Path
 
-from oh_my_paper.packaging.skills import install_skills, list_installed_skills, uninstall_skills
+from oh_my_paper.packaging.skills import official_install_command, packaging_status, skill_package_info
 
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_SKILLS = {
@@ -20,21 +19,29 @@ EXPECTED_SKILLS = {
 
 
 class Milestone6PackagingTest(unittest.TestCase):
-    def test_install_list_and_uninstall_skills_in_target_dir(self) -> None:
-        with tempfile.TemporaryDirectory() as tempdir:
-            target = Path(tempdir) / "skills"
-            result = install_skills(target, root=ROOT)
-            self.assertEqual(set(result.installed), EXPECTED_SKILLS)
-            self.assertEqual(set(list_installed_skills(target)), EXPECTED_SKILLS)
-            for skill in EXPECTED_SKILLS:
-                self.assertTrue((target / skill / "SKILL.md").exists())
-            skipped = install_skills(target, root=ROOT)
-            self.assertEqual(set(skipped.skipped), EXPECTED_SKILLS)
-            overwritten = install_skills(target, overwrite=True, root=ROOT)
-            self.assertEqual(set(overwritten.installed), EXPECTED_SKILLS)
-            removed = uninstall_skills(target)
-            self.assertEqual(set(removed.removed), EXPECTED_SKILLS)
-            self.assertEqual(list_installed_skills(target), [])
+    def test_skill_folders_match_official_skill_anatomy(self) -> None:
+        infos = skill_package_info(ROOT)
+        self.assertEqual({info.name for info in infos}, EXPECTED_SKILLS)
+        for info in infos:
+            self.assertTrue(info.has_skill_md, info)
+            self.assertTrue(info.path.startswith("skills/paper-ai-"))
+            text = (ROOT / info.path / "SKILL.md").read_text(encoding="utf-8")
+            self.assertTrue(text.startswith("---\n"))
+            self.assertIn(f"name: {info.name}", text)
+            self.assertIn("description:", text)
+
+    def test_official_installer_command_uses_repo_and_path_flags(self) -> None:
+        command = official_install_command(root=ROOT)
+        self.assertEqual(command[:3], ["install-skill-from-github.py", "--repo", "MAC-AutoML/oh_my_paper"])
+        paths = [command[index + 1] for index, item in enumerate(command) if item == "--path"]
+        self.assertEqual(set(paths), {f"skills/{skill}" for skill in EXPECTED_SKILLS})
+        self.assertNotIn("--dest", command)
+
+    def test_packaging_status_is_official_installer_metadata_not_custom_copy(self) -> None:
+        status = packaging_status(ROOT)
+        self.assertTrue(status["ok"])
+        self.assertEqual(status["installer"], "Codex system skill-installer")
+        self.assertIn("official_command", status)
 
     def test_config_templates_are_safe_placeholders(self) -> None:
         env_example = (ROOT / "templates/env.example").read_text(encoding="utf-8")

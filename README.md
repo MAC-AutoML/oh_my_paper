@@ -95,12 +95,12 @@ See [`docs/MILESTONE5_HARNESS_FLYWHEEL.md`](docs/MILESTONE5_HARNESS_FLYWHEEL.md)
 
 ## Milestone 6 packaging
 
-Milestone 6 adds repeatable local skill installation and safe config templates:
+Milestone 6 aligns packaging with the official Codex `skill-installer` standard. Use the official installer with this repo's skill paths, and use the local CLI only to inspect packaging metadata:
 
 ```bash
-uv run oh-my-paper install-skills /tmp/ohmp-skills --overwrite
-uv run oh-my-paper list-skills /tmp/ohmp-skills
-uv run oh-my-paper uninstall-skills /tmp/ohmp-skills
+uv run oh-my-paper packaging-status
+# Official installer helper:
+install-skill-from-github.py --repo MAC-AutoML/oh_my_paper --path skills/paper-ai-orchestrator --path skills/paper-ai-writing
 ```
 
 See [`docs/MILESTONE6_PACKAGING.md`](docs/MILESTONE6_PACKAGING.md).

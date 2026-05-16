@@ -1,5 +1,5 @@
-"""Packaging helpers for local skill installation."""
+"""Packaging helpers for official Codex skill-installer compatibility."""
 
-from oh_my_paper.packaging.skills import install_skills, list_installed_skills, uninstall_skills
+from oh_my_paper.packaging.skills import official_install_command, packaging_status, skill_package_info
 
-__all__ = ["install_skills", "list_installed_skills", "uninstall_skills"]
+__all__ = ["official_install_command", "packaging_status", "skill_package_info"]

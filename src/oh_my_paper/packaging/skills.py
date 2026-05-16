@@ -1,33 +1,29 @@
-"""Install, list, and uninstall local Codex skills."""
+"""Codex official skill-installer compatibility helpers."""
 
 from __future__ import annotations
 
-import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
 SKILL_PREFIX = "paper-ai-"
+REPO = "MAC-AutoML/oh_my_paper"
+OFFICIAL_INSTALLER = "install-skill-from-github.py"
 
 
 @dataclass(frozen=True)
-class SkillInstallResult:
-    target_dir: Path
-    installed: list[str]
-    skipped: list[str]
-    removed: list[str]
+class SkillPackageInfo:
+    name: str
+    path: str
+    has_skill_md: bool
+    has_agents_metadata: bool
 
     def to_dict(self) -> dict[str, object]:
         return {
-            "target_dir": str(self.target_dir),
-            "installed": self.installed,
-            "skipped": self.skipped,
-            "removed": self.removed,
+            "name": self.name,
+            "path": self.path,
+            "has_skill_md": self.has_skill_md,
+            "has_agents_metadata": self.has_agents_metadata,
         }
-
-
-def default_skills_dir(home: Path | None = None) -> Path:
-    root = home or Path.home()
-    return root / ".codex" / "skills"
 
 
 def repo_root() -> Path:
@@ -40,39 +36,47 @@ def source_skills_dir(root: Path | None = None) -> Path:
 
 def discover_source_skills(root: Path | None = None) -> list[Path]:
     base = source_skills_dir(root)
-    return sorted(path for path in base.glob(f"{SKILL_PREFIX}*") if (path / "SKILL.md").exists())
+    return sorted(path for path in base.glob(f"{SKILL_PREFIX}*") if path.is_dir())
 
 
-def list_installed_skills(target_dir: str | Path | None = None) -> list[str]:
-    target = Path(target_dir) if target_dir is not None else default_skills_dir()
-    if not target.exists():
-        return []
-    return sorted(path.name for path in target.glob(f"{SKILL_PREFIX}*") if (path / "SKILL.md").exists())
+def skill_package_info(root: Path | None = None) -> list[SkillPackageInfo]:
+    repo = root or repo_root()
+    infos: list[SkillPackageInfo] = []
+    for path in discover_source_skills(repo):
+        relative = path.relative_to(repo).as_posix()
+        infos.append(
+            SkillPackageInfo(
+                name=path.name,
+                path=relative,
+                has_skill_md=(path / "SKILL.md").exists(),
+                has_agents_metadata=(path / "agents" / "openai.yaml").exists(),
+            )
+        )
+    return infos
 
 
-def install_skills(target_dir: str | Path | None = None, *, overwrite: bool = False, root: Path | None = None) -> SkillInstallResult:
-    target = Path(target_dir) if target_dir is not None else default_skills_dir()
-    target.mkdir(parents=True, exist_ok=True)
-    installed: list[str] = []
-    skipped: list[str] = []
-    for skill in discover_source_skills(root):
-        destination = target / skill.name
-        if destination.exists():
-            if not overwrite:
-                skipped.append(skill.name)
-                continue
-            shutil.rmtree(destination)
-        shutil.copytree(skill, destination, ignore=shutil.ignore_patterns("__pycache__", ".DS_Store"))
-        installed.append(skill.name)
-    return SkillInstallResult(target, installed, skipped, [])
+def official_install_command(*, repo: str = REPO, root: Path | None = None, ref: str | None = None) -> list[str]:
+    """Return the official skill-installer helper command for this repo.
+
+    The actual installer lives in Codex's system `skill-installer` skill. This
+    project only emits the command/paths expected by that installer; it does not
+    implement a competing installer.
+    """
+
+    command = [OFFICIAL_INSTALLER, "--repo", repo]
+    if ref:
+        command.extend(["--ref", ref])
+    for info in skill_package_info(root):
+        command.extend(["--path", info.path])
+    return command
 
 
-def uninstall_skills(target_dir: str | Path | None = None) -> SkillInstallResult:
-    target = Path(target_dir) if target_dir is not None else default_skills_dir()
-    removed: list[str] = []
-    if target.exists():
-        for path in sorted(target.glob(f"{SKILL_PREFIX}*")):
-            if path.is_dir():
-                shutil.rmtree(path)
-                removed.append(path.name)
-    return SkillInstallResult(target, [], [], removed)
+def packaging_status(root: Path | None = None) -> dict[str, object]:
+    infos = skill_package_info(root)
+    return {
+        "repo": REPO,
+        "installer": "Codex system skill-installer",
+        "official_command": official_install_command(root=root),
+        "skills": [info.to_dict() for info in infos],
+        "ok": bool(infos) and all(info.has_skill_md for info in infos),
+    }

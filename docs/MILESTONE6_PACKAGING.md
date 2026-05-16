@@ -1,27 +1,41 @@
 # Milestone 6 — Packaging and Installation
 
-Milestone 6 makes local installation repeatable and documents the future real
-App Server/model configuration boundary.
+Milestone 6 makes local installation repeatable while following the official
+Codex skills installer standard. This repository provides skill folders and
+installer-compatible paths; it does **not** replace Codex's system
+`skill-installer`.
 
-## Install local Codex skills
+## Official installation path
 
-Install into the default Codex skills directory:
-
-```bash
-uv run oh-my-paper install-skills
-uv run oh-my-paper list-skills
-```
-
-Install into an explicit directory for testing or custom `CODEX_HOME` layouts:
+Use Codex's system `skill-installer` skill / helper script:
 
 ```bash
-uv run oh-my-paper install-skills /tmp/codex-skills --overwrite
-uv run oh-my-paper list-skills /tmp/codex-skills
-uv run oh-my-paper uninstall-skills /tmp/codex-skills
+install-skill-from-github.py --repo MAC-AutoML/oh_my_paper \
+  --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-research-process \
+  --path skills/paper-ai-writing \
+  --path skills/paper-ai-figures \
+  --path skills/paper-ai-layout \
+  --path skills/paper-ai-reviewer \
+  --path skills/paper-ai-rebuttal \
+  --path skills/paper-ai-eval-loop
 ```
 
-The installer copies only `skills/paper-ai-*` directories. It does not copy raw
-`materials/`, `temp/`, `.omx/`, `.spec-workflow/`, or generated local caches.
+The official installer installs into `$CODEX_HOME/skills/<skill-name>` and
+aborts if a destination skill already exists unless the official helper options
+say otherwise. Restart Codex after installing skills.
+
+## Packaging metadata helper
+
+This project includes a metadata-only helper so maintainers can verify the paths
+that should be passed to the official installer:
+
+```bash
+uv run oh-my-paper packaging-status
+```
+
+This command prints the official repo/path command and checks each skill folder
+has a required `SKILL.md`. It is not a competing installer.
 
 ## Clean checkout verification
 
@@ -29,11 +43,10 @@ The installer copies only `skills/paper-ai-*` directories. It does not copy raw
 git clone https://github.com/MAC-AutoML/oh_my_paper.git
 cd oh_my_paper
 uv run oh-my-paper status
+uv run oh-my-paper packaging-status
 uv run python -m unittest discover -s tests -p 'test_*.py' -v
 uv run oh-my-paper init /tmp/ohmp-demo
 uv run oh-my-paper run-demo /tmp/ohmp-demo
-uv run oh-my-paper install-skills /tmp/ohmp-skills --overwrite
-uv run oh-my-paper list-skills /tmp/ohmp-skills
 ```
 
 ## Future real adapter configuration
