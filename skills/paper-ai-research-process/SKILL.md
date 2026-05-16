@@ -41,7 +41,7 @@ No drafting handoff until each main claim has an evidence status and missing exp
 
 - Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
 - Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw private sources.
+- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
 
 ## Safety rules
 

@@ -10,16 +10,57 @@
 
 ## 2. Skill inventory
 
+The skill group uses a two-layer design:
+
+1. **Coordinator skills** keep state, routing, material fusion, and eval loops explicit.
+2. **Specialist skills** own narrow paper-work phases with their own gates and references.
+
+### 2.1 Coordinator and lifecycle skills
+
 | Skill | Trigger | Primary outputs | Main gate |
 | --- | --- | --- | --- |
-| `paper-ai-orchestrator` | User asks for full workflow or next paper step | `PAPER_AI_STATE.md`, task routing | Current phase and required inputs identified |
-| `paper-ai-research-process` | Idea, project, experiment, contribution planning | `PAPER_BRIEF.md`, `EXPERIMENT_PLAN.md` | Claims and evidence needs explicit |
-| `paper-ai-writing` | Draft, rewrite, polish paper sections | section drafts, `CLAIMS.md` updates | Important claims linked to evidence |
-| `paper-ai-figures` | Teaser, method figure, table, plot, caption | `FIGURE_PLAN.md`, `TABLE_PLAN.md` | Each visual has a takeaway and claim link |
-| `paper-ai-layout` | Formatting, page budget, camera-ready checks | `LAYOUT_REPORT.md` | Venue/page constraints checked |
-| `paper-ai-reviewer` | Pre-submission review, scoring, risk audit | `REVIEW_SIMULATION.md`, `FIX_PLAN.md` | Fatal/fixable gaps separated |
-| `paper-ai-rebuttal` | Reviews received, author response needed | `REBUTTAL_PLAN.md`, final response draft | Every concern has answer/evidence/concession |
-| `paper-ai-eval-loop` | Improve skills from traces/failures | eval fixture, regression report | Failure reproduced or explicitly waived |
+| `paper-ai-orchestrator` | Full workflow / next paper step | `PAPER_AI_STATE.md`, task routing | Current phase and required inputs identified |
+| `paper-ai-material-intake` | New PDFs/repos/articles/screenshots/notes | ignored local material cache, public-safe synthesis | Raw sources remain untracked |
+| `paper-ai-project-planner` | Project kickoff, deadline, roadmap | `PROJECT_PLAN.md`, phase plan | Claims/evidence artifacts stubbed before drafting |
+| `paper-ai-eval-loop` | Improve skills from traces/failures | eval fixture, regression report | Failure reproduced or waived |
+| `paper-ai-revision-plan` | Many findings need execution plan | `REVISION_PLAN.md` | Fixes linked to concerns/claims |
+| `paper-ai-camera-ready` | Accepted/camera-ready work | `CAMERA_READY_PLAN.md` | Promises and venue instructions accounted for |
+
+### 2.2 Research and evidence skills
+
+| Skill | Trigger | Primary outputs | Main gate |
+| --- | --- | --- | --- |
+| `paper-ai-research-process` | Idea/project/contribution planning | `PAPER_BRIEF.md`, `EXPERIMENT_PLAN.md` | Claims and evidence needs explicit |
+| `paper-ai-research-question` | Fuzzy topic, novelty/significance critique | `RESEARCH_QUESTION.md` | Audience, gap, and evidence path exist |
+| `paper-ai-literature-map` | Literature organization and positioning | `LITERATURE_MAP.md` | Closest work and contrast axes named |
+| `paper-ai-experiment-planner` | Baselines/metrics/ablations/evidence design | `EXPERIMENT_PLAN.md` | Strong claims have evidence path |
+| `paper-ai-claim-evidence` | Claim ledger and evidence audit | `CLAIMS.md`, `EVIDENCE_MAP.md` | Unsupported claims removed/caveated/labeled |
+
+### 2.3 Writing, visuals, and submission skills
+
+| Skill | Trigger | Primary outputs | Main gate |
+| --- | --- | --- | --- |
+| `paper-ai-writing` | Mixed-section drafting/revision | section drafts, risk notes | Important claims linked to evidence |
+| `paper-ai-title-abstract` | Title, abstract, first-page hook | title/abstract options | No overclaiming beyond claims ledger |
+| `paper-ai-introduction` | Introduction/first-two-pages story | `INTRODUCTION_DRAFT.md` | Contributions link to claim IDs |
+| `paper-ai-related-work` | Related-work prose | `RELATED_WORK_DRAFT.md` | Novelty claims grounded in closest work |
+| `paper-ai-method-writing` | Method/algorithm/equation prose | `METHOD_DRAFT.md` | Reader context before formalism |
+| `paper-ai-experiment-writing` | Experiment prose and analysis | `EXPERIMENTS_DRAFT.md` | No invented numbers/results |
+| `paper-ai-limitations` | Limitations/scope/ethics caveats | `LIMITATIONS.md` | Validity-affecting limits visible |
+| `paper-ai-language-polish` | Translation, compression, de-AI polish | polished prose | Meaning and evidence limits preserved |
+| `paper-ai-figures` | Figures and captions | `FIGURE_PLAN.md` | Each visual has takeaway/claim link |
+| `paper-ai-tables` | Tables and table captions | `TABLE_PLAN.md` | No unsupported comparison implied |
+| `paper-ai-layout` | Page budget/template/camera-ready formatting | `LAYOUT_REPORT.md` | Venue/page constraints checked |
+| `paper-ai-submission-check` | Final pre-submission QA | `SUBMISSION_CHECK.md` | Fatal blockers absent before ready verdict |
+
+### 2.4 Review and defense skills
+
+| Skill | Trigger | Primary outputs | Main gate |
+| --- | --- | --- | --- |
+| `paper-ai-reviewer` | Strict review/scoring/risk audit | `REVIEW_SIMULATION.md`, `FIX_PLAN.md` | Fatal/fixable gaps separated |
+| `paper-ai-ac-simulator` | AC perspective and reviewer-discussion risk | `AC_SIMULATION.md` | Uncertainty and scenarios explicit |
+| `paper-ai-rebuttal` | Author response needed | `REBUTTAL_PLAN.md`, responses | Every concern answered/evidenced/conceded |
+
 
 ## 3. Standard workspace artifacts
 

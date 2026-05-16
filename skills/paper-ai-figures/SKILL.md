@@ -41,7 +41,7 @@ Every proposed visual must name one takeaway and link to at least one claim or r
 
 - Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
 - Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw private sources.
+- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
 
 ## Safety rules
 
@@ -58,3 +58,4 @@ When this skill changes project artifacts, append a concise event to `.paper-ai/
 
 - `references/visual-takeaway-checklist.md`
 - `references/caption-patterns.md`
+- `references/first-page-figure.md`

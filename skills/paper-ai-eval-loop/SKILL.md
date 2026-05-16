@@ -41,7 +41,7 @@ Do not mark a skill behavior fixed unless a fixture reproduces the failure or a 
 
 - Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
 - Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw private sources.
+- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
 
 ## Safety rules
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "paper ai literature map"
+  short_description: "`paper/LITERATURE_MAP.md`"
+  default_prompt: "Use $paper-ai-literature-map on the current paper workspace."

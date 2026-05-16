@@ -1,3 +1,4 @@
-display_name: paper-ai-reviewer
-short_description: Simulate strict academic reviewers and convert weaknesses into severity-ranked fix plans.
-default_prompt: Use paper-ai-reviewer on the current paper workspace.
+interface:
+  display_name: "paper-ai-reviewer"
+  short_description: "Simulate strict academic reviewers and convert weaknesses into s"
+  default_prompt: "Use $paper-ai-reviewer on the current paper workspace."

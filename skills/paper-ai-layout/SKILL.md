@@ -41,7 +41,7 @@ Do not claim venue compliance when the target template or page limit is unknown.
 
 - Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
 - Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw private sources.
+- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
 
 ## Safety rules
 

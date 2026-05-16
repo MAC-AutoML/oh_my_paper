@@ -1,0 +1,4 @@
+interface:
+  display_name: "paper ai submission check"
+  short_description: "`paper/SUBMISSION_CHECK.md`"
+  default_prompt: "Use $paper-ai-submission-check on the current paper workspace."

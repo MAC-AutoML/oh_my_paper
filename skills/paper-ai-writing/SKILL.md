@@ -41,7 +41,7 @@ Important claims must be linked to evidence, marked as partial/planned, or remov
 
 - Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
 - Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw private sources.
+- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
 
 ## Safety rules
 
@@ -58,3 +58,4 @@ When this skill changes project artifacts, append a concise event to `.paper-ai/
 
 - `references/section-patterns.md`
 - `references/claim-grounding.md`
+- `references/specialist-handoffs.md`

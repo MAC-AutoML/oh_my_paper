@@ -1,0 +1,4 @@
+interface:
+  display_name: "paper ai experiment planner"
+  short_description: "`paper/EXPERIMENT_PLAN.md`"
+  default_prompt: "Use $paper-ai-experiment-planner on the current paper workspace."
