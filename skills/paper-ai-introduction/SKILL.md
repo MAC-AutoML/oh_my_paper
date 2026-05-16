@@ -1,59 +1,50 @@
 ---
 name: paper-ai-introduction
-description: Build reader-centered AI-paper introductions from problem motivation to gap, method idea, contributions, and evidence preview. Use when drafting or revising introductions, first two pages, story framing, or contribution lists.
+description: Draft and revise AI-paper introductions, first two pages, motivation, gap framing, contribution lists, and reader-centered story flow. Use for introduction writing or first-page reviewer impression.
 ---
 
 # paper-ai-introduction
 
 ## Use when
 
-Use for Introduction structure, first-two-pages flow, motivation, gap statements, and contribution paragraphs.
+Use for introduction, motivation, first-two-pages flow, gap statements, and contribution bullets.
 
 ## Do not use when
 
-- The request belongs to a narrower `paper-ai-*` skill and no routing/handoff is needed.
-- The user asks for unsupported scientific claims, fabricated experiments, or fake citations.
-- The task would publish raw local-only/copyrighted material.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request and target venue/deadline if known.
-- Relevant `.paper-ai/` and `paper/` artifacts.
-- Local material category summaries, not raw local-only sources.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-`paper/INTRODUCTION_DRAFT.md`, contribution list, reader-flow audit
+`paper/INTRODUCTION_DRAFT.md`, contribution list, flow audit
 
 ## Workflow
 
-1. Start with reader problem and task context, not author chronology.
-2. Explain prior work enough to reveal the gap/challenge.
-3. Introduce the method idea and why it addresses the gap.
-4. End with evidence-backed contributions and preview.
+1. Start from reader problem and concrete bottleneck.
+2. Explain prior work enough to reveal the gap.
+3. Introduce the method idea and evidence preview.
+4. Write claim-linked contribution bullets.
 
 ## Gate
 
-Every contribution must link to a claim ID and evidence status.
+Each contribution must be specific and evidence-linked or caveated.
 
-## Artifact protocol
+## Shared rules
 
-- Inspect `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md` when present.
-- Prefer workspace artifacts over chat memory.
-- Append or request a `.paper-ai/MATERIALS_USED.md` note using category names only.
-- Keep outputs as editable markdown artifacts under `paper/` or `.paper-ai/`.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, code releases, or major rebuttal commitments.
-- Keep raw `/materials` and `/temp` local; never copy private text into public outputs.
-
-## Trace expectation
-
-When tooling exists, append a concise event to `.paper-ai/TRACE.jsonl`. Otherwise include a short trace note with phase, inputs, outputs, and gate result.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/intro-flow.md`
+- `references/introduction-guide.md`

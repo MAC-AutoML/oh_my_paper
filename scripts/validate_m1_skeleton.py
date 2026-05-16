@@ -16,32 +16,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = [
-    "paper-ai-ac-simulator",
-    "paper-ai-camera-ready",
-    "paper-ai-claim-evidence",
-    "paper-ai-eval-loop",
-    "paper-ai-experiment-planner",
-    "paper-ai-experiment-writing",
-    "paper-ai-figures",
-    "paper-ai-introduction",
-    "paper-ai-language-polish",
-    "paper-ai-layout",
-    "paper-ai-limitations",
-    "paper-ai-literature-map",
-    "paper-ai-material-intake",
-    "paper-ai-method-writing",
     "paper-ai-orchestrator",
-    "paper-ai-project-planner",
-    "paper-ai-rebuttal",
-    "paper-ai-related-work",
-    "paper-ai-research-process",
-    "paper-ai-research-question",
-    "paper-ai-reviewer",
-    "paper-ai-revision-plan",
-    "paper-ai-submission-check",
-    "paper-ai-tables",
-    "paper-ai-title-abstract",
+    "paper-ai-idea",
     "paper-ai-writing",
+    "paper-ai-title-abstract",
+    "paper-ai-introduction",
+    "paper-ai-related-work",
+    "paper-ai-method",
+    "paper-ai-experiments",
+    "paper-ai-figures",
+    "paper-ai-limitations",
+    "paper-ai-layout",
+    "paper-ai-reviewer",
+    "paper-ai-rebuttal",
 ]
 REQUIRED_DOCS = [
     "README.md",
@@ -150,7 +137,7 @@ def check_skills() -> None:
                 fail(f"{skill} missing heading {heading}")
         if len(text.splitlines()) > 220:
             fail(f"{skill} SKILL.md too long for a stub")
-        for sub in ["references", "scripts", "assets", "evals", "agents"]:
+        for sub in ["references", "evals", "agents"]:
             if not (root / sub).exists():
                 fail(f"{skill} missing {sub}/")
         if not (root / "evals" / "README.md").exists():

@@ -1,60 +1,50 @@
 ---
 name: paper-ai-layout
-description: "Check LaTeX/Word layout, page budget, section ordering, figure/table placement, and camera-ready formatting assumptions. Use when: Use when the user asks about formatting, page limits, venue template fit, camera-ready cleanup, or placement decisions."
+description: Check AI-paper layout, page budget, venue/template assumptions, formatting, language polish, translation, compression, and final PDF readability. Use for page limits, LaTeX/Word formatting, camera-ready cleanup, or polishing stable prose.
 ---
 
 # paper-ai-layout
 
 ## Use when
 
-Use when the user asks about formatting, page limits, venue template fit, camera-ready cleanup, or placement decisions.
+Use after story/evidence are stable for page budget, formatting, language polish, compression, translation, and final readability.
 
 ## Do not use when
 
-- The user only asks a general academic-writing question with no paper workflow artifacts.
-- The task belongs to another `paper-ai-*` phase and no handoff is needed.
-- The requested action would publish private materials or unsupported scientific claims.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request.
-- Relevant `.paper-ai/` state when present.
-- Relevant `paper/` artifacts for this phase.
-- Public-safe references listed below, loaded only when needed.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-`paper/LAYOUT_REPORT.md`, page-budget notes, placement checklist
+`paper/LAYOUT_REPORT.md`, polish notes, formatting checklist
 
 ## Workflow
 
-1. Collect venue/template/page-budget assumptions.
-2. Map sections, figures, tables, and supplement items to page budget.
-3. Flag overflow and placement risks.
-4. Recommend minimal layout fixes before content rewrites.
+1. Check venue/page/template constraints.
+2. Inspect figure/table placement and first-page readability.
+3. Polish language without changing claim strength.
+4. Flag formatting/PDF issues and remaining risks.
 
 ## Gate
 
-Do not claim venue compliance when the target template or page limit is unknown.
+Do not polish or compress away evidence caveats or unsupported-claim warnings.
 
-## Required artifacts
+## Shared rules
 
-- Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
-- Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, releases, or major rebuttal commitments.
-- Keep raw `materials/` local; reference only public-safe category names in outputs.
-
-## Trace expectation
-
-When this skill changes project artifacts, append a concise event to `.paper-ai/TRACE.jsonl` when tooling exists. Until Milestone 2 tooling exists, include a short trace note in the output.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/layout-budget.md`
-- `references/formatting-checklist.md`
+- `references/layout-polish-guide.md`

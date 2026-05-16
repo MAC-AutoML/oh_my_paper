@@ -1,4 +1,0 @@
-interface:
-  display_name: "paper ai material intake"
-  short_description: "ignored `/materials/paper-ai/external/<id>/` entries"
-  default_prompt: "Use $paper-ai-material-intake on the current paper workspace."

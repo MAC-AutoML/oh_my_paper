@@ -1,0 +1,4 @@
+interface:
+  display_name: "paper ai method"
+  short_description: "Method section"
+  default_prompt: "Use $paper-ai-method on the current paper workspace."

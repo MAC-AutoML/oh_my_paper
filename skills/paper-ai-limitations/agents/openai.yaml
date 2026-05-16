@@ -1,4 +1,4 @@
 interface:
   display_name: "paper ai limitations"
-  short_description: "`paper/LIMITATIONS.md`"
+  short_description: "Limitations and caveats"
   default_prompt: "Use $paper-ai-limitations on the current paper workspace."

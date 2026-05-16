@@ -1,61 +1,50 @@
 ---
 name: paper-ai-writing
-description: "Draft, revise, polish, and audit AI-paper sections while preserving claim-evidence grounding. Use when: Use for abstract, introduction, related work, method, experiments, limitation, or conclusion drafting and revision."
+description: Coordinate whole-paper writing and cross-section revision while preserving reader-centered flow and claim-evidence grounding. Use when drafting or revising multiple sections, building the paper story, or checking coherence across chapters.
 ---
 
 # paper-ai-writing
 
 ## Use when
 
-Use for abstract, introduction, related work, method, experiments, limitation, or conclusion drafting and revision.
+Use for whole-paper story, section outline, paragraph flow, and cross-section consistency.
 
 ## Do not use when
 
-- The user only asks a general academic-writing question with no paper workflow artifacts.
-- The task belongs to another `paper-ai-*` phase and no handoff is needed.
-- The requested action would publish private materials or unsupported scientific claims.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request.
-- Relevant `.paper-ai/` state when present.
-- Relevant `paper/` artifacts for this phase.
-- Public-safe references listed below, loaded only when needed.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-section drafts, updated `paper/CLAIMS.md`, writing risk notes
+paper story outline, section plan, claim-grounded rewrite notes
 
 ## Workflow
 
-1. Load `PAPER_BRIEF.md`, `CLAIMS.md`, and `EVIDENCE_MAP.md` first.
-2. Draft section text around claim IDs, not unsupported invention.
-3. Run a paragraph-level clarity and evidence pass.
-4. List unresolved claims and needed human decisions.
+1. Audit document surface, information flow, and underlying argument.
+2. Route section-specific work to title/abstract, introduction, related work, method, experiments, limitations, figures, or layout.
+3. Keep claims tied to evidence status.
+4. Revise from story to paragraphs to language.
 
 ## Gate
 
-Important claims must be linked to evidence, marked as partial/planned, or removed before final wording.
+Important claims must be linked to evidence or explicitly caveated before final prose.
 
-## Required artifacts
+## Shared rules
 
-- Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
-- Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, releases, or major rebuttal commitments.
-- Keep raw `materials/` local; reference only public-safe category names in outputs.
-
-## Trace expectation
-
-When this skill changes project artifacts, append a concise event to `.paper-ai/TRACE.jsonl` when tooling exists. Until Milestone 2 tooling exists, include a short trace note in the output.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/section-patterns.md`
-- `references/claim-grounding.md`
-- `references/specialist-handoffs.md`
+- `references/whole-paper-writing.md`

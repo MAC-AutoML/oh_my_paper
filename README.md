@@ -35,38 +35,25 @@ Raw references live under `materials/` and `temp/` and are intentionally exclude
 
 Continuous material updates use the local-only intake command documented in [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md). New material is first extracted/classified into the ignored cache, then fused into public skill instructions or synthetic evals only after privacy-safe synthesis.
 
-## Expanded OMX-style skill swarm
+## Natural paper workflow skills
 
-The project now exposes 26 installable Codex skills rather than only a coarse 8-skill skeleton. The split is intentionally OMX-like: a router/orchestrator stays small, while specialist skills own narrow phases, gates, artifacts, and references.
+The installable skill group intentionally stays close to the paper lifecycle instead of exposing many management-style micro-skills. OMX-style depth is internalized as gates, references, checklists, and trace/eval discipline inside these natural skills.
 
-| Lane | Skill | Path |
-| --- | --- | --- |
-| Intake/orchestration | `paper-ai-material-intake` | skills/paper-ai-material-intake |
-| Intake/orchestration | `paper-ai-orchestrator` | skills/paper-ai-orchestrator |
-| Intake/orchestration | `paper-ai-project-planner` | skills/paper-ai-project-planner |
-| Intake/orchestration | `paper-ai-eval-loop` | skills/paper-ai-eval-loop |
-| Research/evidence | `paper-ai-research-process` | skills/paper-ai-research-process |
-| Research/evidence | `paper-ai-research-question` | skills/paper-ai-research-question |
-| Research/evidence | `paper-ai-literature-map` | skills/paper-ai-literature-map |
-| Research/evidence | `paper-ai-experiment-planner` | skills/paper-ai-experiment-planner |
-| Research/evidence | `paper-ai-claim-evidence` | skills/paper-ai-claim-evidence |
-| Writing sections | `paper-ai-writing` | skills/paper-ai-writing |
-| Writing sections | `paper-ai-title-abstract` | skills/paper-ai-title-abstract |
-| Writing sections | `paper-ai-introduction` | skills/paper-ai-introduction |
-| Writing sections | `paper-ai-related-work` | skills/paper-ai-related-work |
-| Writing sections | `paper-ai-method-writing` | skills/paper-ai-method-writing |
-| Writing sections | `paper-ai-experiment-writing` | skills/paper-ai-experiment-writing |
-| Writing sections | `paper-ai-limitations` | skills/paper-ai-limitations |
-| Writing sections | `paper-ai-language-polish` | skills/paper-ai-language-polish |
-| Visuals/layout/submission | `paper-ai-figures` | skills/paper-ai-figures |
-| Visuals/layout/submission | `paper-ai-tables` | skills/paper-ai-tables |
-| Visuals/layout/submission | `paper-ai-layout` | skills/paper-ai-layout |
-| Visuals/layout/submission | `paper-ai-submission-check` | skills/paper-ai-submission-check |
-| Review/defense/revision | `paper-ai-reviewer` | skills/paper-ai-reviewer |
-| Review/defense/revision | `paper-ai-ac-simulator` | skills/paper-ai-ac-simulator |
-| Review/defense/revision | `paper-ai-rebuttal` | skills/paper-ai-rebuttal |
-| Review/defense/revision | `paper-ai-revision-plan` | skills/paper-ai-revision-plan |
-| Review/defense/revision | `paper-ai-camera-ready` | skills/paper-ai-camera-ready |
+| Stage | Skill |
+| --- | --- |
+| Full workflow routing | `paper-ai-orchestrator` |
+| Idea / research question | `paper-ai-idea` |
+| Whole-paper writing coherence | `paper-ai-writing` |
+| Title and abstract | `paper-ai-title-abstract` |
+| Introduction | `paper-ai-introduction` |
+| Related work | `paper-ai-related-work` |
+| Method | `paper-ai-method` |
+| Experiments / results | `paper-ai-experiments` |
+| Figures and tables | `paper-ai-figures` |
+| Limitations / caveats | `paper-ai-limitations` |
+| Layout and language polish | `paper-ai-layout` |
+| Strict review simulation | `paper-ai-reviewer` |
+| Rebuttal / defense | `paper-ai-rebuttal` |
 
 Install metadata is generated from the official Codex skill folders under `skills/paper-ai-*`; use `uv run oh-my-paper packaging-status` to print the official `install-skill-from-github.py --repo ... --path ...` command.
 
@@ -75,7 +62,7 @@ Install metadata is generated from the official Codex skill folders under `skill
 This repository includes the local-first skeleton for the skill group:
 
 - `.codex-plugin/plugin.json` — local plugin metadata.
-- `skills/paper-ai-*/` — 26 progressive-disclosure coordinator and specialist skills.
+- `skills/paper-ai-*/` — 13 progressive-disclosure paper workflow skills.
 - `examples/toy-paper-workspace/` — synthetic paper workspace for e2e tests.
 
 ## Milestone 2 validators and eval fixtures

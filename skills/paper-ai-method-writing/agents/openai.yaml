@@ -1,4 +1,0 @@
-interface:
-  display_name: "paper ai method writing"
-  short_description: "`paper/METHOD_DRAFT.md`"
-  default_prompt: "Use $paper-ai-method-writing on the current paper workspace."

@@ -1,59 +1,50 @@
 ---
 name: paper-ai-title-abstract
-description: Create and audit AI-paper titles and abstracts for clarity, searchability, first impression, claim support, and reviewer expectations. Use when drafting titles, abstracts, contribution summaries, acronyms, or first-page hooks.
+description: Draft and audit AI-paper titles and abstracts for first impression, clarity, searchability, contribution accuracy, and evidence-safe scope. Use for title options, abstracts, acronyms, contribution summaries, and first-page hooks.
 ---
 
 # paper-ai-title-abstract
 
 ## Use when
 
-Use for title candidates, abstract drafts, acronym decisions, searchability checks, and first-impression audits.
+Use for title candidates, abstract drafts, acronym decisions, and first-impression checks.
 
 ## Do not use when
 
-- The request belongs to a narrower `paper-ai-*` skill and no routing/handoff is needed.
-- The user asks for unsupported scientific claims, fabricated experiments, or fake citations.
-- The task would publish raw local-only/copyrighted material.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request and target venue/deadline if known.
-- Relevant `.paper-ai/` and `paper/` artifacts.
-- Local material category summaries, not raw local-only sources.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-title candidates, abstract draft, first-impression audit, searchability notes
+title candidates, abstract draft, first-impression audit
 
 ## Workflow
 
-1. Identify problem, method/insight, evidence, and target audience.
-2. Generate clear/searchable title options and avoid overclaiming.
+1. Identify problem, method/insight, evidence, and audience.
+2. Generate clear/searchable title options.
 3. Draft abstract with problem, gap, method, evidence, implication.
-4. Audit first impression against reviewer time pressure.
+4. Reject overclaiming and unclear first impressions.
 
 ## Gate
 
-Reject titles/abstracts that overclaim beyond `CLAIMS.md` or hide the core problem.
+Title and abstract must not claim beyond the evidence ledger.
 
-## Artifact protocol
+## Shared rules
 
-- Inspect `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md` when present.
-- Prefer workspace artifacts over chat memory.
-- Append or request a `.paper-ai/MATERIALS_USED.md` note using category names only.
-- Keep outputs as editable markdown artifacts under `paper/` or `.paper-ai/`.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, code releases, or major rebuttal commitments.
-- Keep raw `/materials` and `/temp` local; never copy private text into public outputs.
-
-## Trace expectation
-
-When tooling exists, append a concise event to `.paper-ai/TRACE.jsonl`. Otherwise include a short trace note with phase, inputs, outputs, and gate result.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/first-impression.md`
+- `references/title-abstract-guide.md`

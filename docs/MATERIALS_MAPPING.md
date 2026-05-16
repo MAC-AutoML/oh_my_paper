@@ -2,7 +2,7 @@
 
 ## 1. Policy
 
-This file maps local materials to design decisions. It does not publish raw material content. Paths under `materials/` are local-only and ignored by git. This tracked document is public-safe: it names material categories and local index paths, but avoids listing private repository names. Maintain detailed private source names only inside ignored `materials/` indexes unless licensing and publication permission are confirmed.
+This file maps local materials to design decisions. It does not publish raw material content. Paths under `materials/` are local-only and ignored by git. This tracked document is public-safe: it names material categories and local index paths. Maintain full raw source corpora only inside ignored `materials/`; promote selected excerpts into skills only when rights/licensing are confirmed.
 
 ## 2. Paper workflow materials
 
@@ -64,4 +64,4 @@ Future outputs should append a short `MATERIALS_USED.md` entry:
 - OCR/rendered PDF material may contain recognition errors.
 - Private/internal repositories should be treated as local reference only unless licensing is confirmed.
 
-Mitigation: use materials for internal design extraction and cite categories, not raw private text, in public docs.
+Mitigation: keep full raw corpora in ignored `/materials`; when rights are confirmed, promote only selected excerpts, adapted examples, and imitation case cards into public skills.

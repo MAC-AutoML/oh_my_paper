@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper-ai-writing"
-  short_description: "Draft, revise, polish, and audit AI-paper sections while preserv"
+  display_name: "paper ai writing"
+  short_description: "Whole-paper writing flow"
   default_prompt: "Use $paper-ai-writing on the current paper workspace."

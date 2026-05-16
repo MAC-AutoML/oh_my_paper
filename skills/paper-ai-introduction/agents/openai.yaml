@@ -1,4 +1,4 @@
 interface:
   display_name: "paper ai introduction"
-  short_description: "`paper/INTRODUCTION_DRAFT.md`"
+  short_description: "Introduction writing"
   default_prompt: "Use $paper-ai-introduction on the current paper workspace."

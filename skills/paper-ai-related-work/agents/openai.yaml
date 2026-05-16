@@ -1,4 +1,4 @@
 interface:
   display_name: "paper ai related work"
-  short_description: "`paper/RELATED_WORK_DRAFT.md`"
+  short_description: "Related work positioning"
   default_prompt: "Use $paper-ai-related-work on the current paper workspace."

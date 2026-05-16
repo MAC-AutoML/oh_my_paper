@@ -1,61 +1,50 @@
 ---
 name: paper-ai-rebuttal
-description: "Build evidence-backed, AC-aware rebuttal plans and responses from reviewer comments and paper evidence. Use when: Use when reviews arrive or the user asks to draft, organize, compress, or audit an author response."
+description: Draft and audit AI-conference/journal rebuttals from reviewer comments with concern tables, evidence mapping, AC-aware priorities, tone control, and promise discipline. Use when reviews arrive or author responses need planning, writing, compression, or critique.
 ---
 
 # paper-ai-rebuttal
 
 ## Use when
 
-Use when reviews arrive or the user asks to draft, organize, compress, or audit an author response.
+Use after reviews arrive or when drafting, organizing, compressing, or auditing a rebuttal/author response.
 
 ## Do not use when
 
-- The user only asks a general academic-writing question with no paper workflow artifacts.
-- The task belongs to another `paper-ai-*` phase and no handoff is needed.
-- The requested action would publish private materials or unsupported scientific claims.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request.
-- Relevant `.paper-ai/` state when present.
-- Relevant `paper/` artifacts for this phase.
-- Public-safe references listed below, loaded only when needed.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-`paper/REBUTTAL_PLAN.md`, `paper/PROMISED_REVISIONS.md`, response drafts, concern table
+`paper/REBUTTAL_PLAN.md`, concern table, response draft, promised revisions
 
 ## Workflow
 
 1. Parse reviewer comments into atomic concerns.
-2. Map each concern to evidence, limitation, or planned revision.
-3. Draft reviewer-specific answers plus AC-facing summary.
-4. Run tone, overpromise, and space-compression checks.
+2. Map each concern to evidence, concession, or approved revision.
+3. Draft direct reviewer-facing and AC-aware answers.
+4. Compress while preserving decision-relevant evidence and respectful tone.
 
 ## Gate
 
-Every reviewer concern must have an answer, evidence, concession, or approved revision promise before final response.
+Every material concern must have an answer, evidence, concession, or approved revision promise.
 
-## Required artifacts
+## Shared rules
 
-- Read existing `.paper-ai/PAPER_AI_STATE.md` when present.
-- Prefer project artifacts under `paper/` over chat memory.
-- Append material usage notes to `.paper-ai/MATERIALS_USED.md` without copying raw local-only sources.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, releases, or major rebuttal commitments.
-- Keep raw `materials/` local; reference only public-safe category names in outputs.
-
-## Trace expectation
-
-When this skill changes project artifacts, append a concise event to `.paper-ai/TRACE.jsonl` when tooling exists. Until Milestone 2 tooling exists, include a short trace note in the output.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/concern-table.md`
-- `references/tone-and-compression.md`
-- `references/ac-aware-rebuttal.md`
+- `references/rebuttal-guide.md`

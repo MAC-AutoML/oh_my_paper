@@ -1,4 +1,4 @@
 interface:
   display_name: "paper ai title abstract"
-  short_description: "title candidates"
+  short_description: "Title and abstract"
   default_prompt: "Use $paper-ai-title-abstract on the current paper workspace."

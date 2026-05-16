@@ -7,32 +7,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = [
-    "paper-ai-ac-simulator",
-    "paper-ai-camera-ready",
-    "paper-ai-claim-evidence",
-    "paper-ai-eval-loop",
-    "paper-ai-experiment-planner",
-    "paper-ai-experiment-writing",
-    "paper-ai-figures",
-    "paper-ai-introduction",
-    "paper-ai-language-polish",
-    "paper-ai-layout",
-    "paper-ai-limitations",
-    "paper-ai-literature-map",
-    "paper-ai-material-intake",
-    "paper-ai-method-writing",
     "paper-ai-orchestrator",
-    "paper-ai-project-planner",
-    "paper-ai-rebuttal",
-    "paper-ai-related-work",
-    "paper-ai-research-process",
-    "paper-ai-research-question",
-    "paper-ai-reviewer",
-    "paper-ai-revision-plan",
-    "paper-ai-submission-check",
-    "paper-ai-tables",
-    "paper-ai-title-abstract",
+    "paper-ai-idea",
     "paper-ai-writing",
+    "paper-ai-title-abstract",
+    "paper-ai-introduction",
+    "paper-ai-related-work",
+    "paper-ai-method",
+    "paper-ai-experiments",
+    "paper-ai-figures",
+    "paper-ai-limitations",
+    "paper-ai-layout",
+    "paper-ai-reviewer",
+    "paper-ai-rebuttal",
 ]
 
 
@@ -59,6 +46,15 @@ class Milestone1StructureTest(unittest.TestCase):
                 self.assertIn("## Gate", text)
                 self.assertIn("Do not invent experiments", text)
                 self.assertLessEqual(len(text.splitlines()), 220)
+
+    def test_skill_references_are_substantive_not_placeholders(self) -> None:
+        for skill in SKILLS:
+            with self.subTest(skill=skill):
+                refs = sorted((ROOT / "skills" / skill / "references").glob("*.md"))
+                self.assertGreaterEqual(len(refs), 1)
+                for ref in refs:
+                    lines = [line for line in ref.read_text(encoding="utf-8").splitlines() if line.strip()]
+                    self.assertGreaterEqual(len(lines), 20, f"{ref} is too sparse")
 
     def test_toy_workspace_is_synthetic_and_gate_aware(self) -> None:
         claims = (ROOT / "examples/toy-paper-workspace/paper/CLAIMS.md").read_text()

@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper-ai-layout"
-  short_description: "Check LaTeX/Word layout, page budget, section ordering, figure/t"
+  display_name: "paper ai layout"
+  short_description: "Layout and polish"
   default_prompt: "Use $paper-ai-layout on the current paper workspace."

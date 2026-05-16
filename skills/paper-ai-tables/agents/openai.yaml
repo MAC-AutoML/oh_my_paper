@@ -1,4 +1,0 @@
-interface:
-  display_name: "paper ai tables"
-  short_description: "`paper/TABLE_PLAN.md`"
-  default_prompt: "Use $paper-ai-tables on the current paper workspace."

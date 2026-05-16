@@ -1,0 +1,4 @@
+interface:
+  display_name: "paper ai experiments"
+  short_description: "Experiment section"
+  default_prompt: "Use $paper-ai-experiments on the current paper workspace."

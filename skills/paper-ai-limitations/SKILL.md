@@ -1,59 +1,50 @@
 ---
 name: paper-ai-limitations
-description: Identify, phrase, and strategically place limitations, threats to validity, ethics notes, and scope caveats in AI papers and rebuttals. Use when the user asks for limitation sections, caveats, weakness framing, or honest scope control.
+description: Write and audit AI-paper limitations, scope caveats, threats to validity, ethics/safety notes, and claim narrowing. Use when limitations, caveats, or honest scope control are needed.
 ---
 
 # paper-ai-limitations
 
 ## Use when
 
-Use when claims need caveats or when reviewer trust depends on honest limitation framing.
+Use for limitation sections, claim caveats, threat-to-validity notes, and honest scope framing.
 
 ## Do not use when
 
-- The request belongs to a narrower `paper-ai-*` skill and no routing/handoff is needed.
-- The user asks for unsupported scientific claims, fabricated experiments, or fake citations.
-- The task would publish raw local-only/copyrighted material.
+- The task is only generic chat and no paper artifact or paper-writing decision is involved.
+- The user asks to fabricate evidence, citations, reviewer opinions, or results.
+- The request should be handled by a narrower chapter/figure/rebuttal skill already named by the user.
 
 ## Inputs
 
-- Current user request and target venue/deadline if known.
-- Relevant `.paper-ai/` and `paper/` artifacts.
-- Local material category summaries, not raw local-only sources.
+- User request and target venue/deadline if known.
+- Existing paper draft, notes, figures, tables, reviews, or workspace artifacts.
+- Local material summaries and selected rights-cleared excerpts when useful.
 
 ## Outputs
 
-`paper/LIMITATIONS.md`, threat model, caveated claim rewrites
+`paper/LIMITATIONS.md`, caveated claim rewrites, limitation table
 
 ## Workflow
 
-1. List technical, empirical, data, compute, deployment, and ethical limitations.
-2. Distinguish fatal weaknesses from honest scope boundaries.
+1. List scope, assumption, evidence, compute, reproducibility, and deployment limitations.
+2. Link limitations to affected claims.
 3. Rewrite overbroad claims with scope conditions.
-4. Place limitations where they improve trust without self-sabotage.
+4. Phrase limitations honestly without self-sabotage.
 
 ## Gate
 
-Do not hide limitations that affect claim validity or reviewer interpretation.
+Validity-affecting limitations must be visible before submission or rebuttal.
 
-## Artifact protocol
+## Shared rules
 
-- Inspect `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md` when present.
-- Prefer workspace artifacts over chat memory.
-- Append or request a `.paper-ai/MATERIALS_USED.md` note using category names only.
-- Keep outputs as editable markdown artifacts under `paper/` or `.paper-ai/`.
-
-## Safety rules
-
-- Do not invent experiments, citations, reviewer scores, or results.
-- Mark unsupported claims instead of polishing them into stronger claims.
-- Ask for human approval before promising new experiments, code releases, or major rebuttal commitments.
-- Keep raw `/materials` and `/temp` local; never copy private text into public outputs.
-
-## Trace expectation
-
-When tooling exists, append a concise event to `.paper-ai/TRACE.jsonl`. Otherwise include a short trace note with phase, inputs, outputs, and gate result.
+- Work from project artifacts when present: `.paper-ai/PAPER_AI_STATE.md`, `paper/CLAIMS.md`, and `paper/EVIDENCE_MAP.md`.
+- Preserve claim IDs across writing, figures, review, and rebuttal.
+- Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
+- Mark unsupported claims as unsupported instead of polishing them into confident prose.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed
 
-- `references/limitation-types.md`
+- `references/limitations-guide.md`
