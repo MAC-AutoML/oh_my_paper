@@ -34,12 +34,13 @@ class FullPaperResult:
     paper_path: Path
     review_path: Path | None
     trace_ok: bool
+    section_ok: bool
     reviewer_verdict: str | None = None
     reviewer_score: int | None = None
 
     @property
     def ok(self) -> bool:
-        return self.trace_ok and self.reviewer_verdict == "PASS"
+        return self.trace_ok and self.section_ok and self.reviewer_verdict == "PASS"
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -47,6 +48,7 @@ class FullPaperResult:
             "paper_path": str(self.paper_path),
             "review_path": str(self.review_path) if self.review_path else None,
             "trace_ok": self.trace_ok,
+            "section_ok": self.section_ok,
             "reviewer_verdict": self.reviewer_verdict,
             "reviewer_score": self.reviewer_score,
             "ok": self.ok,
@@ -91,6 +93,8 @@ def generate_full_paper_from_pdf(
     )
     paper = _write_full_paper(config, source_text, related_context)
     paper_path = store.paper_dir / "FULL_PAPER_DRAFT.md"
+    if not validate_paper_sections(paper):
+        paper = complete_full_paper_text(config, paper, source_text, related_context)
     paper_path.write_text(paper, encoding="utf-8")
     _write_claim_artifacts(store, paper)
     recorder.record(
@@ -130,6 +134,8 @@ def generate_full_paper_from_pdf(
             if verdict == "PASS" or round_index == rounds:
                 break
             revised = revise_full_paper(paper_path, review_path, env_file=env_file, related_context=related_context)
+            if not validate_paper_sections(revised):
+                revised = complete_full_paper_text(config, revised, source_text, related_context)
             paper_path.write_text(revised, encoding="utf-8")
             _write_claim_artifacts(store, revised)
             recorder.record(
@@ -143,9 +149,25 @@ def generate_full_paper_from_pdf(
                 human_required=not validate_paper_sections(revised),
                 summary="Revised full paper draft against strict Gemini review findings.",
             )
+    final_paper = paper_path.read_text(encoding="utf-8")
+    section_ok = validate_paper_sections(final_paper)
     trace_ok = validate_trace(store.trace_path).ok
-    return FullPaperResult(store.root, paper_path, review_path, trace_ok, verdict, score)
+    return FullPaperResult(store.root, paper_path, review_path, trace_ok, section_ok, verdict, score)
 
+
+
+def complete_full_paper_text(config, paper: str, source_text: str, related_context: str) -> str:
+    result = chat_completion(
+        config,
+        model=config.writer_model,
+        temperature=0.1,
+        max_tokens=18000,
+        messages=[
+            {"role": "system", "content": _completion_system_prompt()},
+            {"role": "user", "content": _completion_user_prompt(paper, source_text, related_context)},
+        ],
+    )
+    return _sanitize_overclaims(_strip_fences(result.content))
 
 
 def revise_full_paper(
@@ -192,9 +214,18 @@ def review_full_paper(
 
 
 def validate_paper_sections(paper: str) -> bool:
-    normalized = paper.lower()
-    required = ["abstract", "introduction", "related work", "method", "experiment", "limitation", "conclusion", "references"]
-    return all(term in normalized for term in required) and len(paper.split()) >= 2500
+    required_patterns = [
+        r"(?im)^#\s+\S",
+        r"(?im)^#{2,3}\s+abstract\b",
+        r"(?im)^##\s+1\.?\s+introduction\b",
+        r"(?im)^##\s+2\.?\s+related work\b",
+        r"(?im)^##\s+3\.?\s+method\b",
+        r"(?im)^##\s+4\.?\s+experiments",
+        r"(?im)^##\s+5\.?\s+limitations",
+        r"(?im)^##\s+6\.?\s+conclusion\b",
+        r"(?im)^##\s+references\b",
+    ]
+    return all(re.search(pattern, paper) for pattern in required_patterns) and len(paper.split()) >= 2500
 
 
 def _write_full_paper(config, source_text: str, related_context: str) -> str:
@@ -216,7 +247,7 @@ def _writer_system_prompt() -> str:
 Write a coherent complete ML paper draft in markdown from provided source material.
 Use the source as test input, but do not merely copy it; reorganize it into a cleaner paper with consistent terminology.
 Preserve factual numbers only when supported by the source. If a claim is not directly supported, mark it as proposed or future work.
-Required markdown sections: title, Abstract, 1. Introduction, 2. Related Work, 3. Method, 4. Experiments and Results, 5. Limitations, 6. Conclusion, References.
+Required exact markdown headings: # Title, ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References. The draft must be at least 3000 words.
 Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
 Explicitly define training-free as no gradient updates for orchestration components, while acknowledging off-the-shelf experts were pre-trained.
 Treat this as a source-derived design/reproduction draft: be conservative, do not claim the orchestrator improves a base expert's static benchmark accuracy unless the source explicitly describes multi-pass, ensembling, or another accuracy mechanism.
@@ -229,11 +260,37 @@ Include failure modes for controller token errors, cache misuse, expert timeout,
 
 
 
+def _completion_system_prompt() -> str:
+    return """You are the oh_my_paper completeness repair agent.
+Expand and restructure the draft into a complete markdown paper of at least 3000 words.
+Use these exact headings: # Title, ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References.
+Preserve conservative claim discipline: do not invent unsupported empirical results, do not claim accuracy gains over base experts, and caveat source-reported or proposed protocol values.
+Return only the complete paper markdown.
+"""
+
+
+def _completion_user_prompt(paper: str, source_text: str, related_context: str) -> str:
+    return f"""Current incomplete draft:
+<<<DRAFT
+{paper[:90000]}
+DRAFT
+>>>
+
+Related/context notes:
+{related_context or '(none)'}
+
+Source text excerpt for grounding:
+<<<SOURCE
+{source_text[:80000]}
+SOURCE
+>>>"""
+
+
 def _revision_system_prompt() -> str:
     return """You are the oh_my_paper revision agent.
 Revise the full paper so it can pass a hostile top-tier ML reviewer.
 You must directly address every blocking and major issue in the JSON review.
-Keep the paper as a complete markdown paper, not a response letter.
+Keep the paper as a complete markdown paper of at least 3000 words, not a response letter, and use the exact required headings including ## 2. Related Work.
 Add concrete tables, Mermaid diagrams, explicit definitions, ablations, latency accounting, failure modes, and caveated claims where needed.
 Do not invent unsupported empirical results; if a table uses source-derived values, say so; if a protocol is proposed, mark it as a protocol.
 Remove or soften any claim that the orchestration layer improves a base expert's static benchmark accuracy unless the mechanism is explicit.

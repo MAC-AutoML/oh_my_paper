@@ -25,6 +25,7 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
         )
         self.assertTrue(full_paper.validate_paper_sections(paper))
         self.assertFalse(full_paper.validate_paper_sections("## Abstract\nshort"))
+        self.assertFalse(full_paper.validate_paper_sections(paper.replace("## 2. Related Work", "## 2. Background")))
 
     def test_generate_full_paper_writes_core_outputs_with_mock_llm(self) -> None:
         generated = "# Draft\n\n" + "\n\n".join(
@@ -54,12 +55,22 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
                 cfg.return_value = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
                 result = full_paper.generate_full_paper_from_pdf("paper.pdf", root, reviewer=False)
             self.assertTrue(result.trace_ok, result.to_dict())
+            self.assertTrue(result.section_ok, result.to_dict())
             self.assertTrue((root / "paper/FULL_PAPER_DRAFT.md").exists())
             self.assertTrue((root / "paper/CLAIMS.md").exists())
             self.assertTrue((root / "paper/EVIDENCE_MAP.md").exists())
 
     def test_review_loop_revises_after_failed_round(self) -> None:
-        initial = "# Draft\n\n" + "## Abstract " + "short " * 600
+        initial = "# Draft\n\n" + "\n\n".join([
+            "## Abstract " + "initial " * 350,
+            "## 1. Introduction " + "initial " * 350,
+            "## 2. Related Work " + "initial " * 350,
+            "## 3. Method " + "initial " * 350,
+            "## 4. Experiments and Results " + "initial " * 350,
+            "## 5. Limitations " + "initial " * 350,
+            "## 6. Conclusion " + "initial " * 350,
+            "## References " + "initial " * 350,
+        ])
         revised = "# Draft\n\n" + "\n\n".join([
             "## Abstract " + "revised " * 350,
             "## 1. Introduction " + "revised " * 350,
@@ -87,6 +98,7 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
                 cfg.return_value = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
                 result = full_paper.generate_full_paper_from_pdf("paper.pdf", root, reviewer=True, max_review_rounds=2)
             self.assertTrue(result.ok, result.to_dict())
+            self.assertTrue(result.section_ok, result.to_dict())
             self.assertEqual(result.reviewer_verdict, "PASS")
             self.assertIn("revised", (root / "paper/FULL_PAPER_DRAFT.md").read_text(encoding="utf-8"))
 
@@ -96,6 +108,18 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
         self.assertIn("known sensitivity limits", sanitized)
         self.assertIn("preserves source-reported accuracy", sanitized)
         self.assertIn("Proposed sliding-window retrieval baseline", sanitized)
+
+    def test_result_not_ok_when_sections_fail_even_if_reviewer_passes(self) -> None:
+        result = full_paper.FullPaperResult(
+            workspace=Path("/tmp/w"),
+            paper_path=Path("/tmp/w/paper.md"),
+            review_path=None,
+            trace_ok=True,
+            section_ok=False,
+            reviewer_verdict="PASS",
+            reviewer_score=8,
+        )
+        self.assertFalse(result.ok)
 
 
 if __name__ == "__main__":
