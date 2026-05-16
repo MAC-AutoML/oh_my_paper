@@ -1,0 +1,14 @@
+# Example non-secret configuration for future real App Server/model adapters.
+# Copy to config.yaml for local use. config.yaml is gitignored.
+runtime:
+  mode: local-skill          # local-skill | app-server
+  transport: stdio          # stdio first; websocket remains experimental
+  app_server_command: codex app-server
+  timeout_seconds: 120
+models:
+  default_profile: local-codex
+  writing_model: inherit
+  reviewer_model: inherit
+privacy:
+  default_fixture_privacy: redacted
+  allow_private_fixture_export: false

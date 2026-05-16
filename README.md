@@ -92,3 +92,15 @@ uv run oh-my-paper eval-report /tmp/captured.jsonl --output /tmp/eval-report.md 
 ```
 
 See [`docs/MILESTONE5_HARNESS_FLYWHEEL.md`](docs/MILESTONE5_HARNESS_FLYWHEEL.md).
+
+## Milestone 6 packaging
+
+Milestone 6 adds repeatable local skill installation and safe config templates:
+
+```bash
+uv run oh-my-paper install-skills /tmp/ohmp-skills --overwrite
+uv run oh-my-paper list-skills /tmp/ohmp-skills
+uv run oh-my-paper uninstall-skills /tmp/ohmp-skills
+```
+
+See [`docs/MILESTONE6_PACKAGING.md`](docs/MILESTONE6_PACKAGING.md).

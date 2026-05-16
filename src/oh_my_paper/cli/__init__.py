@@ -12,6 +12,7 @@ from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
 from oh_my_paper.evals.report import run_eval_report, write_eval_report
 from oh_my_paper.gates.evidence import run_evidence_gate
+from oh_my_paper.packaging.skills import install_skills, list_installed_skills, uninstall_skills
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
 
@@ -21,7 +22,7 @@ def _print_json(data: object) -> None:
 
 
 def _status(_args: argparse.Namespace) -> int:
-    print("oh my paper is installed; Milestone 5 harness flywheel is available.")
+    print("oh my paper is installed; Milestone 6 packaging helpers are available.")
     return 0
 
 
@@ -42,6 +43,23 @@ def _run_eval(args: argparse.Namespace) -> int:
     results = run_fixture_file(Path(args.fixture_file))
     _print_json([result.to_dict() for result in results])
     return 0 if all(result.ok for result in results) else 1
+
+
+def _install_skills(args: argparse.Namespace) -> int:
+    result = install_skills(args.target_dir, overwrite=args.overwrite)
+    _print_json(result.to_dict())
+    return 0
+
+
+def _uninstall_skills(args: argparse.Namespace) -> int:
+    result = uninstall_skills(args.target_dir)
+    _print_json(result.to_dict())
+    return 0
+
+
+def _list_skills(args: argparse.Namespace) -> int:
+    _print_json({"target_dir": args.target_dir, "skills": list_installed_skills(args.target_dir)})
+    return 0
 
 
 def _capture_fixture(args: argparse.Namespace) -> int:
@@ -116,6 +134,19 @@ def build_parser() -> argparse.ArgumentParser:
     mock_app.add_argument("workspace")
     mock_app.add_argument("fixture_file")
     mock_app.set_defaults(func=_mock_app_server)
+
+    install = subparsers.add_parser("install-skills", help="copy paper-ai skills into a Codex skills directory")
+    install.add_argument("target_dir", nargs="?")
+    install.add_argument("--overwrite", action="store_true")
+    install.set_defaults(func=_install_skills)
+
+    uninstall = subparsers.add_parser("uninstall-skills", help="remove paper-ai skills from a Codex skills directory")
+    uninstall.add_argument("target_dir", nargs="?")
+    uninstall.set_defaults(func=_uninstall_skills)
+
+    list_parser = subparsers.add_parser("list-skills", help="list installed paper-ai skills in a target directory")
+    list_parser.add_argument("target_dir", nargs="?")
+    list_parser.set_defaults(func=_list_skills)
 
     capture = subparsers.add_parser("capture-fixture", help="capture a workspace run as a regression fixture")
     capture.add_argument("workspace")
