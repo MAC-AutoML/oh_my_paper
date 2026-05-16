@@ -26,7 +26,25 @@ This file maps local materials to design decisions. It does not publish raw mate
 | OMX-style orchestration | local oh-my-codex repos | Role separation, planning/execution/verification workflows, stateful skills |
 | Research skill precedents | `AI-research-SKILLs`; `Research-Paper-Writing-Skills` | Skill naming and research-writing workflow precedents |
 
-## 4. Material-to-artifact trace rule
+
+## 4. Continuous intake/fusion workflow
+
+Use [`docs/MATERIAL_INTAKE_WORKFLOW.md`](MATERIAL_INTAKE_WORKFLOW.md) for newly arriving PDFs, repos, articles, screenshots, or OCR transcripts. The expected flow is:
+
+1. ingest into ignored `/materials/paper-ai/external/<material-id>/`;
+2. classify by category;
+3. create local public-safe synthesis bullets;
+4. map the bullets to skill instructions, gates/checklists, synthetic evals, or roadmap items;
+5. commit only the resulting public-safe code/docs/tests.
+
+Recent local-only fusion signals from review/title material:
+
+- strengthen `paper-ai-writing` title/abstract/first-two-pages gates;
+- strengthen `paper-ai-reviewer` first-impression and reviewer-time-pressure simulation;
+- strengthen `paper-ai-figures` first-page figure readability checks;
+- keep `paper-ai-rebuttal` conservative about score-changing promises.
+
+## 5. Material-to-artifact trace rule
 
 Future outputs should append a short `MATERIALS_USED.md` entry:
 
@@ -39,7 +57,7 @@ Future outputs should append a short `MATERIALS_USED.md` entry:
 - Copied raw text: no
 ```
 
-## 5. Material risks
+## 6. Material risks
 
 - Some local material may be private or copyrighted.
 - Model-specific advice from prompt libraries can become outdated.

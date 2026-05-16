@@ -33,6 +33,8 @@ Consensus handoff plan:
 
 Raw references live under `materials/` and `temp/` and are intentionally excluded by `.gitignore`. Public commits should contain only curated design docs, source code, examples, and lightweight references that do not copy private or copyrighted material.
 
+Continuous material updates use the local-only intake command documented in [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md). New material is first extracted/classified into the ignored cache, then fused into public skill instructions or synthetic evals only after privacy-safe synthesis.
+
 ## Milestone 1 skeleton
 
 This repository includes the local-first skeleton for the skill group:

@@ -12,6 +12,7 @@ from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
 from oh_my_paper.evals.report import run_eval_report, write_eval_report
 from oh_my_paper.gates.evidence import run_evidence_gate
+from oh_my_paper.materials.intake import intake_pdf
 from oh_my_paper.packaging.skills import packaging_status
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
 from oh_my_paper.workflows.demo import initialize_demo_workspace, run_demo_workflow
@@ -43,6 +44,12 @@ def _run_eval(args: argparse.Namespace) -> int:
     results = run_fixture_file(Path(args.fixture_file))
     _print_json([result.to_dict() for result in results])
     return 0 if all(result.ok for result in results) else 1
+
+
+def _intake_material(args: argparse.Namespace) -> int:
+    result = intake_pdf(args.pdf, args.material_id, args.materials_root)
+    _print_json(result.to_dict())
+    return 0
 
 
 def _packaging_status(_args: argparse.Namespace) -> int:
@@ -122,6 +129,15 @@ def build_parser() -> argparse.ArgumentParser:
     mock_app.add_argument("workspace")
     mock_app.add_argument("fixture_file")
     mock_app.set_defaults(func=_mock_app_server)
+
+    intake = subparsers.add_parser(
+        "intake-material",
+        help="extract and classify a local PDF into ignored materials cache",
+    )
+    intake.add_argument("pdf")
+    intake.add_argument("--material-id", required=True)
+    intake.add_argument("--materials-root", default="materials/paper-ai")
+    intake.set_defaults(func=_intake_material)
 
     packaging = subparsers.add_parser("packaging-status", help="show official skill-installer compatible paths")
     packaging.set_defaults(func=_packaging_status)

@@ -3,8 +3,8 @@
 .spec-workflow/
 
 # Local research/reference material cache for Paper AI skill design
-materials/
-temp/
+/materials/
+/temp/
 
 # Local tool dependencies installed only for material collection/rendering
 node_modules/
