@@ -1,5 +1,9 @@
 # Eval fixtures
 
-Canonical executable eval fixtures will live here as `*.jsonl` starting in Milestone 2.
+Milestone 2 introduces small synthetic JSONL fixtures for local evaluator development.
 
-Milestone 1 intentionally keeps this directory as a placeholder so the skill stubs can point to one future fixture location without implementing the eval harness early.
+- `unsupported_claim.jsonl`: unsupported claim must fail the evidence gate.
+- `supported_claim.jsonl`: supported claim should pass the evidence gate.
+- `trace_integrity.jsonl`: complete trace event should pass trace validation.
+
+Only `privacy: synthetic` fixtures are allowed in this tracked directory. Redacted or private paper/review text belongs in ignored local workspaces, never in git.

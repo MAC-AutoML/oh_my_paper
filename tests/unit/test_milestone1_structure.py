@@ -49,10 +49,15 @@ class Milestone1StructureTest(unittest.TestCase):
         self.assertIn("synthetic", materials_used.lower())
         self.assertIn("Copied raw text", materials_used)
 
-    def test_eval_fixture_directory_is_placeholder_only_for_m1(self) -> None:
+    def test_eval_fixture_directory_has_synthetic_jsonl_after_m2(self) -> None:
         fixture_dir = ROOT / "tests/fixtures/evals"
         self.assertTrue((fixture_dir / "README.md").exists())
-        self.assertEqual(list(fixture_dir.glob("*.jsonl")), [])
+        fixture_paths = sorted(fixture_dir.glob("*.jsonl"))
+        self.assertGreaterEqual(len(fixture_paths), 3)
+        for path in fixture_paths:
+            for line in path.read_text().splitlines():
+                if line.strip():
+                    self.assertIn('"privacy":"synthetic"', line)
 
 
 if __name__ == "__main__":

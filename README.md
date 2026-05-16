@@ -35,16 +35,27 @@ Raw references live under `materials/` and `temp/` and are intentionally exclude
 
 ## Milestone 1 skeleton
 
-This repository now includes the local-first skeleton for the skill group:
+This repository includes the local-first skeleton for the skill group:
 
 - `.codex-plugin/plugin.json` — local plugin metadata.
 - `skills/paper-ai-*/` — eight progressive-disclosure skill stubs.
-- `examples/toy-paper-workspace/` — synthetic paper workspace for future e2e tests.
-- `tests/fixtures/evals/` — placeholder for canonical synthetic eval fixtures in Milestone 2.
-- `src/oh_my_paper/` — placeholder Python package for Milestone 2 implementation.
+- `examples/toy-paper-workspace/` — synthetic paper workspace for e2e tests.
 
-Run the placeholder CLI with:
+## Milestone 2 validators and eval fixtures
+
+Milestone 2 adds the first executable artifact checks:
+
+- `src/oh_my_paper/artifacts/` — parsers and schema validators for `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl`.
+- `src/oh_my_paper/gates/` — unsupported-claim evidence gate.
+- `src/oh_my_paper/evals/` — synthetic JSONL fixture loader and evaluator dispatch.
+- `tests/fixtures/evals/` — supported/unsupported claim and trace integrity fixtures.
+- [`docs/MILESTONE2_ARTIFACTS.md`](docs/MILESTONE2_ARTIFACTS.md) — implementation notes and verification commands.
+
+Run local checks with:
 
 ```bash
 uv run oh-my-paper status
+uv run oh-my-paper validate-artifacts examples/toy-paper-workspace
+uv run oh-my-paper evidence-gate examples/toy-paper-workspace  # expected fail: synthetic C3 is unsupported
+uv run oh-my-paper run-eval tests/fixtures/evals/unsupported_claim.jsonl
 ```

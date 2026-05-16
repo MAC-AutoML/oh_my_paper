@@ -28,6 +28,7 @@ The system should be useful because it is **stage-gated and evidence-aware**, no
 | Repo skeleton | `docs/REPO_STRUCTURE_SPEC.md` | Future tracked files/directories and ignored local caches |
 | Acceptance/evals | `docs/ACCEPTANCE_EVALS.md` | Testable acceptance criteria and future eval shapes |
 | Materials mapping | `docs/MATERIALS_MAPPING.md` | Which local materials inform each skill |
+| Milestone 2 artifacts | `docs/MILESTONE2_ARTIFACTS.md` | Executable artifact validators, gates, fixture runner, and CLI checks |
 | ADR | `docs/adr/ADR-0001-design-first-dual-mode.md` | Design decision record |
 
 ## Authoritative references
