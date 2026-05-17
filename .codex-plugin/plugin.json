@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "oh my paper",
     "shortDescription": "Four Codex-native academic research workflows.",
-    "longDescription": "A local-first Codex skill group for deep research, academic paper writing, strict reviewer simulation, full pipeline orchestration, citation verification, and evidence-gated revision.",
+    "longDescription": "A local-first Codex skill group for deep research, academic paper writing, strict reviewer simulation, full pipeline orchestration, citation verification, LaTeX packaging, and evidence-gated revision.",
     "developerName": "MAC-AutoML",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
@@ -29,7 +29,8 @@
     "defaultPrompt": [
       "Start a four-skill academic paper pipeline.",
       "Audit this paper draft like a strict reviewer.",
-      "Build a rebuttal plan from reviewer comments."
+      "Build a rebuttal plan from reviewer comments.",
+      "Package this draft with the arXiv-style LaTeX template."
     ],
     "brandColor": "#2563EB"
   }

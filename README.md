@@ -47,6 +47,7 @@ Put the runtime dependencies in place before installing or using the skills:
 | Codex CLI | Local version `codex-cli 0.129.0` | Hosts and invokes Codex skills. |
 | Codex Skills installer | Official `install-skill-from-github.py` path-based installer | Installs selected top-level and helper skill folders. |
 | API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint such as `https://automl.aiserverai.online/v1` when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
+| LaTeX | Local `latexmk`, `xelatex`, and `bibtex` are available in this workspace | Optional PDF compilation for `paper-ai-latex` / `compile-latex`. |
 | Semantic Scholar | `.env` supports `s2_api_key`; keyed mode sends it as `x-api-key` | Verifies citation existence and metadata with the official Graph API. |
 | Node.js / npm | Local Node.js `v22.14.0`, npm `10.9.2` | Needed only for Node-based tooling such as Playwright-backed utilities. |
 | npm package | Local `package.json` declares `playwright ^1.60.0` | Optional browser/automation dependency for local tooling. |
@@ -75,7 +76,7 @@ Semantic Scholar allows one request per second across endpoints. Keep `request_i
 
 ## Highlights
 
-- 🧠 **4 user-facing top-level skills** and **14 helper skills** are available.
+- 🧠 **4 user-facing top-level skills** and **15 helper skills** are available.
 - 📚 **Material-derived references** inside each skill: case cards, source-derived examples, bad/good contrasts, and imitation recipes.
 - 🧾 **Claim/Evidence artifacts**: `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` keep claims, evidence, and workflow trace visible.
 - 🔍 **Evidence gate**: unsupported or inconsistent claims are flagged before they become polished prose.
@@ -85,6 +86,7 @@ Semantic Scholar allows one request per second across endpoints. Keep `request_i
 - 🌐 **Injectable web/recent context**: pass recent related-work notes with `--related-context` while keeping raw collection local.
 - 🔒 **Local-only material policy**: raw PDFs, private notes, credentials, and generated stress-test outputs stay ignored.
 - 📦 **Official Codex skill-installer compatible packaging**: skill folders are installable by path through the official installer pattern.
+- 🧾 **Built-in LaTeX export**: `paper-ai-latex` bundles an arXiv-style template, manages BibTeX, and compiles with XeLaTeX/BibTeX when local TeX tools are available.
 
 ## Skills
 
@@ -96,6 +98,7 @@ The public skill surface follows the paper lifecycle rather than many tiny manag
 | ✍️ Core manuscript | `academic-paper` | Do end-to-end planning and whole-paper writing with section discipline. |
 | 🧪 Reviewer simulation | `academic-paper-reviewer` | Run strict review, anti-sycophancy checks, and revision routing. |
 | 🧭 Workflow orchestration | `academic-pipeline` | Orchestrate research → writing → review → integrity closure. |
+| 🧾 LaTeX packaging | `paper-ai-latex` | Copy the built-in arXiv-style template, map sections, maintain BibTeX, and compile PDFs when TeX tools are installed. |
 
 ## Architecture
 
@@ -145,6 +148,16 @@ uv run oh-my-paper generate-paper \
   --related-context /tmp/related_context.md \
   --max-review-rounds 4
 ```
+
+
+Compile a LaTeX paper workspace with the bundled arXiv-style template:
+
+```bash
+# after preparing a LaTeX workspace from sections/references
+uv run oh-my-paper compile-latex /tmp/ohmp-paper-run/latex
+```
+
+The LaTeX skill asset is adapted from `MAC-AutoML/Arxiv_Template`; the bundled copy excludes the removed university logo asset and header reference.
 
 Review or revise an existing draft:
 
@@ -224,6 +237,7 @@ install-skill-from-github.py \
   --path skills/paper-ai-figures \
   --path skills/paper-ai-limitations \
   --path skills/paper-ai-layout \
+  --path skills/paper-ai-latex \
   --path skills/paper-ai-reviewer \
   --path skills/paper-ai-rebuttal
 ```

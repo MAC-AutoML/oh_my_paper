@@ -6,5 +6,6 @@ Reviewer score loop 的作用是降低读者理解流程的成本。它先由正
 
 - 第一轮：确定本节回答的 reader question。
 - 第二轮：检查是否有 unsupported claim。
-- 第三轮：把批评转成修订或 caveat。
+- 第三轮：检查代表性引用是否服务于本节论证，而不是凑数量。
+- 第四轮：把批评转成修订或 caveat。
 - 通过条件：本节不把 demo/synthetic 内容写成真实实证结论。

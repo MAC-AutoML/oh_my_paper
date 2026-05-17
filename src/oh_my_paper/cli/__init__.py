@@ -13,6 +13,7 @@ from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
 from oh_my_paper.evals.report import run_eval_report, write_eval_report
 from oh_my_paper.gates.evidence import run_evidence_gate
+from oh_my_paper.latex.compile import compile_latex_workspace
 from oh_my_paper.materials.intake import intake_pdf
 from oh_my_paper.packaging.skills import packaging_status
 from oh_my_paper.runtime.mock_runs import run_mock_app_server_probe
@@ -57,6 +58,12 @@ def _intake_material(args: argparse.Namespace) -> int:
 def _packaging_status(_args: argparse.Namespace) -> int:
     _print_json(packaging_status())
     return 0
+
+
+def _compile_latex(args: argparse.Namespace) -> int:
+    result = compile_latex_workspace(args.workspace)
+    _print_json(result.to_dict())
+    return 0 if result.ok else 1
 
 
 def _capture_fixture(args: argparse.Namespace) -> int:
@@ -198,6 +205,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     packaging = subparsers.add_parser("skill-install-status", help="show official skill-installer paths")
     packaging.set_defaults(func=_packaging_status)
+
+    latex = subparsers.add_parser("compile-latex", help="compile a LaTeX paper workspace with latexmk/xelatex when available")
+    latex.add_argument("workspace", nargs="?", default=".")
+    latex.set_defaults(func=_compile_latex)
 
     capture = subparsers.add_parser("capture-fixture", help="capture a workspace run as a regression fixture")
     capture.add_argument("workspace")

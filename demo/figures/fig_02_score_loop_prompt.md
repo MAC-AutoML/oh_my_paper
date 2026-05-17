@@ -2,7 +2,7 @@
 
 ## Figure intent
 
-Show a revision trajectory from 72 to 81 to 87, with critique packets feeding back to writing agents.
+Show a revision trajectory from 72 to 81 to 87, with critique packets feeding back to writing agents and citation gaps tracked separately.
 
 ## Codex imagegen prompt
 
@@ -10,7 +10,7 @@ Use case: infographic-diagram
 Asset type: academic paper figure
 Primary request: Create a clean top-tier computer science paper figure titled "Reviewer score loop".
 Paper context: section-based oh my paper demo for iterative academic writing.
-Required content: Show a revision trajectory from 72 to 81 to 87, with critique packets feeding back to writing agents.
+Required content: Show a revision trajectory from 72 to 81 to 87, with critique packets feeding back to writing agents and citation gaps tracked separately.
 Style: clean vector-like raster, restrained colors, high readability, white background, clear arrows and labels.
 Text policy: use only short labels; avoid dense paragraphs inside the image.
 Avoid: fake logos, watermark, unsupported numeric claims, decorative 3D clutter, unreadable tiny text.

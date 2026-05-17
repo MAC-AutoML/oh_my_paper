@@ -25,6 +25,7 @@ Slash-style forms describe user-facing paper intents. Use the listed owner skill
 | `/paper-citation-check` | `paper-ai-research` | academic-paper `citation-check` |
 | `/paper-disclosure` | `paper-ai-layout` | academic-paper `disclosure` |
 | `/paper-format-convert` | `paper-ai-layout` | academic-paper `format-convert` |
+| `/paper-latex` | `paper-ai-latex` | academic-paper `latex-package` |
 
 ## Mode coverage
 

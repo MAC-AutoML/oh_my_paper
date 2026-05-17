@@ -23,6 +23,7 @@ EXPECTED_SKILLS = {
     "paper-ai-figures",
     "paper-ai-limitations",
     "paper-ai-layout",
+    "paper-ai-latex",
     "paper-ai-reviewer",
     "paper-ai-rebuttal",
 }
@@ -54,6 +55,18 @@ class Milestone6PackagingTest(unittest.TestCase):
         self.assertIn("official_command", status)
         packaged = {row["name"] for row in status["skills"]}
         self.assertTrue({"deep-research", "academic-paper", "academic-paper-reviewer", "academic-pipeline"} <= packaged)
+
+    def test_latex_template_excludes_rochester_logo(self) -> None:
+        template = ROOT / "skills" / "paper-ai-latex" / "assets" / "arxiv_template"
+        self.assertTrue((template / "main.tex").exists())
+        self.assertFalse((template / "assets" / "branding" / "UR.png").exists())
+        text = "\n".join(
+            path.read_text(encoding="utf-8", errors="ignore")
+            for path in template.rglob("*")
+            if path.is_file() and path.suffix.lower() in {".tex", ".md", ".bib", ".cls"}
+        )
+        self.assertNotIn("UR.png", text)
+        self.assertNotIn("Rochester", text)
 
     def test_config_templates_are_safe_placeholders(self) -> None:
         env_example = (ROOT / "templates/env.example").read_text(encoding="utf-8")

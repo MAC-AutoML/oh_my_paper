@@ -4,6 +4,7 @@
 - SHA256: `5added71fdfdf86ebb4d146f7424179e8d761425db7fe5ea690d6965afe84c52`
 - User intent interpreted by the demo: build a section-based academic writing workflow from PPO-oriented material.
 - Forbidden behavior: do not hard-code a fixed benchmark acronym from prior examples; do not claim synthetic values are real experiments.
+- Citation requirement: include representative references for RL optimization, benchmark methodology, reproducibility, and reliability.
 
 ## Raw input excerpt
 

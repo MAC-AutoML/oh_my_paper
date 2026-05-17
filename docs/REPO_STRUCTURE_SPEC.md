@@ -45,6 +45,7 @@ oh_my_paper/
     paper-ai-writing/
     paper-ai-figures/
     paper-ai-layout/
+    paper-ai-latex/
     paper-ai-reviewer/
     paper-ai-rebuttal/
   src/

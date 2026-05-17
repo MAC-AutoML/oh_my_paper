@@ -23,6 +23,7 @@ install-skill-from-github.py --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-figures \
   --path skills/paper-ai-limitations \
   --path skills/paper-ai-layout \
+  --path skills/paper-ai-latex \
   --path skills/paper-ai-reviewer \
   --path skills/paper-ai-rebuttal
 ```

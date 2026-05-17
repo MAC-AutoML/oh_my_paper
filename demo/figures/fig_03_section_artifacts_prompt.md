@@ -2,7 +2,7 @@
 
 ## Figure intent
 
-Show files named 01_sec_abstract.md through 08_sec_conclusion.md plus fig_01 prompts and explanation files.
+Show files named 01_sec_abstract.md through 09_sec_references.md plus fig_01 prompts, explanation files, and an optional LaTeX workspace.
 
 ## Codex imagegen prompt
 
@@ -10,7 +10,7 @@ Use case: infographic-diagram
 Asset type: academic paper figure
 Primary request: Create a clean top-tier computer science paper figure titled "Section artifact layout".
 Paper context: section-based oh my paper demo for iterative academic writing.
-Required content: Show files named 01_sec_abstract.md through 08_sec_conclusion.md plus fig_01 prompts and explanation files.
+Required content: Show files named 01_sec_abstract.md through 09_sec_references.md plus fig_01 prompts, explanation files, and an optional LaTeX workspace.
 Style: clean vector-like raster, restrained colors, high readability, white background, clear arrows and labels.
 Text policy: use only short labels; avoid dense paragraphs inside the image.
 Avoid: fake logos, watermark, unsupported numeric claims, decorative 3D clutter, unreadable tiny text.

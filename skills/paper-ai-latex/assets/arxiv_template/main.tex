@@ -1,0 +1,70 @@
+\documentclass[cameraready]{template/mac_automl_xmu_blue}
+%\documentclass[submission]{template/mac_automl_xmu_blue}
+%\documentclass[submission,anonymous]{template/mac_automl_xmu_blue}
+%\documentclass[cameraready]{template/mac_automl_jiageng_red}
+
+\makeatletter
+\def\input@path{{content/}}
+\makeatother
+\graphicspath{{content/}}
+
+\usepackage[toc,page,header]{appendix}
+
+\input{resources/packages}
+\input{resources/math_macro}
+
+\setleftheadercontent{%
+  \headerlogospace{1.6mm}%
+  \headerlogo[-0.08\height]{15.2mm}{assets/branding/xmu.png}%
+  \headerlogospace{2.8mm}%
+  \headerlogo[-0.05\height]{12.8mm}{assets/branding/automl.png}%
+}
+\setrightheadericon{}
+\setrunningheadericon{%
+  \headerlogospace{1.2mm}%
+  \headerlogo[-0.03\height]{8.2mm}{assets/branding/automl.png}%
+}
+\setheadergroupname{MAC-AutoML}
+
+\title{Paper Title}
+
+\setfrontauthors{%
+  \authorrow{%
+    \authorentry{Author A}{1},\authorsep
+    \authorentry{Author B}{1,2},\authorsep
+    \authorentry{Author C}{2,\corremailmark}}%
+}
+\setfrontaffiliations{%
+  \affiliationline{\authormark{1}Affiliation One}
+  \affiliationline{\authormark{2}Affiliation Two}
+}
+\setfrontcontact{%
+  \contactline{\textbf{\corremailmark\ Corresponding Author}}
+}
+\usecustomauthorlayout
+
+\checkdata[Email]{Author C \href{mailto:author@example.com}{{\ifXeTeX\omnimonofont\else\ttfamily\fi author@example.com}}}
+\checkdata[Code]{\href{https://github.com/your-org/your-project}{\nolinkurl{github.com/your-org/your-project}}}
+\checkdata[Project Page]{\href{https://your-project-page.example}{\nolinkurl{your-project-page.example}}}
+
+\abstract{\input{sec/0_abstract}}
+
+\begin{document}
+
+\maketitle
+
+\input{sec/1_intro}
+\input{sec/2_related}
+\input{sec/3_method}
+\input{sec/4_experiments}
+\input{sec/5_conclusion}
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\clearpage
+\beginappendix
+\input{sec/append}
+
+\end{document}

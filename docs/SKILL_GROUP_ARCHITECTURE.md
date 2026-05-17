@@ -26,6 +26,7 @@ The skill group follows the natural paper lifecycle. It deliberately avoids expo
 | `paper-ai-figures` | Figures/tables | `FIGURE_PLAN.md`, `TABLE_PLAN.md`, captions | one takeaway and claim link per visual |
 | `paper-ai-limitations` | Limitations/caveats | `LIMITATIONS.md`, caveated claims | validity-affecting limits visible |
 | `paper-ai-layout` | Layout/polish | `LAYOUT_REPORT.md`, polish notes | polish preserves evidence limits |
+| `paper-ai-latex` | LaTeX packaging/PDF compile | LaTeX workspace, `references.bib`, compile log | compile success is reported only when local TeX tools produce a PDF |
 | `paper-ai-reviewer` | Strict review | `REVIEW_SIMULATION.md`, `FIX_PLAN.md` | fatal blockers block ready verdict |
 | `paper-ai-rebuttal` | Rebuttal/defense | `REBUTTAL_PLAN.md`, concern table, responses | every material concern addressed |
 

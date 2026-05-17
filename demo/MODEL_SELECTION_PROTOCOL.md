@@ -17,7 +17,7 @@ Use the configured reviewer model. If the user config points to Gemini or a Gemi
 
 ```text
 System: You are a strict academic program chair. Select the best paper direction from user material.
-User: Score each candidate 0-100 for novelty, feasibility, evidence fit, risk, and expected paper clarity. Return JSON with selected_candidate, score, risk, and required caveats.
+User: Score each candidate 0-100 for novelty, feasibility, evidence fit, citation availability, risk, and expected paper clarity. Return JSON with selected_candidate, score, risk, required caveats, and citation gaps.
 ```
 
 ## Offline demo status
