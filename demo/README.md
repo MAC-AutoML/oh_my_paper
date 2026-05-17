@@ -5,6 +5,7 @@
 - `sections/01_sec_abstract.md`：章节正文。
 - `sections/09_sec_references.md`：15–20 条代表性参考文献说明。
 - `figures/fig_01_workflow_prompt.md`：图像生成提示词。
+- `figures/generated/*.jpg`：已由 Nano Banana 2 / `gemini-3.1-flash-image-preview` 生成的 demo 图。
 - `explain/01_why_abstract.md`：为什么这样写。
 - `MODEL_SELECTION_PROTOCOL.md`：如何用配置的 reviewer/Gemini-compatible 模型选择论文方向。
 - `REVIEW_LOOP_PROTOCOL.md`：如何审稿返修到 85 分。

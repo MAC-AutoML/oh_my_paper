@@ -87,6 +87,7 @@ Semantic Scholar allows one request per second across endpoints. Keep `request_i
 - 🔒 **Local-only material policy**: raw PDFs, private notes, credentials, and generated stress-test outputs stay ignored.
 - 📦 **Official Codex skill-installer compatible packaging**: skill folders are installable by path through the official installer pattern.
 - 🧾 **Built-in LaTeX export**: `paper-ai-latex` bundles an arXiv-style template, manages BibTeX, and compiles with XeLaTeX/BibTeX when local TeX tools are available.
+- 🖼️ **Demo figures are generated**: `demo/figures/generated/*.jpg` contains Nano Banana 2 / `gemini-3.1-flash-image-preview` outputs created from the figure prompt cards.
 
 ## Skills
 

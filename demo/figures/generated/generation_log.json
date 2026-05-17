@@ -1,0 +1,24 @@
+[
+  {
+    "file": "demo/figures/generated/fig_01_workflow.jpg",
+    "prompt": "demo/figures/fig_01_workflow_prompt.md",
+    "model": "gemini-3.1-flash-image-preview",
+    "attempt": 1,
+    "status": "ok"
+  },
+  {
+    "file": "demo/figures/generated/fig_02_score_loop.jpg",
+    "prompt": "demo/figures/fig_02_score_loop_prompt.md",
+    "model": "gemini-3.1-flash-image-preview",
+    "attempt": 1,
+    "status": "ok"
+  },
+  {
+    "file": "demo/figures/generated/fig_03_section_artifacts.jpg",
+    "prompt": "demo/figures/fig_03_section_artifacts_prompt.md",
+    "model": "gemini-3.1-flash-image-preview",
+    "attempt": 2,
+    "status": "ok",
+    "note": "Regenerated once with stricter no-pseudo-text prompt after visual audit."
+  }
+]
