@@ -7,6 +7,8 @@ from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
 from oh_my_paper.ars_compat.pipeline import pipeline_plan
+from oh_my_paper.ars_compat.config import config_status_report, resolve_config
+from oh_my_paper.ars_compat.semantic_scholar import SemanticScholarVerifier, load_citations, verifier_from_offline_fixtures
 from oh_my_paper.ars_compat.registry import mode_registry, route_for_trigger, validate_agents, validate_modes
 from oh_my_paper.ars_compat.validators import (
     load_json,
@@ -84,7 +86,42 @@ def cmd_pipeline_plan(args: Namespace) -> int:
     return 0
 
 
+def cmd_config_status(args: Namespace) -> int:
+    report = config_status_report(args.config)
+    print_json(report)
+    return 0 if report.get("status") != "error" else 1
+
+
+def cmd_verify_citations(args: Namespace) -> int:
+    citations = load_citations(args.citations)
+    if args.offline_fixtures:
+        verifier = verifier_from_offline_fixtures(args.offline_fixtures)
+    else:
+        report = resolve_config(args.config)
+        scholar = report.semantic_scholar
+        verifier = SemanticScholarVerifier(
+            mode=str(scholar["effective_mode"]),
+            api_key=None,
+            cache_dir=str(scholar["cache_dir"]),
+            request_interval_seconds=float(scholar["request_interval_seconds"]),
+            title_similarity_threshold=float(scholar["title_similarity_threshold"]),
+        )
+    report = verifier.verify(citations)
+    print_json(report)
+    return 0 if not any(check["status"] == "error" for check in report["checks"]) else 1
+
+
 def add_ars_subcommands(subparsers) -> None:
+    config = subparsers.add_parser("config-status", help="show redacted config resolution status")
+    config.add_argument("--config")
+    config.set_defaults(func=cmd_config_status)
+
+    verify = subparsers.add_parser("verify-citations", help="verify citation metadata with Semantic Scholar")
+    verify.add_argument("citations")
+    verify.add_argument("--config")
+    verify.add_argument("--offline-fixtures")
+    verify.set_defaults(func=cmd_verify_citations)
+
     mode = subparsers.add_parser("ars-mode-registry", help="validate ARS-to-Codex mode registry")
     mode.set_defaults(func=cmd_mode_registry)
 

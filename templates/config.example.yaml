@@ -1,30 +1,20 @@
-# Primary non-secret oh_my_paper configuration template.
-# Copy to config.yaml for local use. config.yaml is gitignored.
 models:
   writer:
     provider: openai-compatible
-    base_url: ${OPENAI_BASE_URL}
+    base_url: https://api.openai.com/v1
+    model: gpt-5.5
     api_key_env: OPENAI_API_KEY
-    model: ${OPENAI_MODEL}
   reviewer:
     provider: openai-compatible
-    base_url: ${OPENAI_BASE_URL}
+    base_url: https://api.openai.com/v1
+    model: gpt-5.5
     api_key_env: OPENAI_API_KEY
-    model: ${OPENAI_REVIEWER_MODEL}
 semantic_scholar:
-  mode: auto            # auto | api_key | no_key | disabled
+  mode: auto
   api_key_env: SEMANTIC_SCHOLAR_API_KEY
-  request_interval_seconds_no_key: 2.0
-  request_interval_seconds_api_key: 0.25
-  cache_dir: .paper-ai/cache/semantic-scholar
+  cache_dir: .paper-ai/cache/semantic_scholar
   title_similarity_threshold: 0.70
-pipeline:
-  integrity_stage_2_5_required: true
-  integrity_stage_4_5_required: true
-  reviewer_score_regression_blocks: true
+  request_interval_seconds: 1.0
 privacy:
   raw_materials_dir: materials
   generated_temp_dir: temp
-  hidden_rubric_dirs:
-    - hidden
-    - rubrics
