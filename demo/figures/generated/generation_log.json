@@ -3,17 +3,17 @@
     "file": "demo/figures/generated/fig_01_workflow.jpg",
     "prompt": "demo/figures/fig_01_workflow_prompt.md",
     "model": "gemini-3.1-flash-image-preview",
-    "attempt": 2,
+    "attempt": 1,
     "status": "ok",
-    "note": "Regenerated with minimalist academic pipeline style after visual critique."
+    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
   },
   {
     "file": "demo/figures/generated/fig_02_score_loop.jpg",
     "prompt": "demo/figures/fig_02_score_loop_prompt.md",
     "model": "gemini-3.1-flash-image-preview",
-    "attempt": 2,
+    "attempt": 1,
     "status": "ok",
-    "note": "Regenerated as a sparse slope-chart/process hybrid to avoid cartoon document icons."
+    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
   },
   {
     "file": "demo/figures/generated/fig_03_section_artifacts.jpg",
@@ -21,6 +21,6 @@
     "model": "gemini-3.1-flash-image-preview",
     "attempt": 2,
     "status": "ok",
-    "note": "Regenerated with restrained artifact cards and no dense pseudo-text."
+    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
   }
 ]

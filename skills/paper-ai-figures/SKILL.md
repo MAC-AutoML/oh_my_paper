@@ -29,9 +29,23 @@ Use for paper figures, architecture diagrams, result plots, tables, captions, vi
 
 1. Identify the claim each visual supports.
 2. Choose figure/table type based on the takeaway.
-3. For generated bitmap figures, convert article content into a figure intent card, then into an imagegen prompt.
-4. Design labels, hierarchy, caption, and caveats.
-5. Check first-page visual impact and readability.
+3. For generated bitmap figures, convert article content into a figure intent card, then into a structured scientific image brief.
+4. Design labels, hierarchy, caption, caveats, and retry criteria.
+5. Check first-page visual impact, text fidelity, and reviewer-style readability.
+
+## Scientific image prompt protocol
+
+For imagegen figures, do not prompt with “make it beautiful.” Write a compact design brief:
+
+- **Claim/takeaway:** the one sentence the reader should learn in 5 seconds.
+- **Figure type:** pipeline, taxonomy, score trajectory, ablation plot, evidence map, comparison matrix, or qualitative panel.
+- **Layout grammar:** reading direction, panel structure, alignment grid, arrows, grouping, and focal point.
+- **Allowed visible labels:** exact short labels only; quote labels when the image model must render them.
+- **Title policy:** do not ask the image model to render titles, subtitles, captions, style names, or internal file names unless they are in the allowed-label list.
+- **Aesthetic contract:** conference-paper style, white background, muted accessible palette, thin strokes, generous whitespace, no clipart.
+- **Evidence boundary:** supported values only; synthetic or illustrative values must be marked as such in caption/prompt.
+- **Negative prompt:** no pseudo-text, logos, watermarks, glossy 3D, decorative icons, dense paragraphs, fake axes, or unsupported numbers.
+- **Retry rule:** regenerate or repair if labels drift, pseudo-text appears, the focal claim is not obvious, or the figure looks like marketing art.
 
 ## Image generation rule
 

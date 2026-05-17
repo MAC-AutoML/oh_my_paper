@@ -1,6 +1,6 @@
 # 为什么这样写：Reviewer score loop
 
-Reviewer score loop 的作用是降低读者理解流程的成本。它先由正文 claim 生成 figure intent，再变成 Codex imagegen prompt；demo 不用代码 SVG 冒充最终 AI 生图。
+Reviewer score loop 的作用是降低读者理解流程的成本。它先由正文 claim 生成 figure intent，再变成包含 takeaway、layout grammar、允许标签、负面约束和返修规则的 Codex imagegen prompt；demo 不用代码 SVG 冒充最终 AI 生图。
 
 ## 迭代说明
 

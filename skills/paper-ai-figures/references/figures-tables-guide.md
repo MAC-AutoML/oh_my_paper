@@ -14,6 +14,22 @@ Figures and tables should reduce reviewer effort. Each visual needs one takeaway
 - Result plot: comparison, trend, or trade-off.
 - Ablation figure/table: component contribution.
 - Qualitative examples: failure/success cases with interpretation.
+- Evidence map: claim -> source -> verification status.
+- Workflow artifact map: files, owners, gates, and review loops.
+
+## Scientific figure aesthetics
+
+Treat the image prompt as a design brief, not a beauty request:
+
+- **Purpose first:** one visual answers one reviewer question.
+- **Hierarchy:** title/caption carries claim; panels carry structure; labels carry only necessary names.
+- **Layout:** use an alignment grid, equal margins, consistent box widths, and a predictable reading path.
+- **Color semantics:** use 2--3 muted colors with meaning; reserve accent color for the key mechanism or failure.
+- **Typography:** large short labels; avoid tiny legends and paragraphs inside the bitmap.
+- **Density:** prefer fewer stronger elements over many small decorative details.
+- **Evidence honesty:** do not visualize unsupported numbers, fake curves, or invented screenshots.
+
+This protocol follows public scientific-visualization guidance: adapt figures to the medium, keep labels readable and stand-alone, use consistent accessible colors, avoid dense overlapping text, and treat scientific figures as objective evidence carriers rather than decorative artwork.
 
 ## Generated figure discipline
 
@@ -34,6 +50,7 @@ Do not treat code-generated SVG as the default generated-figure path. SVG/Mermai
 - Caption tells the reader what to notice.
 - Colors/markers are distinguishable and meaningful.
 - The visual supports a central claim rather than decoration.
+- It does not look like a marketing slide, cartoon, app UI mockup, or generic stock illustration.
 
 ## Caption pattern
 
@@ -54,6 +71,8 @@ What is shown → what comparison matters → what conclusion to draw → caveat
 - Tiny legends and axes.
 - Caption repeats labels but not interpretation.
 - Table implies unfair comparison.
+- AI image contains pseudo-text, random symbols, or labels not requested.
+- Prompt asks for a “paper figure” but gives no layout grammar, so the model invents clutter.
 
 ## Material-derived case cards
 
