@@ -1,6 +1,6 @@
 ---
 name: paper-ai-title-abstract
-description: Draft and audit AI-paper titles and abstracts for first impression, clarity, searchability, contribution accuracy, and evidence-safe scope. Use for title options, abstracts, acronyms, contribution summaries, and first-page hooks.
+description: 撰写和审查 AI 论文标题与摘要，优化第一印象、清晰度、可检索性、贡献准确性和证据边界；适合标题候选、摘要、缩写命名和首页 hook。
 ---
 
 # paper-ai-title-abstract

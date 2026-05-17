@@ -1,6 +1,6 @@
 ---
 name: paper-ai-writing
-description: Coordinate whole-paper writing and cross-section revision while preserving reader-centered flow and claim-evidence grounding. Use when drafting or revising multiple sections, building the paper story, or checking coherence across chapters.
+description: 统筹整篇 AI 论文写作与跨章节修改，保持读者导向的叙事流、段落功能和 claim-evidence 绑定；适合多章节起草、论文故事线构建和全文一致性检查。
 ---
 
 # paper-ai-writing

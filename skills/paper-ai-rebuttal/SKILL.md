@@ -1,6 +1,6 @@
 ---
 name: paper-ai-rebuttal
-description: Draft and audit AI-conference/journal rebuttals from reviewer comments with concern tables, evidence mapping, AC-aware priorities, tone control, and promise discipline. Use when reviews arrive or author responses need planning, writing, compression, or critique.
+description: 基于审稿意见撰写和审查 AI 会议/期刊 rebuttal，包含 concern table、证据映射、AC-aware 优先级、语气控制和承诺边界；适合收到 reviews 后规划、写作、压缩或批判 author response。
 ---
 
 # paper-ai-rebuttal

@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai rebuttal"
-  short_description: "Rebuttal and defense"
-  default_prompt: "Use $paper-ai-rebuttal on the current paper workspace."
+  display_name: "Rebuttal 写作"
+  short_description: "撰写审稿回复"
+  default_prompt: "使用 $paper-ai-rebuttal 根据审稿意见规划或撰写 author response。"

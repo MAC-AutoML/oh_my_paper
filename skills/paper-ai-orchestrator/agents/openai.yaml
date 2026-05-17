@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai orchestrator"
-  short_description: "Route full paper workflow"
-  default_prompt: "Use $paper-ai-orchestrator on the current paper workspace."
+  display_name: "论文流程统筹"
+  short_description: "选择下一步论文技能"
+  default_prompt: "使用 $paper-ai-orchestrator 判断当前论文工作区下一步该做什么。"

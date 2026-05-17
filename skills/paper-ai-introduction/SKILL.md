@@ -1,6 +1,6 @@
 ---
 name: paper-ai-introduction
-description: Draft and revise AI-paper introductions, first two pages, motivation, gap framing, contribution lists, and reader-centered story flow. Use for introduction writing or first-page reviewer impression.
+description: 撰写和修改 AI 论文 Introduction、前两页、研究动机、gap framing、贡献列表和读者导向故事线；适合引言写作和首页审稿印象优化。
 ---
 
 # paper-ai-introduction

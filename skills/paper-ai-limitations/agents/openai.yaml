@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai limitations"
-  short_description: "Limitations and caveats"
-  default_prompt: "Use $paper-ai-limitations on the current paper workspace."
+  display_name: "限制与边界"
+  short_description: "撰写限制说明"
+  default_prompt: "使用 $paper-ai-limitations 审查当前论文的限制、风险和 claim 边界。"

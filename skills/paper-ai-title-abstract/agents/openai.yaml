@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai title abstract"
-  short_description: "Title and abstract"
-  default_prompt: "Use $paper-ai-title-abstract on the current paper workspace."
+  display_name: "标题与摘要"
+  short_description: "优化标题摘要"
+  default_prompt: "使用 $paper-ai-title-abstract 为当前论文生成或审查标题和摘要。"

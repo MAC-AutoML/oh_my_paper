@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai related work"
-  short_description: "Related work positioning"
-  default_prompt: "Use $paper-ai-related-work on the current paper workspace."
+  display_name: "相关工作"
+  short_description: "定位相关工作"
+  default_prompt: "使用 $paper-ai-related-work 组织当前论文的相关工作和差异定位。"

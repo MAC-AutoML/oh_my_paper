@@ -1,6 +1,6 @@
 ---
 name: paper-ai-figures
-description: Design and audit AI-paper figures, result plots, method diagrams, tables, captions, and first-page visuals around one takeaway and claim support. Use for drawing, table planning, visual hierarchy, and caption work.
+description: 设计和审查 AI 论文图、结果图、方法示意图、表格、caption 和首页视觉，使每个视觉服务一个 takeaway 和 claim；适合画图规划、表格规划、视觉层级和 caption。
 ---
 
 # paper-ai-figures

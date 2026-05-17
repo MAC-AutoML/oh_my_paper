@@ -1,6 +1,6 @@
 ---
 name: paper-ai-layout
-description: Check AI-paper layout, page budget, venue/template assumptions, formatting, language polish, translation, compression, and final PDF readability. Use for page limits, LaTeX/Word formatting, camera-ready cleanup, or polishing stable prose.
+description: 检查 AI 论文版式、页数预算、venue/template 假设、格式、语言润色、翻译、压缩和最终 PDF 可读性；适合页限、LaTeX/Word 排版、camera-ready 清理和稳定文本 polish。
 ---
 
 # paper-ai-layout

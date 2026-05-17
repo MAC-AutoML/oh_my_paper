@@ -1,6 +1,6 @@
 ---
 name: paper-ai-limitations
-description: Write and audit AI-paper limitations, scope caveats, threats to validity, ethics/safety notes, and claim narrowing. Use when limitations, caveats, or honest scope control are needed.
+description: 撰写和审查 AI 论文 limitations、scope caveats、validity threats、伦理/安全说明和 claim narrowing；适合限制、风险、诚实边界和过度主张收缩。
 ---
 
 # paper-ai-limitations

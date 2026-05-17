@@ -1,6 +1,6 @@
 ---
 name: paper-ai-related-work
-description: Draft and revise AI-paper related work using contrast-based organization, closest-work positioning, and novelty-risk mitigation. Use for related work sections, literature positioning, and comparison narratives.
+description: 撰写和修改 AI 论文 Related Work，用对比式组织、closest-work 定位和 novelty 风险控制来建立研究位置；适合相关工作、文献定位和比较叙事。
 ---
 
 # paper-ai-related-work

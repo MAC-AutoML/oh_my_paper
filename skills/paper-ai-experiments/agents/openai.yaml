@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai experiments"
-  short_description: "Experiment section"
-  default_prompt: "Use $paper-ai-experiments on the current paper workspace."
+  display_name: "实验章节"
+  short_description: "规划实验分析"
+  default_prompt: "使用 $paper-ai-experiments 规划或修改当前论文的实验与结果分析。"

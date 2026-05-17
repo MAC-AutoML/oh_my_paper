@@ -1,6 +1,6 @@
 ---
 name: paper-ai-orchestrator
-description: Route the natural AI-paper workflow across idea, sections, figures/tables, layout, reviewer simulation, and rebuttal without creating unnecessary management overhead. Use when starting/resuming a full paper workflow or deciding the next paper step.
+description: 统筹 AI 论文全流程，在选题、写作、图表、排版、审稿模拟和 rebuttal 之间选择下一步；适合启动/恢复论文工作流或判断当前最该使用哪个论文技能。
 ---
 
 # paper-ai-orchestrator

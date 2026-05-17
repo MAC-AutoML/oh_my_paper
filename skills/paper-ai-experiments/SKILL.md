@@ -1,6 +1,6 @@
 ---
 name: paper-ai-experiments
-description: Plan, draft, and audit AI-paper experiment sections, result analysis, baselines, metrics, ablations, and empirical claim support without inventing data. Use for experiments and results chapters.
+description: 规划、撰写和审查 AI 论文实验章节、结果分析、baseline、指标、消融和 empirical claim 支撑；适合 Experiments / Results，且不会编造数据。
 ---
 
 # paper-ai-experiments

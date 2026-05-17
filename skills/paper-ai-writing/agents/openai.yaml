@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai writing"
-  short_description: "Whole-paper writing flow"
-  default_prompt: "Use $paper-ai-writing on the current paper workspace."
+  display_name: "全文写作统筹"
+  short_description: "统筹全文故事线"
+  default_prompt: "使用 $paper-ai-writing 梳理当前论文的全文故事线和跨章节一致性。"

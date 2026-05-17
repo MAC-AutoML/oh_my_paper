@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai reviewer"
-  short_description: "Strict paper review"
-  default_prompt: "Use $paper-ai-reviewer on the current paper workspace."
+  display_name: "审稿模拟"
+  short_description: "模拟严格审稿"
+  default_prompt: "使用 $paper-ai-reviewer 对当前论文做投稿前审稿模拟和风险分析。"

@@ -1,6 +1,6 @@
 ---
 name: paper-ai-idea
-description: Develop AI research ideas into publishable paper directions with problem framing, contribution hypotheses, evidence plans, and novelty risks. Use when brainstorming, choosing topics, sharpening a vague idea, or deciding whether results can become a paper.
+description: 将 AI 研究想法打磨成可投稿论文方向，包含问题定位、贡献假设、证据计划和新颖性风险；适合头脑风暴、选题、细化模糊想法或判断结果是否能写成论文。
 ---
 
 # paper-ai-idea

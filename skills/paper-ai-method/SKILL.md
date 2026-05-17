@@ -1,6 +1,6 @@
 ---
 name: paper-ai-method
-description: Draft and revise AI-paper method sections with problem setup, assumptions, running examples, notation, algorithms, component rationale, and implementation details. Use for method, model, algorithm, or equation writing.
+description: 撰写和修改 AI 论文 Method，覆盖问题设定、假设、running example、符号、算法、组件动机和实现细节；适合方法、模型、算法或公式写作。
 ---
 
 # paper-ai-method

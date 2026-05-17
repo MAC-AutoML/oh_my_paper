@@ -1,6 +1,6 @@
 ---
 name: paper-ai-reviewer
-description: Simulate strict AI-paper reviewers and produce first-impression audits, technical reviews, score-risk analysis, and prioritized fix plans. Use before submission, after major revisions, or when acceptance risk must be assessed.
+description: 模拟严格 AI 论文审稿人，输出第一印象审查、技术评审、分数风险分析和优先级修改计划；适合投稿前、重大修改后或需要评估接收风险时。
 ---
 
 # paper-ai-reviewer

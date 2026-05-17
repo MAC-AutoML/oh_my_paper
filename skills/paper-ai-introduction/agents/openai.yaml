@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai introduction"
-  short_description: "Introduction writing"
-  default_prompt: "Use $paper-ai-introduction on the current paper workspace."
+  display_name: "引言写作"
+  short_description: "写作论文引言"
+  default_prompt: "使用 $paper-ai-introduction 修改当前论文的引言、动机和贡献列表。"

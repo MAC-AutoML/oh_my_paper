@@ -1,4 +1,4 @@
 interface:
-  display_name: "paper ai method"
-  short_description: "Method section"
-  default_prompt: "Use $paper-ai-method on the current paper workspace."
+  display_name: "方法写作"
+  short_description: "写作方法章节"
+  default_prompt: "使用 $paper-ai-method 修改当前论文的方法、符号和组件动机。"
