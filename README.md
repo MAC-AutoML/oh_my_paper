@@ -55,7 +55,7 @@ Python package metadata currently has no runtime third-party Python dependencies
 
 ## Highlights
 
-- 🧠 **13 natural paper workflow skills** under `skills/paper-ai-*`.
+- 🧠 **14 natural paper workflow skills** under `skills/paper-ai-*`.
 - 📚 **Material-derived references** inside each skill: case cards, source-derived examples, bad/good contrasts, and imitation recipes.
 - 🧾 **Claim/Evidence artifacts**: `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` keep claims, evidence, and workflow trace visible.
 - 🔍 **Evidence gate**: unsupported or inconsistent claims are flagged before they become polished prose.
@@ -74,6 +74,7 @@ The public skill surface follows the paper lifecycle rather than many tiny manag
 | --- | --- | --- |
 | 🧭 Workflow routing | `paper-ai-orchestrator` | Route the writing task and coordinate handoffs between skills. |
 | 💡 Idea | `paper-ai-idea` | Sharpen research question, contribution, novelty, and evidence pressure. |
+| 🔎 Research | `paper-ai-research` | Scope research questions, plan literature search, grade sources, and synthesize evidence. |
 | ✍️ Whole-paper writing | `paper-ai-writing` | Keep story, claims, sections, and evidence aligned. |
 | 🏷️ Title + Abstract | `paper-ai-title-abstract` | Optimize first impression, searchability, and claim discipline. |
 | 🚪 Introduction | `paper-ai-introduction` | Build motivation, gap, contribution, and reader momentum. |
@@ -199,7 +200,16 @@ Packaging follows the official Codex `skill-installer` standard. Use this repo's
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-research \
   --path skills/paper-ai-writing \
+  --path skills/paper-ai-title-abstract \
+  --path skills/paper-ai-introduction \
+  --path skills/paper-ai-related-work \
+  --path skills/paper-ai-method \
+  --path skills/paper-ai-experiments \
+  --path skills/paper-ai-figures \
+  --path skills/paper-ai-limitations \
+  --path skills/paper-ai-layout \
   --path skills/paper-ai-reviewer \
   --path skills/paper-ai-rebuttal
 ```

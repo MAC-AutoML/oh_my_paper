@@ -55,7 +55,7 @@
 
 ## 当前能力
 
-- 🧠 **13 个自然论文流程 skills**，位于 `skills/paper-ai-*`。
+- 🧠 **14 个自然论文流程 skills**，位于 `skills/paper-ai-*`。
 - 📚 **材料内化 references**：每个 skill 内置 case card、原材料启发案例、bad/good 对照、模仿配方。
 - 🧾 **Claim/Evidence artifacts**：`CLAIMS.md`、`EVIDENCE_MAP.md`、`.paper-ai/TRACE.jsonl` 显式记录 claim、证据和流程轨迹。
 - 🔍 **Evidence gate**：在 unsupported / inconsistent claims 被写成漂亮废话之前拦截。
@@ -74,6 +74,7 @@
 | --- | --- | --- |
 | 🧭 全流程路由 | `paper-ai-orchestrator` | 路由写作任务，协调 skill handoff。 |
 | 💡 选题 / Idea | `paper-ai-idea` | 打磨 research question、contribution、novelty 和 evidence pressure。 |
+| 🔎 前置研究 | `paper-ai-research` | 澄清研究问题、规划文献检索、评估来源质量并综合证据。 |
 | ✍️ 全文写作 | `paper-ai-writing` | 保持 story、claims、sections、evidence 一致。 |
 | 🏷️ 标题摘要 | `paper-ai-title-abstract` | 优化第一印象、可检索性和 claim discipline。 |
 | 🚪 引言 | `paper-ai-introduction` | 建立 motivation、gap、contribution 和阅读推进。 |
@@ -199,7 +200,16 @@ uv run oh-my-paper revise-paper \
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-research \
   --path skills/paper-ai-writing \
+  --path skills/paper-ai-title-abstract \
+  --path skills/paper-ai-introduction \
+  --path skills/paper-ai-related-work \
+  --path skills/paper-ai-method \
+  --path skills/paper-ai-experiments \
+  --path skills/paper-ai-figures \
+  --path skills/paper-ai-limitations \
+  --path skills/paper-ai-layout \
   --path skills/paper-ai-reviewer \
   --path skills/paper-ai-rebuttal
 ```

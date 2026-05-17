@@ -78,7 +78,7 @@ def run_demo_workflow(workspace: str | Path) -> WorkflowResult:
     artifact_report = store.validate()
     recorder.record(
         phase="research-process",
-        skill="paper-ai-research-process",
+        skill="paper-ai-research",
         action="validate_artifacts",
         inputs=["paper/PAPER_BRIEF.md", "paper/CLAIMS.md", "paper/EVIDENCE_MAP.md"],
         outputs=[".paper-ai/TRACE.jsonl"],
@@ -203,7 +203,7 @@ def _initial_trace(project_id: str) -> str:
         "project_id": project_id,
         "runtime": "local-skill",
         "phase": "research-process",
-        "skill": "paper-ai-research-process",
+        "skill": "paper-ai-research",
         "action": "initialize_synthetic_workspace",
         "inputs": [],
         "outputs": ["paper/PAPER_BRIEF.md", "paper/CLAIMS.md", "paper/EVIDENCE_MAP.md"],

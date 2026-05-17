@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_SKILLS = {
     "paper-ai-orchestrator",
     "paper-ai-idea",
+    "paper-ai-research",
     "paper-ai-writing",
     "paper-ai-title-abstract",
     "paper-ai-introduction",

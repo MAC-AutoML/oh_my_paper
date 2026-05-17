@@ -16,6 +16,7 @@ The skill group follows the natural paper lifecycle. It deliberately avoids expo
 | --- | --- | --- | --- |
 | `paper-ai-orchestrator` | Full workflow routing | minimal state, next-skill handoff | next paper step explicit |
 | `paper-ai-idea` | Idea / research question | `IDEA_BRIEF.md`, contribution hypotheses | audience, gap, evidence path exist |
+| `paper-ai-research` | Research scoping / source synthesis | `RESEARCH_BRIEF.md`, source-quality matrix, search plan | sources graded and claims scoped |
 | `paper-ai-writing` | Whole-paper coherence | story outline, cross-section notes | claims linked to evidence |
 | `paper-ai-title-abstract` | Title and abstract | title candidates, abstract, first-impression audit | no overclaim beyond evidence |
 | `paper-ai-introduction` | Introduction | `INTRODUCTION_DRAFT.md`, contributions | contributions are evidence-linked |
@@ -60,7 +61,7 @@ paper/
 
 ## 4. Handoff contracts
 
-### Research process → Writing
+### Research / idea → Writing
 
 Required inputs:
 
@@ -159,10 +160,11 @@ Canonical executable eval fixtures live under `tests/fixtures/evals/` so one sha
 Use `paper-ai-*` for installable skills to avoid conflict with existing generic writing/rebuttal skills.
 
 - `paper-ai-orchestrator` owns routing and state, not detailed writing advice.
+- `paper-ai-research` owns literature/source/evidence synthesis, not final prose approval.
 - `paper-ai-writing` drafts and revises, but does not approve submission readiness.
 - `paper-ai-reviewer` criticizes and scores, but does not silently rewrite the paper.
 - `paper-ai-rebuttal` answers reviews, but cannot invent results or promise experiments without evidence.
-- `paper-ai-eval-loop` improves skills, but does not change raw material policy.
+- The eval harness improves skills through fixtures, but does not change raw material policy.
 
 ## 9. Human decision points
 

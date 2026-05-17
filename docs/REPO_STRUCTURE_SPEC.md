@@ -42,13 +42,12 @@ oh_my_paper/
       scripts/
       assets/
       evals/README.md       # examples/links only; canonical fixtures are in tests/fixtures/evals
-    paper-ai-research-process/
+    paper-ai-research/
     paper-ai-writing/
     paper-ai-figures/
     paper-ai-layout/
     paper-ai-reviewer/
     paper-ai-rebuttal/
-    paper-ai-eval-loop/
   src/
     oh_my_paper/
       __init__.py

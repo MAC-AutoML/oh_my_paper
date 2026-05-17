@@ -1,0 +1,4 @@
+interface:
+  display_name: "论文前置研究"
+  short_description: "规划文献与证据"
+  default_prompt: "使用 $paper-ai-research 澄清当前论文的研究问题、文献策略和证据链。"

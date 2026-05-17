@@ -12,13 +12,19 @@ Use Codex's system `skill-installer` skill / helper script:
 ```bash
 install-skill-from-github.py --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-orchestrator \
-  --path skills/paper-ai-research-process \
+  --path skills/paper-ai-idea \
+  --path skills/paper-ai-research \
   --path skills/paper-ai-writing \
+  --path skills/paper-ai-title-abstract \
+  --path skills/paper-ai-introduction \
+  --path skills/paper-ai-related-work \
+  --path skills/paper-ai-method \
+  --path skills/paper-ai-experiments \
   --path skills/paper-ai-figures \
+  --path skills/paper-ai-limitations \
   --path skills/paper-ai-layout \
   --path skills/paper-ai-reviewer \
-  --path skills/paper-ai-rebuttal \
-  --path skills/paper-ai-eval-loop
+  --path skills/paper-ai-rebuttal
 ```
 
 The official installer installs into `$CODEX_HOME/skills/<skill-name>` and

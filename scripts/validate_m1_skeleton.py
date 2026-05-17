@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = [
     "paper-ai-orchestrator",
     "paper-ai-idea",
+    "paper-ai-research",
     "paper-ai-writing",
     "paper-ai-title-abstract",
     "paper-ai-introduction",
