@@ -27,17 +27,11 @@ All tracked fixtures are `privacy: synthetic`. Redacted/private real paper data 
 stay under ignored local workspaces such as `materials/`, `temp/`, or untracked paper
 project directories.
 
-## Verification commands
+## Verification summary
 
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run python scripts/validate_m1_skeleton.py
-uv run oh-my-paper validate-artifacts examples/toy-paper-workspace
-uv run oh-my-paper evidence-gate examples/toy-paper-workspace  # expected exit 1 for C3
-uv run oh-my-paper run-eval tests/fixtures/evals/unsupported_claim.jsonl
-uv run oh-my-paper run-eval tests/fixtures/evals/supported_claim.jsonl
-uv run oh-my-paper run-eval tests/fixtures/evals/trace_integrity.jsonl
-```
+Maintainers should run the repository's internal validation suite before changing
+artifact, gate, or eval-fixture behavior. Public user workflows should use the
+CLI commands listed above rather than the maintainer-only checks.
 
 The toy workspace is schema-valid but intentionally fails the evidence gate because
 claim `C3` is unsupported. That failure is the first regression anchor for later

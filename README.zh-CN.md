@@ -36,6 +36,23 @@
   → 🔁 captured failures become future evals and skill improvements
 ```
 
+## 运行环境与依赖要求
+
+安装或使用 skills 前，先确认这些运行依赖：
+
+| 依赖 | 项目要求 / 当前本机版本 | 用途 |
+| --- | --- | --- |
+| Python | 项目要求 `>=3.11`；当前 uv 环境为 Python `3.13.7` | 运行本地 `oh-my-paper` CLI 与论文 workflow harness。 |
+| uv | 当前版本 `0.9.28` | Python 环境与命令运行器。请使用 `uv run` / `uv add`，不要使用 conda-style setup。 |
+| Codex CLI | 当前版本 `codex-cli 0.129.0` | 承载并调用 Codex skills。 |
+| Codex Skills installer | 官方 `install-skill-from-github.py` path-based installer | 按路径安装选定的 `skills/paper-ai-*` 文件夹。 |
+| API endpoint | `.env` 支持 `OPENAI_API_KEY`；启用模型调用时，生成、严格审稿和修订流程需要 OpenAI-compatible endpoint | 驱动 full-paper generation、strict review 和 revision loop。 |
+| Node.js / npm | 当前 Node.js `v22.14.0`，npm `10.9.2` | 仅在使用 Playwright 等 Node-based tooling 时需要。 |
+| npm package | 当前 `package.json` 声明 `playwright ^1.60.0` | 本地浏览器/自动化工具的可选依赖。 |
+| oh-my-codex | 当前版本 `v0.17.3` | 本工作区使用的可选 OMX/Codex orchestration 环境。 |
+
+当前 Python package metadata 除项目自身外，没有声明额外 runtime third-party Python dependencies。
+
 ## 当前能力
 
 - 🧠 **13 个自然论文流程 skills**，位于 `skills/paper-ai-*`。
@@ -90,7 +107,6 @@ oh_my_paper 有两种兼容交付模式：
 
 ```bash
 uv run oh-my-paper status
-uv run oh-my-paper packaging-status
 ```
 
 运行 deterministic toy workflow：
@@ -180,8 +196,6 @@ uv run oh-my-paper revise-paper \
 遵循官方 Codex `skill-installer` 标准，使用 repo skill folders 作为安装 path：
 
 ```bash
-uv run oh-my-paper packaging-status
-
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-orchestrator \
@@ -205,21 +219,3 @@ install-skill-from-github.py \
 - [`docs/ACCEPTANCE_EVALS.md`](docs/ACCEPTANCE_EVALS.md) — acceptance checks and future eval fixture shapes.
 - [`docs/MATERIALS_MAPPING.md`](docs/MATERIALS_MAPPING.md) — local material mapping without publishing raw materials.
 - [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md) — how new PDFs/repos/notes get fused into skills.
-- [`docs/LOCAL_PUSH_NOTES.md`](docs/LOCAL_PUSH_NOTES.md) — local push workflow notes for this development environment.
-
-## 开发检查
-
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run python scripts/validate_m1_skeleton.py
-uv run --with pyyaml python /root/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/paper-ai-orchestrator
-uv run oh-my-paper packaging-status
-```
-
-推送前确认本地材料没有被追踪：
-
-```bash
-git ls-files materials temp .omx .spec-workflow node_modules package-lock.json package.json .venv .env config.yaml
-```
-
-期望输出为空。

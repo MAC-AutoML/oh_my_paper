@@ -44,13 +44,11 @@ loaded from local, ignored files only:
 Those files must remain untracked. The tracked repo should only contain templates
 or documentation, not user credentials.
 
-## Verification
+## Verification summary
 
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run oh-my-paper init /tmp/ohmp-demo
-uv run oh-my-paper mock-app-server /tmp/ohmp-demo tests/fixtures/evals/unsupported_claim.jsonl
-```
+Maintainers should run the repository's internal validation suite and the mocked
+App Server probe before changing adapter behavior. No real App Server process or
+API credentials are required for the mocked path.
 
 Acceptance coverage:
 

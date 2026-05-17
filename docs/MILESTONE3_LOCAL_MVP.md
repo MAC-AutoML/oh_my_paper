@@ -41,11 +41,8 @@ The default synthetic workspace includes unsupported claim `C3`. Therefore:
 - the overall demo command exits successfully because the risky decision is
   surfaced rather than hidden.
 
-## Verification
+## Verification summary
 
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run python scripts/validate_m1_skeleton.py
-uv run oh-my-paper init /tmp/ohmp-demo
-uv run oh-my-paper run-demo /tmp/ohmp-demo
-```
+Maintainers should run the repository's internal validation suite and the local demo
+flow before changing MVP workflow behavior. Public user workflows should use the
+command path above.

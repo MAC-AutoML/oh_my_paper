@@ -27,27 +27,14 @@ say otherwise. Restart Codex after installing skills.
 
 ## Packaging metadata helper
 
-This project includes a metadata-only helper so maintainers can verify the paths
-that should be passed to the official installer:
+This project includes a metadata-only helper for maintainers to inspect the
+official repo/path installer metadata. It is not a competing installer and does
+not copy skills by itself.
 
-```bash
-uv run oh-my-paper packaging-status
-```
+## Clean checkout smoke path
 
-This command prints the official repo/path command and checks each skill folder
-has a required `SKILL.md`. It is not a competing installer.
-
-## Clean checkout verification
-
-```bash
-git clone https://github.com/MAC-AutoML/oh_my_paper.git
-cd oh_my_paper
-uv run oh-my-paper status
-uv run oh-my-paper packaging-status
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run oh-my-paper init /tmp/ohmp-demo
-uv run oh-my-paper run-demo /tmp/ohmp-demo
-```
+For a clean checkout, use the local CLI status command and run a temporary demo
+workspace to confirm the package can initialize and execute the paper workflow.
 
 ## Future real adapter configuration
 

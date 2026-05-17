@@ -68,13 +68,8 @@ rm -f /root/.local/bin/ohmp-git-askpass.sh
 
 `/root/.ssh/xty_admin` can read the GitHub repository in this environment, but GitHub reports it as a deploy key without write permission. Use HTTPS + `GITHUB_TOKEN` for pushes unless repository permissions change.
 
-## Safety checks before push
+## Maintainer safety note
 
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run python scripts/validate_m1_skeleton.py
-git diff --check
-git ls-files materials temp .omx .spec-workflow node_modules package-lock.json package.json .venv .env config.yaml
-```
-
-The final `git ls-files` command should print nothing; raw materials, local runtime state, credentials, and local dependencies must remain untracked.
+Before pushing, maintainers should run the repository's internal validation suite
+and confirm ignored local materials, credentials, runtime state, and local
+dependencies are not tracked. Keep raw materials and secrets local-only.

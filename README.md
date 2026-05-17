@@ -36,6 +36,23 @@ It is **not** a magic one-click paper generator. It is a structured agent workfl
   → 🔁 captured failures become future evals and skill improvements
 ```
 
+## Runtime and dependency requirements
+
+Put the runtime dependencies in place before installing or using the skills:
+
+| Dependency | Required / observed in this workspace | Purpose |
+| --- | --- | --- |
+| Python | Project requires `>=3.11`; local uv environment uses Python `3.13.7` | Runs the local `oh-my-paper` CLI and paper workflow harness. |
+| uv | Local version `0.9.28` | Python environment and command runner. Use `uv run` / `uv add`; do not use conda-style setup. |
+| Codex CLI | Local version `codex-cli 0.129.0` | Hosts and invokes Codex skills. |
+| Codex Skills installer | Official `install-skill-from-github.py` path-based installer | Installs selected `skills/paper-ai-*` folders. |
+| API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
+| Node.js / npm | Local Node.js `v22.14.0`, npm `10.9.2` | Needed only for Node-based tooling such as Playwright-backed utilities. |
+| npm package | Local `package.json` declares `playwright ^1.60.0` | Optional browser/automation dependency for local tooling. |
+| oh-my-codex | Local version `v0.17.3` | Optional OMX/Codex orchestration environment used by this workspace. |
+
+Python package metadata currently has no runtime third-party Python dependencies beyond the project package itself.
+
 ## Highlights
 
 - 🧠 **13 natural paper workflow skills** under `skills/paper-ai-*`.
@@ -90,7 +107,6 @@ This project uses **uv**. Use `uv run`, not conda-style commands.
 
 ```bash
 uv run oh-my-paper status
-uv run oh-my-paper packaging-status
 ```
 
 Run a deterministic toy workflow:
@@ -180,8 +196,6 @@ New material should follow this loop:
 Packaging follows the official Codex `skill-installer` standard. Use this repo's skill folders as install paths:
 
 ```bash
-uv run oh-my-paper packaging-status
-
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
   --path skills/paper-ai-orchestrator \
@@ -205,21 +219,3 @@ Install any subset of `skills/paper-ai-*` depending on the workflow surface you 
 - [`docs/ACCEPTANCE_EVALS.md`](docs/ACCEPTANCE_EVALS.md) — acceptance checks and future eval fixture shapes.
 - [`docs/MATERIALS_MAPPING.md`](docs/MATERIALS_MAPPING.md) — local material mapping without publishing raw materials.
 - [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md) — how new PDFs/repos/notes get fused into skills.
-- [`docs/LOCAL_PUSH_NOTES.md`](docs/LOCAL_PUSH_NOTES.md) — local push workflow notes for this development environment.
-
-## Development checks
-
-```bash
-uv run python -m unittest discover -s tests -p 'test_*.py' -v
-uv run python scripts/validate_m1_skeleton.py
-uv run --with pyyaml python /root/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/paper-ai-orchestrator
-uv run oh-my-paper packaging-status
-```
-
-Before pushing, confirm ignored local material is not tracked:
-
-```bash
-git ls-files materials temp .omx .spec-workflow node_modules package-lock.json package.json .venv .env config.yaml
-```
-
-Expected output: empty.
