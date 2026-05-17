@@ -9,6 +9,33 @@ from importlib import resources
 RESOURCE_PACKAGE = "oh_my_paper.ars_compat.resources"
 MODE_STATUSES = {"implemented", "partial", "advisory", "deferred"}
 DATA_ACCESS_LEVELS = {"raw", "redacted", "verified_only"}
+ROLE_MAP_STATUSES = {"covered", "advisory", "missing"}
+REQUIRED_AGENT_LANES: dict[str, tuple[str, ...]] = {
+    "research": (
+        "paper-research-lead",
+        "paper-source-verifier",
+        "paper-socratic-mentor",
+        "paper-devils-advocate",
+    ),
+    "writing": (
+        "paper-structure-architect",
+        "paper-drafting-lead",
+        "paper-style-calibrator",
+        "paper-visualization-planner",
+    ),
+    "reviewer": (
+        "paper-review-eic",
+        "paper-methodology-reviewer",
+        "paper-domain-reviewer",
+        "paper-devils-advocate-reviewer",
+        "paper-revision-coach",
+    ),
+    "pipeline": (
+        "paper-pipeline-orchestrator",
+        "paper-integrity-auditor",
+        "paper-run-monitor",
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -59,6 +86,10 @@ def route_registry() -> list[dict[str, object]]:
     if not isinstance(routes, list):
         raise ValueError("routes.json must contain a routes list")
     return [item for item in routes if isinstance(item, dict)]
+
+
+def agent_role_map_registry() -> dict[str, object]:
+    return _load_json("agent_role_map.json")
 
 
 def validate_modes(modes: list[dict[str, object]] | None = None) -> RegistryValidation:
@@ -120,6 +151,64 @@ def validate_agents(agents: list[dict[str, object]] | None = None) -> RegistryVa
     for name, count in name_counts.items():
         if count > 1:
             issues.append(RegistryIssue("agents", f"codex_agent_name {name} appears in multiple rows"))
+    return RegistryValidation(not issues, issues)
+
+
+def validate_agent_role_map(role_map: dict[str, object] | None = None) -> RegistryValidation:
+    data = role_map if role_map is not None else agent_role_map_registry()
+    issues: list[RegistryIssue] = []
+    if not isinstance(data.get("schema_version"), str):
+        issues.append(RegistryIssue("agent_role_map", "schema_version must be a string"))
+
+    lanes = data.get("required_lanes")
+    if not isinstance(lanes, list):
+        return RegistryValidation(False, [*issues, RegistryIssue("required_lanes", "required_lanes must be a list")])
+
+    seen_lanes: set[tuple[str, str]] = set()
+    seen_agent_names: dict[str, str] = {}
+    covered_lanes: set[tuple[str, str]] = set()
+    for index, row in enumerate(lanes):
+        path = f"required_lanes[{index}]"
+        if not isinstance(row, dict):
+            issues.append(RegistryIssue(path, "lane row must be an object"))
+            continue
+        team = row.get("team")
+        lane = row.get("required_lane")
+        agent_name = row.get("codex_agent_name")
+        if not isinstance(team, str) or team not in REQUIRED_AGENT_LANES:
+            issues.append(RegistryIssue(path, "team must be research|writing|reviewer|pipeline"))
+        if not isinstance(lane, str) or lane not in REQUIRED_AGENT_LANES.get(str(team), ()):
+            issues.append(RegistryIssue(path, "required_lane is not expected for its team"))
+        key = (str(team), str(lane))
+        if key in seen_lanes:
+            issues.append(RegistryIssue(path, f"duplicate required lane {key}"))
+        seen_lanes.add(key)
+        if row.get("status") == "covered":
+            covered_lanes.add(key)
+        if not isinstance(agent_name, str) or not agent_name:
+            issues.append(RegistryIssue(path, "codex_agent_name must be a string"))
+        elif agent_name in seen_agent_names:
+            issues.append(RegistryIssue(path, f"codex_agent_name {agent_name} already covers {seen_agent_names[agent_name]}"))
+        else:
+            seen_agent_names[agent_name] = f"{team}/{lane}"
+        _expect_str(row, "agent_file", path, issues)
+        _expect_str(row, "owner_skill", path, issues)
+        if row.get("data_access_level") not in DATA_ACCESS_LEVELS:
+            issues.append(RegistryIssue(path, "data_access_level must be raw|redacted|verified_only"))
+        if row.get("status") not in ROLE_MAP_STATUSES:
+            issues.append(RegistryIssue(path, "status must be covered|advisory|missing"))
+        reuse = row.get("reuse_existing_agent")
+        if not isinstance(reuse, bool):
+            issues.append(RegistryIssue(path, "reuse_existing_agent must be boolean"))
+        if reuse and not str(row.get("reuse_rationale", "")).strip():
+            issues.append(RegistryIssue(path, "reused lanes require reuse_rationale"))
+        if lane != agent_name and reuse is not True:
+            issues.append(RegistryIssue(path, "renamed/equivalent lanes must set reuse_existing_agent true"))
+
+    expected = {(team, lane) for team, lanes_for_team in REQUIRED_AGENT_LANES.items() for lane in lanes_for_team}
+    missing = sorted(expected - covered_lanes)
+    if missing:
+        issues.append(RegistryIssue("required_lanes", f"missing covered lanes: {missing}"))
     return RegistryValidation(not issues, issues)
 
 

@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Codex-native reuse map for required ARS four-team agent lanes. Existing .codex/agents roles are reused when they already satisfy a lane; new role files are added only for genuinely uncovered lanes.",
+  "required_lanes": [
+    {
+      "team": "research",
+      "required_lane": "paper-research-lead",
+      "codex_agent_name": "paper-research-architect",
+      "agent_file": ".codex/agents/paper-research-architect.toml",
+      "owner_skill": "paper-ai-research",
+      "data_access_level": "raw",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Research lead is covered by the existing research architect role that creates methodology blueprints and coordinates evidence-first research design. Avoids duplicating a second lead role with the same decision surface."
+    },
+    {
+      "team": "research",
+      "required_lane": "paper-source-verifier",
+      "codex_agent_name": "paper-source-verifier",
+      "agent_file": ".codex/agents/paper-source-verifier.toml",
+      "owner_skill": "paper-ai-research",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers source verification."
+    },
+    {
+      "team": "research",
+      "required_lane": "paper-socratic-mentor",
+      "codex_agent_name": "paper-socratic-mentor",
+      "agent_file": ".codex/agents/paper-socratic-mentor.toml",
+      "owner_skill": "paper-ai-idea",
+      "data_access_level": "raw",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers guided research planning questions."
+    },
+    {
+      "team": "research",
+      "required_lane": "paper-devils-advocate",
+      "codex_agent_name": "paper-devils-advocate",
+      "agent_file": ".codex/agents/paper-devils-advocate.toml",
+      "owner_skill": "paper-ai-research",
+      "data_access_level": "redacted",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers adversarial research risk notes."
+    },
+    {
+      "team": "writing",
+      "required_lane": "paper-structure-architect",
+      "codex_agent_name": "paper-structure-architect",
+      "agent_file": ".codex/agents/paper-structure-architect.toml",
+      "owner_skill": "paper-ai-writing",
+      "data_access_level": "redacted",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers outline graph and paper structure planning."
+    },
+    {
+      "team": "writing",
+      "required_lane": "paper-drafting-lead",
+      "codex_agent_name": "paper-draft-writer",
+      "agent_file": ".codex/agents/paper-draft-writer.toml",
+      "owner_skill": "paper-ai-writing",
+      "data_access_level": "redacted",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Drafting lead is covered by the existing draft writer role, which owns section drafting from evidence-linked artifacts. Avoids duplicating a near-identical drafting lane."
+    },
+    {
+      "team": "writing",
+      "required_lane": "paper-style-calibrator",
+      "codex_agent_name": "paper-style-calibrator",
+      "agent_file": ".codex/agents/paper-style-calibrator.toml",
+      "owner_skill": "paper-ai-writing",
+      "data_access_level": "redacted",
+      "status": "covered",
+      "reuse_existing_agent": false,
+      "reuse_rationale": "No existing agent owned venue/style calibration without also drafting or reviewing content, so a dedicated narrow style lane is required."
+    },
+    {
+      "team": "writing",
+      "required_lane": "paper-visualization-planner",
+      "codex_agent_name": "paper-visualization-planner",
+      "agent_file": ".codex/agents/paper-visualization-planner.toml",
+      "owner_skill": "paper-ai-figures",
+      "data_access_level": "redacted",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers figure and table planning."
+    },
+    {
+      "team": "reviewer",
+      "required_lane": "paper-review-eic",
+      "codex_agent_name": "paper-review-eic",
+      "agent_file": ".codex/agents/paper-review-eic.toml",
+      "owner_skill": "paper-ai-reviewer",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers editorial decision synthesis."
+    },
+    {
+      "team": "reviewer",
+      "required_lane": "paper-methodology-reviewer",
+      "codex_agent_name": "paper-methodology-reviewer",
+      "agent_file": ".codex/agents/paper-methodology-reviewer.toml",
+      "owner_skill": "paper-ai-reviewer",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers methodology review."
+    },
+    {
+      "team": "reviewer",
+      "required_lane": "paper-domain-reviewer",
+      "codex_agent_name": "paper-domain-reviewer",
+      "agent_file": ".codex/agents/paper-domain-reviewer.toml",
+      "owner_skill": "paper-ai-reviewer",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers domain review."
+    },
+    {
+      "team": "reviewer",
+      "required_lane": "paper-devils-advocate-reviewer",
+      "codex_agent_name": "paper-devils-advocate-reviewer",
+      "agent_file": ".codex/agents/paper-devils-advocate-reviewer.toml",
+      "owner_skill": "paper-ai-reviewer",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers adversarial review."
+    },
+    {
+      "team": "reviewer",
+      "required_lane": "paper-revision-coach",
+      "codex_agent_name": "paper-revision-coach",
+      "agent_file": ".codex/agents/paper-revision-coach.toml",
+      "owner_skill": "paper-ai-rebuttal",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers revision roadmap coaching."
+    },
+    {
+      "team": "pipeline",
+      "required_lane": "paper-pipeline-orchestrator",
+      "codex_agent_name": "paper-pipeline-orchestrator",
+      "agent_file": ".codex/agents/paper-pipeline-orchestrator.toml",
+      "owner_skill": "paper-ai-orchestrator",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers pipeline stage planning."
+    },
+    {
+      "team": "pipeline",
+      "required_lane": "paper-integrity-auditor",
+      "codex_agent_name": "paper-integrity-verifier",
+      "agent_file": ".codex/agents/paper-integrity-verifier.toml",
+      "owner_skill": "paper-ai-orchestrator",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Integrity auditor is covered by the existing integrity verifier role, which owns integrity reports and blocks unsupported claims. Avoids two overlapping gatekeeper roles."
+    },
+    {
+      "team": "pipeline",
+      "required_lane": "paper-run-monitor",
+      "codex_agent_name": "paper-run-monitor",
+      "agent_file": ".codex/agents/paper-run-monitor.toml",
+      "owner_skill": "paper-ai-orchestrator",
+      "data_access_level": "verified_only",
+      "status": "covered",
+      "reuse_existing_agent": true,
+      "reuse_rationale": "Existing role exactly covers trace and gate state monitoring."
+    }
+  ]
+}

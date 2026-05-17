@@ -8,7 +8,16 @@ from pathlib import Path
 from unittest import mock
 
 from oh_my_paper.ars_compat.pipeline import pipeline_plan, resume_stage_from_passport
-from oh_my_paper.ars_compat.registry import agent_registry, mode_registry, route_for_trigger, validate_agents, validate_modes
+from oh_my_paper.ars_compat.registry import (
+    REQUIRED_AGENT_LANES,
+    agent_registry,
+    agent_role_map_registry,
+    mode_registry,
+    route_for_trigger,
+    validate_agent_role_map,
+    validate_agents,
+    validate_modes,
+)
 from oh_my_paper.ars_compat.validators import (
     validate_citation_anchors,
     validate_integrity_report,
@@ -63,6 +72,57 @@ class ArsCompatRegistryTest(unittest.TestCase):
         self.assertTrue(files.joinpath("modes.json").is_file())
         self.assertTrue(files.joinpath("agents.json").is_file())
         self.assertTrue(files.joinpath("routes.json").is_file())
+        self.assertTrue(files.joinpath("agent_role_map.json").is_file())
+
+    def test_agent_role_map_exists_and_validates(self) -> None:
+        role_map = agent_role_map_registry()
+        self.assertTrue(validate_agent_role_map(role_map).ok)
+        self.assertEqual(role_map["schema_version"], "1.0")
+
+    def test_required_research_writing_review_pipeline_lanes_covered(self) -> None:
+        role_map = agent_role_map_registry()
+        covered = {
+            (row["team"], row["required_lane"])
+            for row in role_map["required_lanes"]
+            if row["status"] == "covered"
+        }
+        expected = {
+            (team, lane)
+            for team, lanes in REQUIRED_AGENT_LANES.items()
+            for lane in lanes
+        }
+        self.assertEqual(covered, expected)
+
+    def test_no_duplicate_agent_lane_without_rejection_reason(self) -> None:
+        role_map = agent_role_map_registry()
+        duplicated = [*role_map["required_lanes"], dict(role_map["required_lanes"][0])]
+        result = validate_agent_role_map({**role_map, "required_lanes": duplicated})
+        self.assertFalse(result.ok)
+        self.assertIn("duplicate required lane", " ".join(issue.message for issue in result.issues))
+
+    def test_existing_agent_reuse_preferred_over_new_duplicate(self) -> None:
+        role_map = agent_role_map_registry()
+        lanes_by_name = {row["required_lane"]: row for row in role_map["required_lanes"]}
+        reused_equivalents = {
+            "paper-research-lead": "paper-research-architect",
+            "paper-drafting-lead": "paper-draft-writer",
+            "paper-integrity-auditor": "paper-integrity-verifier",
+        }
+        for lane, existing_agent in reused_equivalents.items():
+            self.assertEqual(lanes_by_name[lane]["codex_agent_name"], existing_agent)
+            self.assertIs(lanes_by_name[lane]["reuse_existing_agent"], True)
+            self.assertTrue(lanes_by_name[lane]["reuse_rationale"])
+        self.assertFalse((ROOT / ".codex" / "agents" / "paper-research-lead.toml").exists())
+        self.assertFalse((ROOT / ".codex" / "agents" / "paper-drafting-lead.toml").exists())
+        self.assertFalse((ROOT / ".codex" / "agents" / "paper-integrity-auditor.toml").exists())
+
+    def test_agent_role_map_files_have_owner_and_data_access_level(self) -> None:
+        for row in agent_role_map_registry()["required_lanes"]:
+            agent_path = ROOT / row["agent_file"]
+            self.assertTrue(agent_path.exists(), row["agent_file"])
+            text = agent_path.read_text(encoding="utf-8")
+            self.assertIn(f"Owner skill: {row['owner_skill']}.", text)
+            self.assertIn(f"Data access level: {row['data_access_level']}.", text)
 
 
 class ArsCompatValidatorTest(unittest.TestCase):
