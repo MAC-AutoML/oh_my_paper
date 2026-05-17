@@ -1,12 +1,29 @@
-# 🚀 oh_my_paper
+<p align="center">
+  <h1 align="center">🚀 oh_my_paper</h1>
+  <p align="center">
+    A Codex-native skill group and local harness for writing, reviewing, revising, and defending AI/ML papers under evidence and reviewer pressure.
+  </p>
+  <p align="center">
+    <a href="README.zh-CN.md">中文 README</a> ·
+    <a href="#quick-start">Quick Start</a> ·
+    <a href="#skills">Skills</a> ·
+    <a href="#reviewer-pressure-loop">Reviewer Loop</a>
+  </p>
+  <p align="center">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.11%2B-3776AB.svg?logo=python&logoColor=white">
+    <img alt="uv" src="https://img.shields.io/badge/Package%20Manager-uv-654FF0.svg">
+    <img alt="Codex Skills" src="https://img.shields.io/badge/Codex-Skills-111827.svg">
+    <img alt="Paper AI" src="https://img.shields.io/badge/Paper-AI-2ECC71.svg">
+    <img alt="Reviewer Gate" src="https://img.shields.io/badge/Reviewer--Gate-Gemini--Compatible-F39C12.svg">
+    <img alt="Privacy" src="https://img.shields.io/badge/Raw%20Materials-Local--Only-E74C3C.svg">
+  </p>
+</p>
 
-> 中文：一个面向 AI / ML 论文全流程的 Codex skills 群与本地写作系统。它从想 idea、组织论文、写各章节、做图表、版面润色，到严格审稿模拟和 rebuttal 防守，形成一个可持续迭代的“写作—审稿—修订”闭环。
->
-> English: A local-first Codex skill group and writing system for the full AI/ML paper lifecycle: idea shaping, paper planning, section writing, figures/tables, layout polish, strict reviewer simulation, rebuttal defense, and continuous eval-driven improvement.
+---
 
-**oh_my_paper is not a magic one-click paper generator.** It is a structured agent workflow that helps a long-context Codex-style assistant keep paper context consistent, enforce evidence discipline, and revise under reviewer pressure.
+**oh_my_paper** is a local-first system for the full AI/ML paper lifecycle: idea shaping, paper planning, section writing, figures/tables, layout polish, strict reviewer simulation, rebuttal defense, and continuous eval-driven improvement.
 
-**oh_my_paper 不是“无脑一键发论文”。** 它更像一个论文写作 harness：把长上下文写作、材料内化、claim/evidence 管理、严格审稿、失败反馈和系统演化连成一套可执行流程。
+It is **not** a magic one-click paper generator. It is a structured agent workflow that helps a long-context Codex-style assistant keep paper context consistent, enforce evidence discipline, and revise under reviewer pressure.
 
 ```text
 💡 idea / research question
@@ -19,55 +36,55 @@
   → 🔁 captured failures become future evals and skill improvements
 ```
 
-## ✨ 当前系统能力 / Current system
+## Highlights
 
-- 🧠 **13 个自然论文流程 skills / 13 natural paper workflow skills** under `skills/paper-ai-*`.
-- 📚 **材料内化 references / material-derived references**: each skill carries case cards, source-derived examples, bad/good contrasts, and imitation recipes.
+- 🧠 **13 natural paper workflow skills** under `skills/paper-ai-*`.
+- 📚 **Material-derived references** inside each skill: case cards, source-derived examples, bad/good contrasts, and imitation recipes.
 - 🧾 **Claim/Evidence artifacts**: `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` keep claims, evidence, and workflow trace visible.
 - 🔍 **Evidence gate**: unsupported or inconsistent claims are flagged before they become polished prose.
 - 📝 **Full-paper generation from PDF**: `generate-paper` extracts a local PDF, drafts a complete paper, repairs structural incompleteness, and writes paper artifacts.
-- 🧑‍⚖️ **Gemini-compatible strict reviewer gate**: `review-paper` and the `generate-paper --max-review-rounds` loop use a hostile reviewer prompt through the local `.env` OpenAI-compatible endpoint.
+- 🧑‍⚖️ **Gemini-compatible strict reviewer gate**: `review-paper` and `generate-paper --max-review-rounds` use a hostile reviewer prompt through a local `.env` OpenAI-compatible endpoint.
 - 🔁 **Reviewer-driven revision loop**: failed review JSON can trigger automatic revision, overclaim sanitization, and another review round.
-- 🌐 **联网上下文可接入 / web context can be injected**: recent related-work notes can be passed with `--related-context` while raw collection stays local.
-- 🔒 **Local-only material policy**: raw PDFs, private notes, credentials, and generated stress-test outputs stay under ignored folders such as `materials/`, `temp/`, and `.env`.
+- 🌐 **Injectable web/recent context**: pass recent related-work notes with `--related-context` while keeping raw collection local.
+- 🔒 **Local-only material policy**: raw PDFs, private notes, credentials, and generated stress-test outputs stay ignored.
 - 📦 **Official Codex skill-installer compatible packaging**: skill folders are installable by path through the official installer pattern.
 
-## 🧭 Skills / 技能地图
+## Skills
 
 The public skill surface follows the paper lifecycle rather than many tiny management skills. The OMX-like depth lives inside each skill as gates, references, checklists, handoffs, and eval discipline.
 
-| Stage / 阶段 | Skill | Purpose / 用途 |
+| Stage | Skill | Purpose |
 | --- | --- | --- |
-| 🧭 全流程路由 | `paper-ai-orchestrator` | Route the writing task and coordinate handoffs between skills. |
-| 💡 Idea / 选题 | `paper-ai-idea` | Sharpen research question, contribution, novelty, and evidence pressure. |
-| ✍️ Whole-paper writing / 全文一致性 | `paper-ai-writing` | Keep story, claims, sections, and evidence aligned. |
-| 🏷️ Title + Abstract / 标题摘要 | `paper-ai-title-abstract` | Optimize first impression, searchability, and claim discipline. |
-| 🚪 Introduction / 引言 | `paper-ai-introduction` | Build motivation, gap, contribution, and reader momentum. |
-| 🧾 Related Work / 相关工作 | `paper-ai-related-work` | Position against prior work without becoming a literature dump. |
-| ⚙️ Method / 方法 | `paper-ai-method` | Explain the method from intuition to formal detail. |
-| 🧪 Experiments / 实验 | `paper-ai-experiments` | Design evidence, ablations, comparisons, and result narrative. |
-| 📊 Figures + Tables / 图表 | `paper-ai-figures` | Make visuals claim-linked, readable, and reviewer-friendly. |
-| ⚠️ Limitations / 局限性 | `paper-ai-limitations` | State boundaries without destroying the contribution. |
-| 🧩 Layout + Polish / 排版润色 | `paper-ai-layout` | Improve page budget, flow, readability, and final polish. |
-| 🧑‍⚖️ Reviewer / 审稿模拟 | `paper-ai-reviewer` | Stress-test the paper from reviewer/AC perspective. |
-| 🛡️ Rebuttal / 辩护 | `paper-ai-rebuttal` | Draft grounded rebuttals and safe revision promises. |
+| 🧭 Workflow routing | `paper-ai-orchestrator` | Route the writing task and coordinate handoffs between skills. |
+| 💡 Idea | `paper-ai-idea` | Sharpen research question, contribution, novelty, and evidence pressure. |
+| ✍️ Whole-paper writing | `paper-ai-writing` | Keep story, claims, sections, and evidence aligned. |
+| 🏷️ Title + Abstract | `paper-ai-title-abstract` | Optimize first impression, searchability, and claim discipline. |
+| 🚪 Introduction | `paper-ai-introduction` | Build motivation, gap, contribution, and reader momentum. |
+| 🧾 Related Work | `paper-ai-related-work` | Position against prior work without becoming a literature dump. |
+| ⚙️ Method | `paper-ai-method` | Explain the method from intuition to formal detail. |
+| 🧪 Experiments | `paper-ai-experiments` | Design evidence, ablations, comparisons, and result narrative. |
+| 📊 Figures + Tables | `paper-ai-figures` | Make visuals claim-linked, readable, and reviewer-friendly. |
+| ⚠️ Limitations | `paper-ai-limitations` | State boundaries without destroying the contribution. |
+| 🧩 Layout + Polish | `paper-ai-layout` | Improve page budget, flow, readability, and final polish. |
+| 🧑‍⚖️ Reviewer | `paper-ai-reviewer` | Stress-test the paper from reviewer/AC perspective. |
+| 🛡️ Rebuttal | `paper-ai-rebuttal` | Draft grounded rebuttals and safe revision promises. |
 
-## 🏗️ Architecture / 架构
+## Architecture
 
 oh_my_paper has two compatible delivery modes:
 
-1. 🖥️ **Local installed skills mode / 本机 skills 模式**
+1. 🖥️ **Local installed skills mode**
    - Install selected `skills/paper-ai-*` into the user's Codex skills directory.
    - Work inside a local paper workspace.
    - Keep artifacts such as `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` close to the draft.
 
-2. 🌐 **Codex App Server mode / Codex App Server 模式**
+2. 🌐 **Codex App Server mode**
    - The same skill logic, trace semantics, gates, and approvals can be driven by an App Server adapter.
    - The repo includes a mocked adapter boundary so event/gate behavior can be tested before real deployment.
 
 The current CLI provides the executable local harness: artifact validation, evidence gates, toy demos, full-paper PDF drafting, Gemini-compatible review, reviewer-conditioned revision, fixture capture, and eval reports.
 
-## ⚡ Quick start / 快速开始
+## Quick Start
 
 This project uses **uv**. Use `uv run`, not conda-style commands.
 
@@ -116,7 +133,7 @@ uv run oh-my-paper revise-paper \
   --env-file /root/wirting_skills/.env
 ```
 
-## 🧑‍⚖️ Reviewer-pressure loop / 审稿压力闭环
+## Reviewer-pressure loop
 
 The strict review loop is intentionally harsh:
 
@@ -127,7 +144,7 @@ The strict review loop is intentionally harsh:
 - can feed that review back into the revision agent;
 - only accepts the run when local structure checks, trace checks, artifact checks, and reviewer verdict align.
 
-The system has already been stress-tested on a full PDF input under this loop. A successful run must produce `ok: true` with:
+A successful run must produce `ok: true` with evidence similar to:
 
 ```json
 {
@@ -139,7 +156,7 @@ The system has already been stress-tested on a full PDF input under this loop. A
 }
 ```
 
-## 🔒 Materials and privacy / 材料与隐私
+## Materials and privacy
 
 Raw references and generated stress-test outputs are local-only by default:
 
@@ -158,7 +175,7 @@ New material should follow this loop:
 4. ✅ validate skills and tests;
 5. 🚫 keep raw local material and credentials out of git.
 
-## 📦 Installing skills / 安装 skills
+## Installing skills
 
 Packaging follows the official Codex `skill-installer` standard. Use this repo's skill folders as install paths:
 
@@ -175,8 +192,9 @@ install-skill-from-github.py \
 
 Install any subset of `skills/paper-ai-*` depending on the workflow surface you want.
 
-## 📚 Docs / 文档
+## Docs
 
+- [`README.zh-CN.md`](README.zh-CN.md) — Chinese README.
 - [`docs/00_OVERVIEW.md`](docs/00_OVERVIEW.md) — design index and source-of-truth map.
 - [`docs/PRD.md`](docs/PRD.md) — product requirements.
 - [`docs/SKILL_GROUP_ARCHITECTURE.md`](docs/SKILL_GROUP_ARCHITECTURE.md) — skill boundaries, handoffs, artifacts, gates.
@@ -189,7 +207,7 @@ Install any subset of `skills/paper-ai-*` depending on the workflow surface you 
 - [`docs/MATERIAL_INTAKE_WORKFLOW.md`](docs/MATERIAL_INTAKE_WORKFLOW.md) — how new PDFs/repos/notes get fused into skills.
 - [`docs/LOCAL_PUSH_NOTES.md`](docs/LOCAL_PUSH_NOTES.md) — local push workflow notes for this development environment.
 
-## ✅ Development checks / 开发检查
+## Development checks
 
 ```bash
 uv run python -m unittest discover -s tests -p 'test_*.py' -v
