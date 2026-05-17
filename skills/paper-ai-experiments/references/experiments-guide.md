@@ -109,3 +109,29 @@ Ablation examples:
 | Do reasoning prompts help? | with subtitles vs. pure visual settings |
 
 Never invent annotation counts, human-hours, model scores, or reviewer numbers. If missing, use `TODO: provide artifact`.
+
+## Experiment sections as interpretation, not table dumping
+
+Begin result subsections with the takeaway, not with “Table X shows.”
+
+Weak:
+
+> Table 1 shows the benchmark results.
+
+Strong:
+
+> Current video MLLMs remain far below human reliability on the proposed benchmark.
+
+Use this paragraph rhythm:
+
+```text
+takeaway title/first sentence → key number → comparison → interpretation → broader implication
+```
+
+Common diagnostic moves:
+
+- Convert a score drop across levels into an error-propagation explanation.
+- Compare old and new metrics to show what old evaluation hides.
+- Compare with/without text, audio, frames, or reasoning mode to reveal dependence on cues.
+- Use mean/variance or ratio analysis to separate average ability from stability.
+- End analysis with what future models need, not only who ranked first.

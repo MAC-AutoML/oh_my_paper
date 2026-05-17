@@ -48,3 +48,4 @@ Important claims must be linked to evidence or explicitly caveated before final 
 ## References to load as needed
 
 - `references/whole-paper-writing.md`
+- `references/full-paper-narrative-flow.md` for paragraph-function audits, section-job mapping, and full-paper narrative closure.

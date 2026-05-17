@@ -126,3 +126,21 @@ Narrative closure check:
 - If method defines three capability levels, experiments must analyze those levels.
 - If the metric penalizes inconsistent groups, analysis must show what conventional accuracy hides.
 - If quality control is claimed, method/appendix must provide process details.
+
+## Full-paper flow audit
+
+When a paper feels smooth, it is usually because paragraph functions are clear. Audit the draft with this chain:
+
+```text
+Problem → Gap → Design → Evidence → Insight → Impact
+```
+
+For every section ask:
+
+1. What reader question does this section answer?
+2. What function does each paragraph serve?
+3. Does the paragraph's first sentence act as a road sign?
+4. Does this section prepare the next section?
+5. Does it close a loop opened earlier in the paper?
+
+Strong papers repeatedly connect design to evidence. If the method introduces a capability hierarchy, experiments should analyze that hierarchy. If the metric penalizes fragmented correctness, experiments should show what conventional accuracy hides.

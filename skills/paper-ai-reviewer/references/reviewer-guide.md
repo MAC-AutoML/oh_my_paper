@@ -126,3 +126,20 @@ Score-up signals:
 - Human expert comparison or strong diagnostic baseline.
 - Error propagation analysis showing why models fail.
 - Honest condition-specific findings: X helps under condition A but fails under condition B.
+
+## Narrative-flow review pass
+
+In addition to technical correctness, review paragraph function and story flow.
+
+Ask:
+
+1. Can I state the paper's hidden spine in one sentence?
+2. Does every section have a distinct job?
+3. Does every paragraph have a road-sign first sentence?
+4. Do method designs answer earlier gaps?
+5. Do experiments close loops opened by the method?
+6. Are subsection titles takeaways or neutral labels?
+7. Does every major number receive interpretation?
+8. Does the conclusion recover the same story rather than introducing new claims?
+
+Flag as major clarity risk if the paper has strong components but no visible `Problem → Gap → Design → Evidence → Insight → Impact` progression.

@@ -106,3 +106,23 @@ Contribution bullets should be few and strong:
 - `We evaluate <models> and reveal <human-model gap / hierarchical bottleneck / condition-specific failure>.`
 
 Do not write contribution bullets as workload descriptions such as “we collect many examples” unless the collection process itself is a scientific contribution with quality evidence.
+
+## Introduction as a problem-upgrade chain
+
+A fluent introduction does not dump background; it upgrades the problem step by step:
+
+```text
+field progress → old evaluation/method now insufficient → specific gap → why the gap is serious → our design → evidence preview → contributions
+```
+
+For benchmark/evaluation papers, each early problem should map to a later design:
+
+| Problem stated in intro | Design that should answer it |
+| --- | --- |
+| benchmarks are saturated | harder diagnostic benchmark with human/model gap |
+| capabilities are evaluated in isolation | progressive capability hierarchy |
+| per-question accuracy overestimates models | group/consistency-based scoring |
+| language shortcuts contaminate results | text-only baseline filtering or adversarial distractors |
+| data quality is uncertain | annotation, independent review, QA rounds, leakage checks |
+
+If a problem has no matching design, remove or soften it. If a design solves no stated problem, motivate it earlier.

@@ -86,3 +86,27 @@ After each equation add:
 - Which intuition it encodes.
 - Which component uses it.
 - What would fail without it.
+
+## Method as design necessity
+
+A method section is fluent when every component is a response to a previously stated limitation.
+
+Use this local pattern for each component:
+
+```markdown
+Previous approaches usually <old design>, which fails to capture <missing property>. To address this limitation, we design <component>. Specifically, <component> consists of <subpart A>, <subpart B>, and <subpart C>. This design enables <benefit> by <mechanism>.
+```
+
+For hierarchical designs, write with dependency language:
+
+- `Building on Level 1...`
+- `Extending this foundation...`
+- `At the highest level...`
+
+Then close the loop:
+
+```markdown
+This hierarchy is evaluated directly in Section <experiments>, where we report performance and error propagation across levels.
+```
+
+Do not introduce a component that never returns in ablations, diagnostics, or limitations unless it is explicitly scoped as implementation detail.

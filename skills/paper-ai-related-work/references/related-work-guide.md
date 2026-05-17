@@ -60,3 +60,23 @@ Bad:
 Good:
 
 > Prior work splits into retrieval-based and generation-based approaches. Retrieval methods preserve factuality but fail when evidence is implicit; generation methods improve coverage but hallucinate under sparse evidence. Our method targets this trade-off by ...
+
+## Related work as contrast architecture
+
+For fluent papers, related work prepares the reader for the method and experiments. It should not be a chronological list.
+
+Use this pattern:
+
+```markdown
+Prior work on <cluster> solves <problem> by <paradigm>. However, it assumes <condition> or leaves <gap>. This matters because <connection to our problem>. Our work differs by <specific contrast>, and we evaluate this difference in <experiment/section>.
+```
+
+For benchmark papers, useful clusters include:
+
+- task-specific benchmarks vs. general diagnostic benchmarks;
+- per-question accuracy vs. group/consistency evaluation;
+- dataset scale/diversity vs. capability hierarchy;
+- model leaderboard ranking vs. failure-mode diagnosis;
+- annotation volume vs. independent QA/leakage control.
+
+The final sentence of each related-work cluster should point forward to the current paper's design, not merely say prior work is insufficient.
