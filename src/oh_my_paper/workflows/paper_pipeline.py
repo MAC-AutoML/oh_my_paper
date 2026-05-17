@@ -1,4 +1,4 @@
-"""Offline-capable ARS four-skill pipeline command."""
+"""Offline-capable oh my paper four-skill pipeline command."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from oh_my_paper.integrity.gates import make_integrity_report, reviewer_regressi
 STAGES = ["intake", "research", "integrity_2_5", "writing", "review", "revision", "integrity_4_5", "finalize", "complete", "blocked"]
 
 
-def run_ars_pipeline(
+def run_paper_pipeline(
     material: str | Path,
     workspace: str | Path,
     *,
@@ -34,7 +34,7 @@ def run_ars_pipeline(
     citations_path = _citations_path(offline_fixtures)
     citation_report = verify_citations_file(citations_path, paper / "CITATION_VERIFICATION_REPORT.json", config_path=config, offline_fixtures=Path(offline_fixtures) / "semantic_scholar" if offline_fixtures else None, workspace=root)
     _write_json(paper / "MATERIAL_PASSPORT.json", _material_passport(root, material_path))
-    _write_text(paper / "RESEARCH_BRIEF.md", "# Research Brief\n\nSynthetic offline ARS research brief from provided material.\n")
+    _write_text(paper / "RESEARCH_BRIEF.md", "# Research Brief\n\nSynthetic offline oh my paper research brief from provided material.\n")
     _write_json(paper / "LITERATURE_CORPUS.json", _literature_corpus(root, citation_report))
     _write_text(paper / "CLAIMS.md", "# Claims\n\n- C1: PPO is a primary reinforcement learning baseline. [verified]\n")
     _write_text(paper / "EVIDENCE_MAP.md", "# Evidence Map\n\n| Claim | Evidence | Status |\n| --- | --- | --- |\n| C1 | Citation verifier | verified |\n")
@@ -57,7 +57,7 @@ def run_ars_pipeline(
     return {"ok": citation_report.get("status") != "blocked" and review.get("verdict") == "PASS", "workspace": str(root), "pipeline_state": str(state / "PIPELINE_STATE.json"), "citation_status": citation_report.get("status"), "reviewer_verdict": review.get("verdict"), "live_e2e": "run" if live else "not_run: offline fixture tier"}
 
 
-def ars_stage_status(workspace: str | Path) -> dict[str, Any]:
+def paper_stage_status(workspace: str | Path) -> dict[str, Any]:
     state_path = Path(workspace) / ".paper-ai" / "PIPELINE_STATE.json"
     data = json.loads(state_path.read_text(encoding="utf-8"))
     return {"current_stage": data["current_stage"], "next_stage": data["resume"]["next_stage"], "blocked_reasons": data["resume"].get("blocked_reasons", []), "review_round_index": data["review"].get("round_index")}
@@ -66,11 +66,11 @@ def ars_stage_status(workspace: str | Path) -> dict[str, Any]:
 def _citations_path(offline_fixtures: str | Path | None) -> Path:
     if offline_fixtures:
         return Path(offline_fixtures) / "citations.json"
-    return Path("tests/fixtures/ars_pipeline/citations.json")
+    return Path("tests/fixtures/paper_pipeline/citations.json")
 
 
 def _material_passport(root: Path, material: Path) -> dict[str, Any]:
-    return {"schema_version": "1.0", "producer": "oh-my-paper:run-ars-pipeline", "created_at": _now(), "workspace": str(root), "inputs": [str(material)], "passport_id": "offline-material", "verification_status": "verified", "reset_boundaries": []}
+    return {"schema_version": "1.0", "producer": "oh-my-paper:run-paper-pipeline", "created_at": _now(), "workspace": str(root), "inputs": [str(material)], "passport_id": "offline-material", "verification_status": "verified", "reset_boundaries": []}
 
 
 def _literature_corpus(root: Path, citation_report: dict[str, Any]) -> dict[str, Any]:
@@ -82,7 +82,7 @@ def _literature_corpus(root: Path, citation_report: dict[str, Any]) -> dict[str,
 
 
 def _review_payload(fixtures: str | Path | None, max_rounds: int) -> dict[str, Any]:
-    path = Path(fixtures) / "review_round_pass.json" if fixtures else Path("tests/fixtures/ars_pipeline/review_round_pass.json")
+    path = Path(fixtures) / "review_round_pass.json" if fixtures else Path("tests/fixtures/paper_pipeline/review_round_pass.json")
     if path.exists():
         data = json.loads(path.read_text(encoding="utf-8"))
     else:
@@ -101,12 +101,12 @@ def _pipeline_state(root: Path, citation_report: dict[str, Any], review: dict[st
 
 def _repro_lock(root: Path, config: str | Path | None, material: Path) -> dict[str, Any]:
     config_hashes = {str(config): config_hash(config)} if config and Path(config).exists() else {}
-    return {"schema_version": "1.0", "created_at": _now(), "status": "documented", "llm_reproducibility_notice": "LLM outputs are not bitwise reproducible; provider model weights/API outputs may change without model ID changes.", "commands": ["uv run oh-my-paper run-ars-pipeline <material> <workspace> --config config.example.yaml"], "config_hashes": config_hashes, "model_config": config_status_report(config).get("models", {}), "external_services": {"semantic_scholar_mode": config_status_report(config).get("semantic_scholar", {}).get("effective_mode"), "created_at": _now()}, "artifacts": {"material": hashlib.sha256(str(material).encode()).hexdigest()}}
+    return {"schema_version": "1.0", "created_at": _now(), "status": "documented", "llm_reproducibility_notice": "LLM outputs are not bitwise reproducible; provider model weights/API outputs may change without model ID changes.", "commands": ["uv run oh-my-paper run-paper-pipeline <material> <workspace> --config config.example.yaml"], "config_hashes": config_hashes, "model_config": config_status_report(config).get("models", {}), "external_services": {"semantic_scholar_mode": config_status_report(config).get("semantic_scholar", {}).get("effective_mode"), "created_at": _now()}, "artifacts": {"material": hashlib.sha256(str(material).encode()).hexdigest()}}
 
 
 def _draft_text(material: Path) -> str:
     body = material.read_text(encoding="utf-8", errors="ignore") if material.exists() else ""
-    return f"# Offline ARS Draft\n\n## Abstract\n\nThis fixture draft demonstrates the ARS pipeline over public-safe material.\n\n## 1. Introduction\n\n{body[:500]}\n\n## 2. Related Work\n\nPPO is treated as a verified primary citation in the fixture corpus.\n\n## 3. Method\n\nNo new method is fabricated in offline mode.\n\n## 4. Experiments\n\nNo empirical result is invented; this section records required evidence placeholders.\n\n## 5. Limitations\n\nOffline fixtures do not replace live release evidence.\n\n## 6. Conclusion\n\nThe pipeline writes all required acceptance artifacts.\n\n## References\n\n- Schulman et al. Proximal Policy Optimization Algorithms.\n"
+    return f"# Offline oh my paper Draft\n\n## Abstract\n\nThis fixture draft demonstrates the oh my paper pipeline over public-safe material.\n\n## 1. Introduction\n\n{body[:500]}\n\n## 2. Related Work\n\nPPO is treated as a verified primary citation in the fixture corpus.\n\n## 3. Method\n\nNo new method is fabricated in offline mode.\n\n## 4. Experiments\n\nNo empirical result is invented; this section records required evidence placeholders.\n\n## 5. Limitations\n\nOffline fixtures do not replace live release evidence.\n\n## 6. Conclusion\n\nThe pipeline writes all required acceptance artifacts.\n\n## References\n\n- Schulman et al. Proximal Policy Optimization Algorithms.\n"
 
 
 def _summary(root: Path, citation_report: dict[str, Any], review: dict[str, Any], live: bool) -> str:

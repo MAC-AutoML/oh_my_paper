@@ -200,7 +200,7 @@
         "写一篇论文"
       ],
       "triggers_en": [
-        "/ars-full"
+        "/paper-full"
       ],
       "aliases": [
         "full",
@@ -227,7 +227,7 @@
         "帮我规划论文"
       ],
       "triggers_en": [
-        "/ars-plan"
+        "/paper-plan"
       ],
       "aliases": [
         "plan",
@@ -253,7 +253,7 @@
         "论文大纲"
       ],
       "triggers_en": [
-        "/ars-outline"
+        "/paper-outline"
       ],
       "aliases": [
         "outline-only",
@@ -280,7 +280,7 @@
         "修订论文"
       ],
       "triggers_en": [
-        "/ars-revision"
+        "/paper-revision"
       ],
       "aliases": [
         "revision",
@@ -307,7 +307,7 @@
         "修订路线图"
       ],
       "triggers_en": [
-        "/ars-revision-coach"
+        "/paper-revision-coach"
       ],
       "aliases": [
         "revision-coach",
@@ -332,7 +332,7 @@
         "写摘要"
       ],
       "triggers_en": [
-        "/ars-abstract"
+        "/paper-abstract"
       ],
       "aliases": [
         "abstract-only",
@@ -382,7 +382,7 @@
         "格式转换"
       ],
       "triggers_en": [
-        "/ars-format-convert"
+        "/paper-format-convert"
       ],
       "aliases": [
         "format-convert",
@@ -407,7 +407,7 @@
         "检查引用"
       ],
       "triggers_en": [
-        "/ars-citation-check"
+        "/paper-citation-check"
       ],
       "aliases": [
         "citation-check",
@@ -434,7 +434,7 @@
         "AI 使用披露"
       ],
       "triggers_en": [
-        "/ars-disclosure"
+        "/paper-disclosure"
       ],
       "aliases": [
         "disclosure",

@@ -1,4 +1,4 @@
-"""Small stdlib validators for Codex-native ARS compatibility artifacts."""
+"""Small stdlib validators for Codex-native oh my paper artifacts."""
 
 from __future__ import annotations
 
@@ -129,7 +129,7 @@ def validate_citation_verification_report(report: dict[str, Any] | str | Path) -
 
 def validate_integrity_report(report: dict[str, Any] | str | Path) -> ValidationResult:
     data = _coerce(report)
-    # Backward-compatible legacy template support.
+    # Minimal template support for early integrity-report fixtures.
     if "gate_outcome" in data:
         errors: list[str] = []
         _require(data, "stage", str, errors)

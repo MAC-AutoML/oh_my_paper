@@ -1,4 +1,4 @@
-"""Codex official skill-installer compatibility helpers."""
+"""Codex official skill-installer metadata helpers."""
 
 from __future__ import annotations
 

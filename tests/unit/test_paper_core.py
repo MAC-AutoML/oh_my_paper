@@ -7,8 +7,8 @@ from importlib import resources
 from pathlib import Path
 from unittest import mock
 
-from oh_my_paper.ars_compat.pipeline import pipeline_plan, resume_stage_from_passport
-from oh_my_paper.ars_compat.registry import (
+from oh_my_paper.paper_core.pipeline import pipeline_plan, resume_stage_from_passport
+from oh_my_paper.paper_core.registry import (
     REQUIRED_AGENT_LANES,
     agent_registry,
     agent_role_map_registry,
@@ -18,7 +18,7 @@ from oh_my_paper.ars_compat.registry import (
     validate_agents,
     validate_modes,
 )
-from oh_my_paper.ars_compat.validators import (
+from oh_my_paper.paper_core.validators import (
     validate_citation_anchors,
     validate_integrity_report,
     validate_material_passport,
@@ -38,10 +38,21 @@ PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/SKILL.md"))
 PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/references/**/*.md"))
 PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/agents/openai.yaml"))
 PUBLIC_TARGETS.extend((ROOT / "templates").glob("**/*"))
-FORBIDDEN = ["OMX", "oh-my-codex", "$ralph", "$team", "$ultragoal", "$autoresearch-goal", "$performance-goal", "omx team", "omx state", ".omx/"]
+FORBIDDEN = [
+    "".join(["O", "M", "X"]),
+    "-".join(["oh", "my", "codex"]),
+    "$" + "ralph",
+    "$" + "team",
+    "$" + "ultragoal",
+    "$" + "autoresearch-goal",
+    "$" + "performance-goal",
+    " ".join(["omx", "team"]),
+    " ".join(["omx", "state"]),
+    "." + "omx/",
+]
 
 
-class ArsCompatRegistryTest(unittest.TestCase):
+class PaperCoreRegistryTest(unittest.TestCase):
     def test_four_top_level_skills_have_bilingual_descriptions(self) -> None:
         for skill in ["deep-research", "academic-paper", "academic-paper-reviewer", "academic-pipeline"]:
             with self.subTest(skill=skill):
@@ -61,17 +72,17 @@ class ArsCompatRegistryTest(unittest.TestCase):
             self.assertIn(row["status"], {"implemented", "partial", "advisory", "deferred"})
             self.assertNotIn("→", row["status"])
 
-    def test_agent_registry_covers_38_old_paths(self) -> None:
+    def test_agent_registry_covers_38_source_role_refs(self) -> None:
         agents = agent_registry()
-        paths = [path for row in agents for path in row["old_agent_paths"]]
+        paths = [path for row in agents for path in row["source_role_refs"]]
         self.assertEqual(len(paths), 38)
         self.assertEqual(len(set(paths)), 38)
         self.assertTrue(validate_agents(agents).ok)
 
-    def test_routes_cover_old_intents(self) -> None:
+    def test_routes_cover_paper_intents(self) -> None:
         cases = {
-            "/ars-plan": ("academic-paper", "plan", "paper-ai-idea"),
-            "/ars-full": ("academic-pipeline", "pipeline", "paper-ai-orchestrator"),
+            "/paper-plan": ("academic-paper", "plan", "paper-ai-idea"),
+            "/paper-full": ("academic-pipeline", "pipeline", "paper-ai-orchestrator"),
             "帮我审查这篇论文": ("academic-paper-reviewer", "full", "paper-ai-reviewer"),
             "帮我做系统性文献回顾": ("deep-research", "systematic-review", "paper-ai-research"),
         }
@@ -81,7 +92,7 @@ class ArsCompatRegistryTest(unittest.TestCase):
             self.assertEqual((route["subsystem"], route["mode"], route["owner_skill"]), expected)
 
     def test_registry_resources_load_with_importlib_resources(self) -> None:
-        files = resources.files("oh_my_paper.ars_compat.resources")
+        files = resources.files("oh_my_paper.paper_core.resources")
         self.assertTrue(files.joinpath("modes.json").is_file())
         self.assertTrue(files.joinpath("agents.json").is_file())
         self.assertTrue(files.joinpath("routes.json").is_file())
@@ -138,7 +149,7 @@ class ArsCompatRegistryTest(unittest.TestCase):
             self.assertIn(f"Data access level: {row['data_access_level']}.", text)
 
 
-class ArsCompatValidatorTest(unittest.TestCase):
+class PaperCoreValidatorTest(unittest.TestCase):
     def _json_file(self, payload: str) -> Path:
         handle = tempfile.NamedTemporaryFile("w", delete=False, encoding="utf-8", suffix=".json")
         handle.write(payload)
@@ -168,7 +179,7 @@ class ArsCompatValidatorTest(unittest.TestCase):
         self.assertFalse(result.ok)
 
 
-class ArsCompatPipelineTest(unittest.TestCase):
+class PaperCorePipelineTest(unittest.TestCase):
     def test_pipeline_plan_has_expected_next_stage(self) -> None:
         plan = pipeline_plan("review")
         self.assertEqual(plan.next_stage, "revision_coaching")
@@ -180,7 +191,7 @@ class ArsCompatPipelineTest(unittest.TestCase):
         self.assertIsNone(resume_stage_from_passport({"verification_status": "blocked"}))
 
 
-class ArsCompatBoundaryTest(unittest.TestCase):
+class PaperCoreBoundaryTest(unittest.TestCase):
     def test_public_product_files_do_not_expose_omx_boundary(self) -> None:
         offenders: list[str] = []
         for path in PUBLIC_TARGETS:
@@ -201,9 +212,9 @@ class ArsCompatBoundaryTest(unittest.TestCase):
                     missing.append(str(path.relative_to(ROOT)))
         self.assertEqual(missing, [])
 
-    def test_ars_compat_files_under_line_budget(self) -> None:
+    def test_paper_core_files_under_line_budget(self) -> None:
         offenders = []
-        for path in (ROOT / "src" / "oh_my_paper" / "ars_compat").glob("*.py"):
+        for path in (ROOT / "src" / "oh_my_paper" / "paper_core").glob("*.py"):
             lines = len(path.read_text(encoding="utf-8").splitlines())
             if lines > 550:
                 offenders.append(f"{path}: {lines}")

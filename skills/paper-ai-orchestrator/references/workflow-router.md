@@ -50,7 +50,7 @@ Use this order as default when the user asks “下一步做什么”:
 4. If draft exists: introduction/method/experiments review loop.
 5. Near submission: abstract/title, layout, reviewer simulation.
 
-## ARS pipeline compatibility
+## oh my paper pipeline contract
 
 The Codex-native pipeline equivalent routes through durable artifacts rather than an external orchestration runtime:
 

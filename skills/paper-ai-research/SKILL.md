@@ -43,7 +43,7 @@ No claim may enter writing as supported unless it has traceable evidence, a sour
 - Preserve claim IDs across research, writing, figures, review, and rebuttal.
 - Do not invent experiments, citations, reviewer scores, numeric results, or code releases.
 - Mark unsupported claims as unsupported instead of polishing them into confident prose.
-- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or adapted case cards inside skills.
+- Keep `/materials` and `/temp` as raw-source caches; include only selected rights-cleared excerpts or curated case cards inside skills.
 - If you change a durable paper artifact, include a short trace note: phase, inputs, outputs, gate result.
 
 ## References to load as needed

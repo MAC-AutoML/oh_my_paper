@@ -7,15 +7,15 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from oh_my_paper.ars_compat.config import resolve_config, config_status_report
-from oh_my_paper.ars_compat.semantic_scholar import SemanticScholarVerifier
-from oh_my_paper.ars_compat.validators import validate_pipeline_state, validate_repro_lock
+from oh_my_paper.paper_core.config import resolve_config, config_status_report
+from oh_my_paper.paper_core.semantic_scholar import SemanticScholarVerifier
+from oh_my_paper.paper_core.validators import validate_pipeline_state, validate_repro_lock
 from oh_my_paper.cli import main
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
-class ArsConfigResolutionTest(unittest.TestCase):
+class PaperConfigResolutionTest(unittest.TestCase):
     def test_root_config_example_exists_and_config_yaml_is_ignored(self) -> None:
         self.assertTrue((ROOT / "config.example.yaml").is_file())
         self.assertIn("config.yaml", (ROOT / ".gitignore").read_text(encoding="utf-8"))
@@ -126,15 +126,15 @@ class SemanticScholarVerifierTest(unittest.TestCase):
         self.assertEqual(report["semantic_scholar_mode"], "no_key")
 
 
-class ArsPipelineCommandTest(unittest.TestCase):
-    def test_run_ars_pipeline_offline_fixtures_produces_required_artifacts(self) -> None:
+class PaperPipelineCommandTest(unittest.TestCase):
+    def test_run_paper_pipeline_offline_fixtures_produces_required_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             workspace = Path(tempdir) / "workspace"
-            material = ROOT / "tests/fixtures/ars_pipeline/ppo_excerpt.txt"
-            fixtures = ROOT / "tests/fixtures/ars_pipeline"
+            material = ROOT / "tests/fixtures/paper_pipeline/ppo_excerpt.txt"
+            fixtures = ROOT / "tests/fixtures/paper_pipeline"
             with mock.patch("sys.stdout") as stdout:
                 code = main([
-                    "run-ars-pipeline",
+                    "run-paper-pipeline",
                     str(material),
                     str(workspace),
                     "--config",
@@ -160,15 +160,15 @@ class ArsPipelineCommandTest(unittest.TestCase):
             self.assertTrue(validate_pipeline_state(workspace / ".paper-ai/PIPELINE_STATE.json").ok)
             self.assertTrue(validate_repro_lock(workspace / "paper/REPRO_LOCK.json").ok)
 
-    def test_ars_stage_status_uses_pipeline_state_next_stage(self) -> None:
+    def test_paper_stage_status_uses_pipeline_state_next_stage(self) -> None:
         with tempfile.TemporaryDirectory() as tempdir:
             workspace = Path(tempdir) / "workspace"
-            fixtures = ROOT / "tests/fixtures/ars_pipeline"
+            fixtures = ROOT / "tests/fixtures/paper_pipeline"
             material = fixtures / "ppo_excerpt.txt"
             with mock.patch("sys.stdout"):
-                self.assertEqual(main(["run-ars-pipeline", str(material), str(workspace), "--config", "config.example.yaml", "--offline-fixtures", str(fixtures)]), 0)
+                self.assertEqual(main(["run-paper-pipeline", str(material), str(workspace), "--config", "config.example.yaml", "--offline-fixtures", str(fixtures)]), 0)
             with mock.patch("sys.stdout") as stdout:
-                code = main(["ars-stage-status", str(workspace)])
+                code = main(["paper-stage-status", str(workspace)])
         printed = "".join(call.args[0] for call in stdout.write.call_args_list if call.args)
         status = json.loads(printed)
         self.assertEqual(code, 0)

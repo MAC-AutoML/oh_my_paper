@@ -1,6 +1,6 @@
 # oh_my_paper 的 Codex Agent Recipes
 
-这些 recipes 说明如何用项目内 Codex subagent roles 组织 ARS 风格的 panel。它们是 artifact contracts，不依赖外部编排运行时。
+这些 recipes 说明如何用项目内 Codex subagent roles 组织 oh my paper的 panel。它们是 artifact contracts，不依赖外部编排运行时。
 
 ## Research panel
 

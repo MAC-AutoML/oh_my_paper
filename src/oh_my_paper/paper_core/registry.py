@@ -1,4 +1,4 @@
-"""Load and validate ARS compatibility registries."""
+"""Load and validate oh my paper registries."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import json
 from dataclasses import dataclass
 from importlib import resources
 
-RESOURCE_PACKAGE = "oh_my_paper.ars_compat.resources"
+RESOURCE_PACKAGE = "oh_my_paper.paper_core.resources"
 MODE_STATUSES = {"implemented", "partial", "advisory", "deferred"}
 DATA_ACCESS_LEVELS = {"raw", "redacted", "verified_only"}
 ROLE_MAP_STATUSES = {"covered", "advisory", "missing"}
@@ -123,15 +123,15 @@ def validate_modes(modes: list[dict[str, object]] | None = None) -> RegistryVali
 def validate_agents(agents: list[dict[str, object]] | None = None) -> RegistryValidation:
     rows = agents if agents is not None else agent_registry()
     issues: list[RegistryIssue] = []
-    old_paths: list[str] = []
+    source_refs: list[str] = []
     name_counts: dict[str, int] = {}
     for index, row in enumerate(rows):
         path = f"agents[{index}]"
-        paths = row.get("old_agent_paths")
-        if not isinstance(paths, list) or not paths or not all(isinstance(item, str) for item in paths):
-            issues.append(RegistryIssue(path, "old_agent_paths must be a non-empty string list"))
+        refs = row.get("source_role_refs")
+        if not isinstance(refs, list) or not refs or not all(isinstance(item, str) for item in refs):
+            issues.append(RegistryIssue(path, "source_role_refs must be a non-empty string list"))
         else:
-            old_paths.extend(paths)
+            source_refs.extend(refs)
         name = row.get("codex_agent_name")
         if not isinstance(name, str) or not name:
             issues.append(RegistryIssue(path, "codex_agent_name must be a string"))
@@ -144,10 +144,10 @@ def validate_agents(agents: list[dict[str, object]] | None = None) -> RegistryVa
             issues.append(RegistryIssue(path, "status must be implemented|partial|advisory|deferred"))
         if row.get("data_access_level") not in DATA_ACCESS_LEVELS:
             issues.append(RegistryIssue(path, "data_access_level must be raw|redacted|verified_only"))
-        if row.get("consolidation") is True and not str(row.get("parity_rationale", "")).strip():
-            issues.append(RegistryIssue(path, "consolidated entries require parity_rationale"))
-    if len(old_paths) != 38 or len(set(old_paths)) != 38:
-        issues.append(RegistryIssue("agents", f"expected 38 unique old_agent_paths, found {len(set(old_paths))}/{len(old_paths)}"))
+        if row.get("consolidation") is True and not str(row.get("role_rationale", "")).strip():
+            issues.append(RegistryIssue(path, "consolidated entries require role_rationale"))
+    if len(source_refs) != 38 or len(set(source_refs)) != 38:
+        issues.append(RegistryIssue("agents", f"expected 38 unique source_role_refs, found {len(set(source_refs))}/{len(source_refs)}"))
     for name, count in name_counts.items():
         if count > 1:
             issues.append(RegistryIssue("agents", f"codex_agent_name {name} appears in multiple rows"))

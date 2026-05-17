@@ -1,4 +1,4 @@
-"""Deterministic ARS integrity and reviewer safety gates."""
+"""Deterministic oh my paper integrity and reviewer safety gates."""
 
 from __future__ import annotations
 

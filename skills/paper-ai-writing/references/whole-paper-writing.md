@@ -145,7 +145,7 @@ For every section ask:
 
 Strong papers repeatedly connect design to evidence. If the method introduces a capability hierarchy, experiments should analyze that hierarchy. If the metric penalizes fragmented correctness, experiments should show what conventional accuracy hides.
 
-## ARS academic-paper compatibility
+## oh my paper academic-paper contract
 
 Academic-paper modes are represented as Codex-native owner skills and artifacts:
 

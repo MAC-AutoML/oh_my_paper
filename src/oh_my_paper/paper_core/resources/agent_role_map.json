@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "purpose": "Codex-native reuse map for required ARS four-team agent lanes. Existing .codex/agents roles are reused when they already satisfy a lane; new role files are added only for genuinely uncovered lanes.",
+  "purpose": "Codex-native reuse map for required oh my paper four-team agent lanes. Existing .codex/agents roles are reused when they already satisfy a lane; new role files are added only for genuinely uncovered lanes.",
   "required_lanes": [
     {
       "team": "research",

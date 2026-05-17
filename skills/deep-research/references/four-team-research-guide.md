@@ -1,6 +1,6 @@
 # Deep Research guide
 
-This guide anchors the research-side ARS workflow in Codex-native skills and agents.
+This guide anchors the research-side oh my paper workflow in Codex-native skills and agents.
 
 1. Start with a stable research question, not a title.
 2. Record the intended venue, field, and evidence standard.

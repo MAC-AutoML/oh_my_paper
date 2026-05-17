@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 from oh_my_paper.artifacts.store import ArtifactStore
-from oh_my_paper.ars_compat.cli import add_ars_subcommands
+from oh_my_paper.paper_core.cli import add_paper_subcommands
 from oh_my_paper.evals.capture import capture_fixture
 from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
@@ -196,7 +196,7 @@ def build_parser() -> argparse.ArgumentParser:
     intake.add_argument("--materials-root", default="materials/paper-ai")
     intake.set_defaults(func=_intake_material)
 
-    packaging = subparsers.add_parser("packaging-status", help="show official skill-installer compatible paths")
+    packaging = subparsers.add_parser("skill-install-status", help="show official skill-installer paths")
     packaging.set_defaults(func=_packaging_status)
 
     capture = subparsers.add_parser("capture-fixture", help="capture a workspace run as a regression fixture")
@@ -207,7 +207,7 @@ def build_parser() -> argparse.ArgumentParser:
     capture.add_argument("--privacy", choices=["synthetic", "redacted", "private"], default="redacted")
     capture.set_defaults(func=_capture_fixture)
 
-    add_ars_subcommands(subparsers)
+    add_paper_subcommands(subparsers)
 
     report = subparsers.add_parser("eval-report", help="run fixture files and optionally write report/changelog")
     report.add_argument("fixture_files", nargs="+")

@@ -1,4 +1,4 @@
-"""CLI handlers for ARS compatibility validation."""
+"""CLI handlers for oh my paper validation."""
 
 from __future__ import annotations
 
@@ -6,11 +6,11 @@ import json
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
-from oh_my_paper.ars_compat.pipeline import pipeline_plan
-from oh_my_paper.ars_compat.config import config_status_report, resolve_config
-from oh_my_paper.ars_compat.semantic_scholar import SemanticScholarVerifier, load_citations, verifier_from_offline_fixtures
-from oh_my_paper.ars_compat.registry import mode_registry, route_for_trigger, validate_agents, validate_modes
-from oh_my_paper.ars_compat.validators import (
+from oh_my_paper.paper_core.pipeline import pipeline_plan
+from oh_my_paper.paper_core.config import config_status_report, resolve_config
+from oh_my_paper.paper_core.semantic_scholar import SemanticScholarVerifier, load_citations, verifier_from_offline_fixtures
+from oh_my_paper.paper_core.registry import mode_registry, route_for_trigger, validate_agents, validate_modes
+from oh_my_paper.paper_core.validators import (
     load_json,
     validate_citation_anchors,
     validate_claim_support,
@@ -18,7 +18,7 @@ from oh_my_paper.ars_compat.validators import (
     validate_material_passport,
     validate_sprint_contract,
 )
-from oh_my_paper.workflows.ars_pipeline import ars_stage_status, run_ars_pipeline
+from oh_my_paper.workflows.paper_pipeline import paper_stage_status, run_paper_pipeline
 
 
 def print_json(data: object) -> None:
@@ -87,8 +87,8 @@ def cmd_pipeline_plan(args: Namespace) -> int:
     return 0
 
 
-def cmd_run_ars_pipeline(args: Namespace) -> int:
-    result = run_ars_pipeline(
+def cmd_run_paper_pipeline(args: Namespace) -> int:
+    result = run_paper_pipeline(
         args.material,
         args.workspace,
         config=args.config,
@@ -100,8 +100,8 @@ def cmd_run_ars_pipeline(args: Namespace) -> int:
     return 0 if result.get("ok") else 1
 
 
-def cmd_ars_stage_status(args: Namespace) -> int:
-    print_json(ars_stage_status(args.workspace))
+def cmd_paper_stage_status(args: Namespace) -> int:
+    print_json(paper_stage_status(args.workspace))
     return 0
 
 
@@ -130,7 +130,7 @@ def cmd_verify_citations(args: Namespace) -> int:
     return 0 if not any(check["status"] == "error" for check in report["checks"]) else 1
 
 
-def add_ars_subcommands(subparsers) -> None:
+def add_paper_subcommands(subparsers) -> None:
     config = subparsers.add_parser("config-status", help="show redacted config resolution status")
     config.add_argument("--config")
     config.set_defaults(func=cmd_config_status)
@@ -141,52 +141,52 @@ def add_ars_subcommands(subparsers) -> None:
     verify.add_argument("--offline-fixtures")
     verify.set_defaults(func=cmd_verify_citations)
 
-    mode = subparsers.add_parser("ars-mode-registry", help="validate ARS-to-Codex mode registry")
+    mode = subparsers.add_parser("paper-mode-registry", help="validate oh my paper mode registry")
     mode.set_defaults(func=cmd_mode_registry)
 
-    agents = subparsers.add_parser("ars-agent-registry", help="validate ARS-to-Codex agent registry")
+    agents = subparsers.add_parser("paper-agent-registry", help="validate oh my paper agent registry")
     agents.set_defaults(func=cmd_agent_registry)
 
-    route = subparsers.add_parser("ars-route", help="route an old ARS-style intent to a Codex skill")
+    route = subparsers.add_parser("paper-route", help="route an oh my paper intent to a Codex skill")
     route.add_argument("trigger")
     route.set_defaults(func=cmd_route)
 
 
-    data_access = subparsers.add_parser("ars-check-data-access", help="validate ARS compatibility data access levels")
+    data_access = subparsers.add_parser("paper-check-data-access", help="validate oh my paper data access levels")
     data_access.set_defaults(func=cmd_check_data_access)
 
-    claims = subparsers.add_parser("ars-check-claims", help="validate JSON claim support records")
+    claims = subparsers.add_parser("paper-check-claims", help="validate JSON claim support records")
     claims.add_argument("path", type=Path)
     claims.set_defaults(func=cmd_check_claims)
 
-    pipeline = subparsers.add_parser("ars-pipeline-plan", help="show Codex-native ARS pipeline stage plan")
+    pipeline = subparsers.add_parser("paper-pipeline-plan", help="show Codex-native oh my paper pipeline stage plan")
     pipeline.add_argument("--stage", default="research")
     pipeline.set_defaults(func=cmd_pipeline_plan)
 
-    run_pipeline = subparsers.add_parser("run-ars-pipeline", help="run offline-capable four-skill ARS pipeline")
+    run_pipeline = subparsers.add_parser("run-paper-pipeline", help="run offline-capable four-skill oh my paper pipeline")
     run_pipeline.add_argument("material")
     run_pipeline.add_argument("workspace")
     run_pipeline.add_argument("--config")
     run_pipeline.add_argument("--offline-fixtures")
     run_pipeline.add_argument("--max-review-rounds", type=int, default=1)
-    run_pipeline.set_defaults(func=cmd_run_ars_pipeline)
+    run_pipeline.set_defaults(func=cmd_run_paper_pipeline)
 
-    stage_status = subparsers.add_parser("ars-stage-status", help="show ARS pipeline state and next stage")
+    stage_status = subparsers.add_parser("paper-stage-status", help="show oh my paper pipeline state and next stage")
     stage_status.add_argument("workspace")
-    stage_status.set_defaults(func=cmd_ars_stage_status)
+    stage_status.set_defaults(func=cmd_paper_stage_status)
 
-    passport = subparsers.add_parser("ars-validate-passport", help="validate Material Passport JSON")
+    passport = subparsers.add_parser("paper-validate-passport", help="validate Material Passport JSON")
     passport.add_argument("path", type=Path)
     passport.set_defaults(func=cmd_validate_passport)
 
-    sprint = subparsers.add_parser("ars-check-sprint-contract", help="validate reviewer sprint contract JSON")
+    sprint = subparsers.add_parser("paper-check-sprint-contract", help="validate reviewer sprint contract JSON")
     sprint.add_argument("path", type=Path)
     sprint.set_defaults(func=cmd_check_sprint_contract)
 
-    anchors = subparsers.add_parser("ars-check-citation-anchors", help="validate citation anchor audit JSON")
+    anchors = subparsers.add_parser("paper-check-citation-anchors", help="validate citation anchor audit JSON")
     anchors.add_argument("path", type=Path)
     anchors.set_defaults(func=cmd_check_citation_anchors)
 
-    integrity = subparsers.add_parser("ars-check-integrity-report", help="validate integrity report JSON")
+    integrity = subparsers.add_parser("paper-check-integrity-report", help="validate integrity report JSON")
     integrity.add_argument("path", type=Path)
     integrity.set_defaults(func=cmd_check_integrity_report)

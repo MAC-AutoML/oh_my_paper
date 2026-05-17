@@ -1,6 +1,6 @@
 # Codex Agent Recipes for oh_my_paper
 
-These recipes describe how to use repo-local Codex subagent roles for ARS-style panels. They are artifact contracts, not a dependency on an external orchestration runtime.
+These recipes describe how to use repo-local Codex subagent roles for oh my paper panels. They are artifact contracts, not a dependency on an external orchestration runtime.
 
 ## Research panel
 

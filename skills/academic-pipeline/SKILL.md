@@ -7,7 +7,7 @@ description: 论文流程编排与工艺收口（中英文） | Paper workflow o
 
 ## Use when / 适用场景
 
-- Use as the primary workflow starter for full ARS-style papers. / 用于完整论文流程启动与串联。
+- Use as the primary workflow starter for full oh my paper papers. / 用于完整论文流程启动与串联。
 - Use to resume, summarize, and finalize after section and review loops.
 
 ## Do not use when / 不适用场景

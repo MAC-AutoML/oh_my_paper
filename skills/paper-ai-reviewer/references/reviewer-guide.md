@@ -144,9 +144,9 @@ Ask:
 
 Flag as major clarity risk if the paper has strong components but no visible `Problem → Gap → Design → Evidence → Insight → Impact` progression.
 
-## ARS reviewer-panel compatibility
+## oh my paper reviewer-panel contract
 
-The Codex reviewer panel maps old reviewer roles to repo-local Codex subagents where available:
+The reviewer panel maps paper-review responsibilities to repo-local Codex subagents where available:
 
 - field analyst: infer field and rubric.
 - editor-in-chief: synthesize decision and priorities.

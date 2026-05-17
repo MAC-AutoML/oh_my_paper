@@ -47,7 +47,7 @@ class Milestone6PackagingTest(unittest.TestCase):
         self.assertEqual(set(paths), {f"skills/{skill}" for skill in EXPECTED_SKILLS})
         self.assertNotIn("--dest", command)
 
-    def test_packaging_status_is_official_installer_metadata_not_custom_copy(self) -> None:
+    def test_skill_install_status_is_official_installer_metadata_not_custom_copy(self) -> None:
         status = packaging_status(ROOT)
         self.assertTrue(status["ok"])
         self.assertEqual(status["installer"], "Codex system skill-installer")

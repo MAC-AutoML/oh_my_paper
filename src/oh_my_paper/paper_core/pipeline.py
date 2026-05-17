@@ -1,4 +1,4 @@
-"""Codex-native ARS pipeline stage helpers."""
+"""Codex-native oh my paper pipeline stage helpers."""
 
 from __future__ import annotations
 

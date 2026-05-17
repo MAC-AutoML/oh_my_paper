@@ -1,4 +1,4 @@
-"""Root config resolution and redacted status reporting for ARS workflows."""
+"""Root config resolution and redacted status reporting for oh my paper workflows."""
 
 from __future__ import annotations
 

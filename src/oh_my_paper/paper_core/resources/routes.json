@@ -1,7 +1,7 @@
 {
   "routes": [
     {
-      "trigger": "/ars-plan",
+      "trigger": "/paper-plan",
       "subsystem": "academic-paper",
       "mode": "plan",
       "owner_skill": "paper-ai-idea",
@@ -9,7 +9,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-full",
+      "trigger": "/paper-full",
       "subsystem": "academic-pipeline",
       "mode": "pipeline",
       "owner_skill": "paper-ai-orchestrator",
@@ -17,7 +17,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-lit-review",
+      "trigger": "/paper-lit-review",
       "subsystem": "deep-research",
       "mode": "lit-review",
       "owner_skill": "paper-ai-research",
@@ -25,7 +25,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-outline",
+      "trigger": "/paper-outline",
       "subsystem": "academic-paper",
       "mode": "outline-only",
       "owner_skill": "paper-ai-writing",
@@ -33,7 +33,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-abstract",
+      "trigger": "/paper-abstract",
       "subsystem": "academic-paper",
       "mode": "abstract-only",
       "owner_skill": "paper-ai-title-abstract",
@@ -41,7 +41,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-revision",
+      "trigger": "/paper-revision",
       "subsystem": "academic-paper",
       "mode": "revision",
       "owner_skill": "paper-ai-writing",
@@ -49,7 +49,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-revision-coach",
+      "trigger": "/paper-revision-coach",
       "subsystem": "academic-paper",
       "mode": "revision-coach",
       "owner_skill": "paper-ai-reviewer",
@@ -57,7 +57,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-citation-check",
+      "trigger": "/paper-citation-check",
       "subsystem": "academic-paper",
       "mode": "citation-check",
       "owner_skill": "paper-ai-research",
@@ -65,7 +65,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-disclosure",
+      "trigger": "/paper-disclosure",
       "subsystem": "academic-paper",
       "mode": "disclosure",
       "owner_skill": "paper-ai-layout",
@@ -73,7 +73,7 @@
       "label": "equivalent_intent"
     },
     {
-      "trigger": "/ars-format-convert",
+      "trigger": "/paper-format-convert",
       "subsystem": "academic-paper",
       "mode": "format-convert",
       "owner_skill": "paper-ai-layout",

@@ -1,6 +1,6 @@
 # Research workflow guide
 
-This reference adapts the previous Claude Code academic research workflow into the current Codex paper-skill structure. Keep the workflow paper-facing: the goal is not an encyclopedic report, but a defensible evidence base that can feed claims, related work, method choices, experiments, figures, and rebuttal.
+This reference defines the oh my paper research workflow inside the Codex paper-skill structure. Keep the workflow paper-facing: the goal is not an encyclopedic report, but a defensible evidence base that can feed claims, related work, method choices, experiments, figures, and rebuttal.
 
 ## Research modes
 
@@ -81,16 +81,16 @@ Each stage should answer one reader-facing question:
 - To `paper-ai-writing`: when the evidence base is stable enough for cross-section story work.
 - To `paper-ai-limitations`: when the evidence base supports only a narrower claim.
 
-## Adapted lessons from the previous Claude Code project
+## Workflow design principles
 
 - Keep a clear separation between research, writing, review, and integrity checks.
 - Use checkpoints at evidence boundaries, not after every trivial action.
 - Treat source quality as a first-class artifact, not an afterthought in references.
 - A research pipeline should produce a handoff, not force every user through a monolithic full workflow.
 
-## ARS-compatible modes in Codex
+## oh my paper modes in Codex
 
-This skill owns the Codex-native entry point for deep-research `full`, `quick`, `lit-review`, `fact-check`, and `systematic-review` intents. Treat old slash-style phrases as equivalent intents, not literal commands unless a dispatcher is explicitly running.
+This skill owns the Codex-native entry point for deep-research `full`, `quick`, `lit-review`, `fact-check`, and `systematic-review` intents. Treat slash-style phrases as user-facing paper intents; route them through the owning skill unless a dispatcher is explicitly running.
 
 - `full`: produce a research brief, methodology blueprint, source matrix, and scoped claims.
 - `quick`: produce a compact research brief with source-quality notes.
@@ -98,4 +98,4 @@ This skill owns the Codex-native entry point for deep-research `full`, `quick`, 
 - `fact-check`: validate claim support and mark unsupported claims instead of rewriting them.
 - `systematic-review`: advisory first pass using protocol/checklist artifacts until full PRISMA validators exist.
 
-Machine-readable mode ownership lives in `oh_my_paper.ars_compat` registries.
+Machine-readable mode ownership lives in `oh_my_paper.paper_core` registries.

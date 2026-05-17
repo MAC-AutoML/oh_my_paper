@@ -1,4 +1,4 @@
-"""Packaging helpers for official Codex skill-installer compatibility."""
+"""Packaging helpers for official Codex skill-installer metadata."""
 
 from oh_my_paper.packaging.skills import official_install_command, packaging_status, skill_package_info
 
