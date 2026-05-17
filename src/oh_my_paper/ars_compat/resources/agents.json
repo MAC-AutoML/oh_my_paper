@@ -1,0 +1,696 @@
+{
+  "agents": [
+    {
+      "old_agent_paths": [
+        "deep-research/agents/research_question_agent.md"
+      ],
+      "codex_agent_name": "paper-research-question",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "RQ brief"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/research_architect_agent.md"
+      ],
+      "codex_agent_name": "paper-research-architect",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "methodology blueprint"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/bibliography_agent.md"
+      ],
+      "codex_agent_name": "paper-bibliography",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "source matrix"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/source_verification_agent.md"
+      ],
+      "codex_agent_name": "paper-source-verifier",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "source verification report"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/synthesis_agent.md"
+      ],
+      "codex_agent_name": "paper-synthesis",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "synthesis report"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/meta_analysis_agent.md"
+      ],
+      "codex_agent_name": "paper-systematic-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "systematic review checklist"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/devils_advocate_agent.md"
+      ],
+      "codex_agent_name": "paper-devils-advocate",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "adversarial risk notes"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/risk_of_bias_agent.md"
+      ],
+      "codex_agent_name": "paper-risk-of-bias",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "risk-of-bias table"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/ethics_review_agent.md"
+      ],
+      "codex_agent_name": "paper-ethics-review",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "ethics caveat checklist"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/report_compiler_agent.md"
+      ],
+      "codex_agent_name": "paper-report-compiler",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "final research report"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/monitoring_agent.md"
+      ],
+      "codex_agent_name": "paper-run-monitor",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "trace and gate state"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/intake_agent.md"
+      ],
+      "codex_agent_name": "paper-intake",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "configuration record"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/literature_strategist_agent.md"
+      ],
+      "codex_agent_name": "paper-literature-strategist",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-related-work",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "literature matrix"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/structure_architect_agent.md"
+      ],
+      "codex_agent_name": "paper-structure-architect",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-writing",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "outline graph"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/argument_builder_agent.md"
+      ],
+      "codex_agent_name": "paper-argument-builder",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-writing",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "argument map"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/draft_writer_agent.md"
+      ],
+      "codex_agent_name": "paper-draft-writer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-writing",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "section drafts"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/citation_compliance_agent.md"
+      ],
+      "codex_agent_name": "paper-citation-auditor",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "citation report"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/abstract_bilingual_agent.md"
+      ],
+      "codex_agent_name": "paper-abstract-bilingual",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-title-abstract",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "bilingual abstract"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/peer_reviewer_agent.md"
+      ],
+      "codex_agent_name": "paper-internal-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "draft critique"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/formatter_agent.md"
+      ],
+      "codex_agent_name": "paper-formatter-disclosure",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-layout",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "formatted output plan"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/visualization_agent.md"
+      ],
+      "codex_agent_name": "paper-visualization-planner",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-figures",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "figure/table plan"
+      ],
+      "data_access_level": "redacted",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper/agents/revision_coach_agent.md"
+      ],
+      "codex_agent_name": "paper-revision-coach",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-rebuttal",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "revision roadmap"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/field_analyst_agent.md"
+      ],
+      "codex_agent_name": "paper-field-analyst",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "field/rubric profile"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/methodology_reviewer_agent.md"
+      ],
+      "codex_agent_name": "paper-methodology-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "methodology review"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/domain_reviewer_agent.md"
+      ],
+      "codex_agent_name": "paper-domain-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "domain review"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/perspective_reviewer_agent.md"
+      ],
+      "codex_agent_name": "paper-perspective-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "perspective review"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/devils_advocate_reviewer_agent.md"
+      ],
+      "codex_agent_name": "paper-devils-advocate-reviewer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "adversarial review"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/editorial_synthesizer_agent.md"
+      ],
+      "codex_agent_name": "paper-editorial-synthesizer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "decision synthesis"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-pipeline/agents/pipeline_orchestrator_agent.md"
+      ],
+      "codex_agent_name": "paper-pipeline-orchestrator",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "stage plan"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-pipeline/agents/state_tracker_agent.md"
+      ],
+      "codex_agent_name": "paper-state-tracker",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "state/passport boundary"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-pipeline/agents/integrity_verification_agent.md"
+      ],
+      "codex_agent_name": "paper-integrity-verifier",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "integrity report"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-pipeline/agents/collaboration_depth_agent.md"
+      ],
+      "codex_agent_name": "paper-collaboration-observer",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "process reflection"
+      ],
+      "data_access_level": "redacted",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "academic-pipeline/agents/claim_ref_alignment_audit_agent.md"
+      ],
+      "codex_agent_name": "paper-claim-reference-auditor",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-research",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "claim-reference audit"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "shared/agents/compliance_agent.md"
+      ],
+      "codex_agent_name": "paper-compliance-verifier",
+      "consolidation": false,
+      "parity_rationale": "One old ARS responsibility maps to this Codex-native role specification.",
+      "owner_skill": "paper-ai-layout",
+      "secondary_owner_skills": [],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "output_artifacts": [
+        "compliance report"
+      ],
+      "data_access_level": "verified_only",
+      "status": "advisory"
+    },
+    {
+      "old_agent_paths": [
+        "deep-research/agents/socratic_mentor_agent.md",
+        "academic-paper/agents/socratic_mentor_agent.md"
+      ],
+      "codex_agent_name": "paper-socratic-mentor",
+      "consolidation": true,
+      "parity_rationale": "Both old roles guide Socratic planning; route metadata selects research or paper-writing artifacts.",
+      "owner_skill": "paper-ai-idea",
+      "secondary_owner_skills": [
+        "paper-ai-research",
+        "paper-ai-writing"
+      ],
+      "input_artifacts": [
+        "paper/PAPER_BRIEF.md"
+      ],
+      "output_artifacts": [
+        "guided planning questions"
+      ],
+      "data_access_level": "raw",
+      "status": "implemented"
+    },
+    {
+      "old_agent_paths": [
+        "academic-paper-reviewer/agents/eic_agent.md",
+        "deep-research/agents/editor_in_chief_agent.md"
+      ],
+      "codex_agent_name": "paper-review-eic",
+      "consolidation": true,
+      "parity_rationale": "Both old EIC roles synthesize high-level research or peer-review decisions; owner and artifact contracts distinguish research decision notes from editorial decisions.",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_owner_skills": [
+        "paper-ai-research"
+      ],
+      "input_artifacts": [
+        "paper/CLAIMS.md",
+        "paper/EVIDENCE_MAP.md",
+        "paper/REVIEW_SIMULATION.md"
+      ],
+      "output_artifacts": [
+        "editorial decision",
+        "research decision notes"
+      ],
+      "data_access_level": "verified_only",
+      "status": "implemented"
+    }
+  ]
+}

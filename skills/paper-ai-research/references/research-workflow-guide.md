@@ -87,3 +87,15 @@ Each stage should answer one reader-facing question:
 - Use checkpoints at evidence boundaries, not after every trivial action.
 - Treat source quality as a first-class artifact, not an afterthought in references.
 - A research pipeline should produce a handoff, not force every user through a monolithic full workflow.
+
+## ARS-compatible modes in Codex
+
+This skill owns the Codex-native entry point for deep-research `full`, `quick`, `lit-review`, `fact-check`, and `systematic-review` intents. Treat old slash-style phrases as equivalent intents, not literal commands unless a dispatcher is explicitly running.
+
+- `full`: produce a research brief, methodology blueprint, source matrix, and scoped claims.
+- `quick`: produce a compact research brief with source-quality notes.
+- `lit-review`: produce a literature matrix and synthesis map; hand related-work prose to `paper-ai-related-work`.
+- `fact-check`: validate claim support and mark unsupported claims instead of rewriting them.
+- `systematic-review`: advisory first pass using protocol/checklist artifacts until full PRISMA validators exist.
+
+Machine-readable mode ownership lives in `oh_my_paper.ars_compat` registries.

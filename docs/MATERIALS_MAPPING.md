@@ -14,7 +14,7 @@ This file maps local materials to design decisions. It does not publish raw mate
 | `paper-ai-layout` | CWMT tutorial; writing/figures categories; future venue templates | Page budget, figure/table placement, final formatting checks |
 | `paper-ai-reviewer` | `materials/paper-ai/categories/paper-checking.md`; `materials/paper-ai/categories/review-rating.md`; local paper-checking, peer-review, and paper-rating families | Reviewer simulation, scoring, risk prioritization |
 | `paper-ai-rebuttal` | `materials/paper-ai/categories/rebuttal.md`; summarized Devi Parikh/Dhruv Batra/Stefan Lee article; learning-research rebuttal notes | Concern table, AC-facing response, tone/compression |
-| Eval harness | `materials/architecture-references/README.md`; OpenAI cookbook improvement loop; OMX repos | Trace/eval flywheel, regression cases, human gates |
+| Eval harness | `materials/architecture-references/README.md`; OpenAI cookbook improvement loop; local regression-pattern notes | Trace/eval flywheel, regression cases, human gates |
 
 ## 3. Architecture materials
 
@@ -23,8 +23,8 @@ This file maps local materials to design decisions. It does not publish raw mate
 | Codex skills structure | Official Codex skills docs; `materials/architecture-references/repos/anthropics-skills/`; local Codex skill examples | Skill folder shape, progressive disclosure, plugin packaging direction |
 | App Server mode | Official Codex App Server docs; OpenAI App Server article; `materials/architecture-references/repos/openai-codex/codex-rs/app-server*` | JSON-RPC, thread/turn/item mapping, approvals, client bindings |
 | Agent handoffs/guardrails/tracing | `materials/architecture-references/repos/openai-openai-agents-python/docs/` | Handoff contracts, guardrail ideas, trace semantics |
-| OMX-style orchestration | local oh-my-codex repos | Role separation, planning/execution/verification workflows, stateful skills |
-| Research skill precedents | `AI-research-SKILLs`; `Research-Paper-Writing-Skills`; local `academic-research-skills` clone in ignored `temp/` | Skill naming, source-quality, Socratic scoping, and research-to-paper workflow precedents |
+| Role-separated orchestration patterns | local architecture notes and Codex agent references | Role separation, planning/execution/verification workflows, stateful skill behavior |
+| Research skill precedents | public research-skill precedents and local summarized migration notes | Skill naming, source-quality, Socratic scoping, and research-to-paper workflow precedents |
 
 
 ## 4. Continuous intake/fusion workflow

@@ -21,3 +21,6 @@ build-backend = "setuptools.build_meta"
 
 [dependency-groups]
 dev = []
+
+[tool.setuptools.package-data]
+"oh_my_paper.ars_compat" = ["resources/*.json"]

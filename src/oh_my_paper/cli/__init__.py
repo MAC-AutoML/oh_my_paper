@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from oh_my_paper.artifacts.store import ArtifactStore
+from oh_my_paper.ars_compat.cli import add_ars_subcommands
 from oh_my_paper.evals.capture import capture_fixture
 from oh_my_paper.evals.changelog import append_changelog
 from oh_my_paper.evals.fixtures import run_fixture_file
@@ -205,6 +206,8 @@ def build_parser() -> argparse.ArgumentParser:
     capture.add_argument("--purpose", required=True)
     capture.add_argument("--privacy", choices=["synthetic", "redacted", "private"], default="redacted")
     capture.set_defaults(func=_capture_fixture)
+
+    add_ars_subcommands(subparsers)
 
     report = subparsers.add_parser("eval-report", help="run fixture files and optionally write report/changelog")
     report.add_argument("fixture_files", nargs="+")

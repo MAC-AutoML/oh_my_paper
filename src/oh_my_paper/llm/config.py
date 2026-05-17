@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -44,10 +45,11 @@ def load_env_file(path: str | Path) -> dict[str, str]:
 
 def load_llm_config(path: str | Path = ".env") -> LLMConfig:
     values = load_env_file(path)
-    api_key = values.get("api_key") or values.get("OPENAI_API_KEY") or values.get("GEMINI_API_KEY")
-    base_url = values.get("base_url") or values.get("OPENAI_BASE_URL")
-    writer_model = values.get("model_1") or values.get("MODEL") or values.get("OPENAI_MODEL")
-    reviewer_model = values.get("model_2") or writer_model
+    values.update({key: value for key, value in os.environ.items() if value})
+    api_key = values.get("OPENAI_API_KEY") or values.get("api_key") or values.get("GEMINI_API_KEY")
+    base_url = values.get("OPENAI_BASE_URL") or values.get("base_url")
+    writer_model = values.get("OPENAI_MODEL") or values.get("MODEL") or values.get("model_1")
+    reviewer_model = values.get("OPENAI_REVIEWER_MODEL") or values.get("model_2") or writer_model
     missing = [name for name, value in {"api_key": api_key, "base_url": base_url, "model_1": writer_model}.items() if not value]
     if missing:
         raise ValueError(f"missing LLM config field(s): {', '.join(missing)}")

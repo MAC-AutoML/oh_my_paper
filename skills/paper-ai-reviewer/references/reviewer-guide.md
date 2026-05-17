@@ -143,3 +143,17 @@ Ask:
 8. Does the conclusion recover the same story rather than introducing new claims?
 
 Flag as major clarity risk if the paper has strong components but no visible `Problem → Gap → Design → Evidence → Insight → Impact` progression.
+
+## ARS reviewer-panel compatibility
+
+The Codex reviewer panel maps old reviewer roles to repo-local Codex subagents where available:
+
+- field analyst: infer field and rubric.
+- editor-in-chief: synthesize decision and priorities.
+- methodology reviewer: pressure-test design and evidence.
+- domain reviewer: evaluate field fit and related work.
+- perspective reviewer: test generality and interdisciplinary clarity.
+- devil's advocate reviewer: preserve attack intensity.
+- editorial synthesizer: merge without softening fatal concerns.
+
+Reviewer outputs must stay read-only over the draft: produce critique, decision, and fix plan rather than silently rewriting claims.

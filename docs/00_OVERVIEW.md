@@ -4,9 +4,8 @@
 
 - Product name: `oh my paper`.
 - Current phase: design-first planning package.
-- Source requirement artifact: `.omx/specs/deep-interview-oh-my-paper-skill-group.md`.
 - Local material cache: `materials/` *(gitignored; do not publish raw contents)*.
-- Planning target: ready for implementation planning via `$ralplan`, `$ralph`, `$team`, or `$ultragoal` after review.
+- Planning target: ready for Codex-native implementation through skills, repo-local subagents, API-backed workflows, and local validators.
 
 ## Problem statement
 
@@ -39,7 +38,6 @@ The system should be useful because it is **stage-gated and evidence-aware**, no
 
 ### User-supplied local requirements
 
-- `.omx/specs/deep-interview-oh-my-paper-skill-group.md`
 - `materials/paper-ai/README.md`
 - `materials/paper-ai/categories/*.md`
 - `materials/architecture-references/README.md`

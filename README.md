@@ -49,7 +49,6 @@ Put the runtime dependencies in place before installing or using the skills:
 | API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
 | Node.js / npm | Local Node.js `v22.14.0`, npm `10.9.2` | Needed only for Node-based tooling such as Playwright-backed utilities. |
 | npm package | Local `package.json` declares `playwright ^1.60.0` | Optional browser/automation dependency for local tooling. |
-| oh-my-codex | Local version `v0.17.3` | Optional OMX/Codex orchestration environment used by this workspace. |
 
 Python package metadata currently has no runtime third-party Python dependencies beyond the project package itself.
 
@@ -68,7 +67,7 @@ Python package metadata currently has no runtime third-party Python dependencies
 
 ## Skills
 
-The public skill surface follows the paper lifecycle rather than many tiny management skills. The OMX-like depth lives inside each skill as gates, references, checklists, handoffs, and eval discipline.
+The public skill surface follows the paper lifecycle rather than many tiny management skills. Depth lives inside each skill as gates, references, checklists, handoffs, Codex subagent recipes, and eval discipline.
 
 | Stage | Skill | Purpose |
 | --- | --- | --- |
@@ -181,7 +180,6 @@ Raw references and generated stress-test outputs are local-only by default:
 - `temp/`
 - `.env`
 - `config.yaml`
-- `.omx/`
 - `.spec-workflow/`
 
 New material should follow this loop:

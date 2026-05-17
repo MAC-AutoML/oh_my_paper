@@ -49,3 +49,18 @@ Use this order as default when the user asks “下一步做什么”:
 3. If experiments unstable: `paper-ai-experiments` for evidence plan/record.
 4. If draft exists: introduction/method/experiments review loop.
 5. Near submission: abstract/title, layout, reviewer simulation.
+
+## ARS pipeline compatibility
+
+The Codex-native pipeline equivalent routes through durable artifacts rather than an external orchestration runtime:
+
+1. Research brief and methodology blueprint.
+2. Outline and claim/evidence map.
+3. Draft sections and figure/table plans.
+4. Integrity check before reviewer simulation.
+5. Reviewer panel and fix plan.
+6. Revision and traceability matrix.
+7. Final integrity report.
+8. Layout/disclosure/process summary.
+
+Use `paper/MATERIAL_PASSPORT.json` for reset/resume metadata. If the passport is malformed or the resume hash is invalid, do not claim the run can resume safely.

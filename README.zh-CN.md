@@ -49,7 +49,6 @@
 | API endpoint | `.env` 支持 `OPENAI_API_KEY`；启用模型调用时，生成、严格审稿和修订流程需要 OpenAI-compatible endpoint | 驱动 full-paper generation、strict review 和 revision loop。 |
 | Node.js / npm | 当前 Node.js `v22.14.0`，npm `10.9.2` | 仅在使用 Playwright 等 Node-based tooling 时需要。 |
 | npm package | 当前 `package.json` 声明 `playwright ^1.60.0` | 本地浏览器/自动化工具的可选依赖。 |
-| oh-my-codex | 当前版本 `v0.17.3` | 本工作区使用的可选 OMX/Codex orchestration 环境。 |
 
 当前 Python package metadata 除项目自身外，没有声明额外 runtime third-party Python dependencies。
 
@@ -68,7 +67,7 @@
 
 ## 技能地图
 
-公开 skills 按论文生命周期组织，而不是拆成很多管理型 micro-skills。OMX-like 深度体现在每个 skill 内部的 gates、references、checklists、handoffs 和 eval discipline。
+公开 skills 按论文生命周期组织，而不是拆成很多管理型 micro-skills。深度体现在每个 skill 内部的 gates、references、checklists、handoffs、Codex subagent recipes 和 eval discipline。
 
 | 阶段 | Skill | 用途 |
 | --- | --- | --- |
@@ -181,7 +180,6 @@ uv run oh-my-paper revise-paper \
 - `temp/`
 - `.env`
 - `config.yaml`
-- `.omx/`
 - `.spec-workflow/`
 
 新材料建议流程：

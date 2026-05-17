@@ -1,0 +1,8 @@
+{
+  "contract_id": "example-contract",
+  "reviewer_role": "eic",
+  "phase1_commitment": {
+    "rubric": ["novelty", "evidence", "clarity"],
+    "forbidden_operations": ["do not rewrite claims silently"]
+  }
+}

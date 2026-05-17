@@ -1,0 +1,649 @@
+{
+  "modes": [
+    {
+      "subsystem": "deep-research",
+      "mode": "full",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/RESEARCH_BRIEF.md",
+        "paper/METHODOLOGY_BLUEPRINT.md"
+      ],
+      "gates": [
+        "source_quality_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "研究 "
+      ],
+      "triggers_en": [
+        "deep research"
+      ],
+      "aliases": [
+        "full",
+        "deep-research:full"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "quick",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/RESEARCH_BRIEF.md"
+      ],
+      "gates": [
+        "source_quality_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "快速摘要"
+      ],
+      "triggers_en": [
+        "quick brief"
+      ],
+      "aliases": [
+        "quick",
+        "deep-research:quick"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "review",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [
+        "paper-ai-research"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/REVIEW_SIMULATION.md"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "审查这篇来源"
+      ],
+      "triggers_en": [
+        "review this paper"
+      ],
+      "aliases": [
+        "review",
+        "deep-research:review"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "lit-review",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [
+        "paper-ai-related-work"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/LITERATURE_MATRIX.md"
+      ],
+      "gates": [
+        "source_quality_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "文献回顾"
+      ],
+      "triggers_en": [
+        "lit review"
+      ],
+      "aliases": [
+        "lit-review",
+        "deep-research:lit-review"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "fact-check",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/CLAIM_AUDIT_REPORT.json"
+      ],
+      "gates": [
+        "evidence_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "查核"
+      ],
+      "triggers_en": [
+        "fact-check"
+      ],
+      "aliases": [
+        "fact-check",
+        "deep-research:fact-check"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "socratic",
+      "owner_skill": "paper-ai-idea",
+      "secondary_skills": [
+        "paper-ai-research"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/RESEARCH_BRIEF.md"
+      ],
+      "gates": [
+        "scope_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "引导我研究"
+      ],
+      "triggers_en": [
+        "guide my research"
+      ],
+      "aliases": [
+        "socratic",
+        "deep-research:socratic"
+      ]
+    },
+    {
+      "subsystem": "deep-research",
+      "mode": "systematic-review",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [],
+      "status": "advisory",
+      "next_action": "stage PRISMA artifacts",
+      "outputs": [
+        "paper/SYSTEMATIC_REVIEW_PROTOCOL.md"
+      ],
+      "gates": [
+        "prisma_shape_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "系统性文献回顾"
+      ],
+      "triggers_en": [
+        "systematic review"
+      ],
+      "aliases": [
+        "systematic-review",
+        "deep-research:systematic-review"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "full",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/PROCESS_SUMMARY.json"
+      ],
+      "gates": [
+        "pipeline_gate"
+      ],
+      "data_access_level": "redacted",
+      "triggers_zh_cn": [
+        "写一篇论文"
+      ],
+      "triggers_en": [
+        "/ars-full"
+      ],
+      "aliases": [
+        "full",
+        "academic-paper:full"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "plan",
+      "owner_skill": "paper-ai-idea",
+      "secondary_skills": [
+        "paper-ai-writing"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/PAPER_BRIEF.md"
+      ],
+      "gates": [
+        "scope_gate"
+      ],
+      "data_access_level": "raw",
+      "triggers_zh_cn": [
+        "帮我规划论文"
+      ],
+      "triggers_en": [
+        "/ars-plan"
+      ],
+      "aliases": [
+        "plan",
+        "academic-paper:plan"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "outline-only",
+      "owner_skill": "paper-ai-writing",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/OUTLINE.md",
+        "paper/EVIDENCE_MAP.md"
+      ],
+      "gates": [
+        "evidence_gate"
+      ],
+      "data_access_level": "redacted",
+      "triggers_zh_cn": [
+        "论文大纲"
+      ],
+      "triggers_en": [
+        "/ars-outline"
+      ],
+      "aliases": [
+        "outline-only",
+        "academic-paper:outline-only"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "revision",
+      "owner_skill": "paper-ai-writing",
+      "secondary_skills": [
+        "paper-ai-rebuttal"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/REVISION_TRACEABILITY_MATRIX.json"
+      ],
+      "gates": [
+        "revision_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "修订论文"
+      ],
+      "triggers_en": [
+        "/ars-revision"
+      ],
+      "aliases": [
+        "revision",
+        "academic-paper:revision"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "revision-coach",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [
+        "paper-ai-rebuttal"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/FIX_PLAN.md"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "修订路线图"
+      ],
+      "triggers_en": [
+        "/ars-revision-coach"
+      ],
+      "aliases": [
+        "revision-coach",
+        "academic-paper:revision-coach"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "abstract-only",
+      "owner_skill": "paper-ai-title-abstract",
+      "secondary_skills": [],
+      "status": "implemented",
+      "next_action": "harden bilingual outputs",
+      "outputs": [
+        "paper/ABSTRACT.md"
+      ],
+      "gates": [
+        "overclaim_gate"
+      ],
+      "data_access_level": "redacted",
+      "triggers_zh_cn": [
+        "写摘要"
+      ],
+      "triggers_en": [
+        "/ars-abstract"
+      ],
+      "aliases": [
+        "abstract-only",
+        "academic-paper:abstract-only"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "lit-review",
+      "owner_skill": "paper-ai-related-work",
+      "secondary_skills": [
+        "paper-ai-research"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/RELATED_WORK_DRAFT.md"
+      ],
+      "gates": [
+        "source_quality_gate"
+      ],
+      "data_access_level": "redacted",
+      "triggers_zh_cn": [
+        "文献回顾论文"
+      ],
+      "triggers_en": [],
+      "aliases": [
+        "lit-review",
+        "academic-paper:lit-review"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "format-convert",
+      "owner_skill": "paper-ai-layout",
+      "secondary_skills": [],
+      "status": "advisory",
+      "next_action": "stage renderer integration",
+      "outputs": [
+        "paper/LAYOUT_REPORT.md"
+      ],
+      "gates": [
+        "layout_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "格式转换"
+      ],
+      "triggers_en": [
+        "/ars-format-convert"
+      ],
+      "aliases": [
+        "format-convert",
+        "academic-paper:format-convert"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "citation-check",
+      "owner_skill": "paper-ai-research",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/CITATION_ANCHOR_AUDIT.json"
+      ],
+      "gates": [
+        "citation_anchor_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "检查引用"
+      ],
+      "triggers_en": [
+        "/ars-citation-check"
+      ],
+      "aliases": [
+        "citation-check",
+        "academic-paper:citation-check"
+      ]
+    },
+    {
+      "subsystem": "academic-paper",
+      "mode": "disclosure",
+      "owner_skill": "paper-ai-layout",
+      "secondary_skills": [
+        "paper-ai-orchestrator"
+      ],
+      "status": "advisory",
+      "next_action": "stage venue policy templates",
+      "outputs": [
+        "paper/AI_DISCLOSURE.md"
+      ],
+      "gates": [
+        "disclosure_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "AI 使用披露"
+      ],
+      "triggers_en": [
+        "/ars-disclosure"
+      ],
+      "aliases": [
+        "disclosure",
+        "academic-paper:disclosure"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "full",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/REVIEW_SIMULATION.md",
+        "paper/FIX_PLAN.md"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "审查这篇论文"
+      ],
+      "triggers_en": [
+        "peer review"
+      ],
+      "aliases": [
+        "full",
+        "academic-paper-reviewer:full"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "re-review",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/REVISION_TRACEABILITY_MATRIX.json"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "复审"
+      ],
+      "triggers_en": [
+        "re-review"
+      ],
+      "aliases": [
+        "re-review",
+        "academic-paper-reviewer:re-review"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "quick",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/REVIEW_SIMULATION.md"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "快速审稿"
+      ],
+      "triggers_en": [
+        "quick review"
+      ],
+      "aliases": [
+        "quick",
+        "academic-paper-reviewer:quick"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "methodology-focus",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [
+        "paper-ai-method"
+      ],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/METHODOLOGY_REVIEW.md"
+      ],
+      "gates": [
+        "method_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "检查方法"
+      ],
+      "triggers_en": [
+        "methodology focus"
+      ],
+      "aliases": [
+        "methodology-focus",
+        "academic-paper-reviewer:methodology-focus"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "guided",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [],
+      "status": "advisory",
+      "next_action": "stage guided dialogue",
+      "outputs": [
+        "paper/FIX_PLAN.md"
+      ],
+      "gates": [
+        "reviewer_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "带我改进"
+      ],
+      "triggers_en": [
+        "guided review"
+      ],
+      "aliases": [
+        "guided",
+        "academic-paper-reviewer:guided"
+      ]
+    },
+    {
+      "subsystem": "academic-paper-reviewer",
+      "mode": "calibration",
+      "owner_skill": "paper-ai-reviewer",
+      "secondary_skills": [],
+      "status": "advisory",
+      "next_action": "stage calibration fixtures",
+      "outputs": [
+        "paper/REVIEWER_CALIBRATION.json"
+      ],
+      "gates": [
+        "calibration_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "校准审稿人"
+      ],
+      "triggers_en": [
+        "calibration"
+      ],
+      "aliases": [
+        "calibration",
+        "academic-paper-reviewer:calibration"
+      ]
+    },
+    {
+      "subsystem": "academic-pipeline",
+      "mode": "pipeline",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_skills": [],
+      "status": "partial",
+      "next_action": "implement",
+      "outputs": [
+        "paper/PROCESS_SUMMARY.json"
+      ],
+      "gates": [
+        "pipeline_gate",
+        "integrity_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "完整流程"
+      ],
+      "triggers_en": [
+        "academic pipeline"
+      ],
+      "aliases": [
+        "pipeline",
+        "academic-pipeline:pipeline"
+      ]
+    },
+    {
+      "subsystem": "academic-pipeline",
+      "mode": "resume_from_passport",
+      "owner_skill": "paper-ai-orchestrator",
+      "secondary_skills": [],
+      "status": "advisory",
+      "next_action": "stage resume state machine",
+      "outputs": [
+        "paper/MATERIAL_PASSPORT.json"
+      ],
+      "gates": [
+        "passport_gate"
+      ],
+      "data_access_level": "verified_only",
+      "triggers_zh_cn": [
+        "从素材护照恢复"
+      ],
+      "triggers_en": [
+        "resume from passport"
+      ],
+      "aliases": [
+        "resume_from_passport",
+        "academic-pipeline:resume_from_passport"
+      ]
+    }
+  ]
+}

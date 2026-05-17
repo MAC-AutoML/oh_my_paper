@@ -75,7 +75,7 @@ skills/paper-ai-writing/SKILL.md
 
 - No rich external UI by default.
 - Long-running state is file-based and convention-driven.
-- Multi-agent concurrency depends on the host Codex/OMX surface.
+- Multi-agent concurrency depends on Codex-native subagent support and explicit artifact handoff contracts.
 
 ## 4. Codex App Server mode
 

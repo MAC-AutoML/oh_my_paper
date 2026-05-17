@@ -144,3 +144,15 @@ For every section ask:
 5. Does it close a loop opened earlier in the paper?
 
 Strong papers repeatedly connect design to evidence. If the method introduces a capability hierarchy, experiments should analyze that hierarchy. If the metric penalizes fragmented correctness, experiments should show what conventional accuracy hides.
+
+## ARS academic-paper compatibility
+
+Academic-paper modes are represented as Codex-native owner skills and artifacts:
+
+- `plan`: owner `paper-ai-idea`, with `paper-ai-writing` as secondary.
+- `outline-only`: owner `paper-ai-writing`.
+- `full`: owner `paper-ai-orchestrator`.
+- `revision`: owner `paper-ai-writing`, with rebuttal/revision artifacts as secondary context.
+- `lit-review`: owner `paper-ai-related-work`.
+
+Keep one primary owner for each mode. Secondary skills may contribute, but the owner is responsible for gate status and artifact handoff.

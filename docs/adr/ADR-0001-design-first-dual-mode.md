@@ -6,7 +6,7 @@ Accepted for v1 planning.
 
 ## Context
 
-The project goal is a full-process AI-paper skill group inspired by oh-my-codex orchestration and Codex harness/App Server ideas. User clarification selected a design-first MVP and required PRD, skill architecture, dual-mode design, harness/eval loop, roadmap, repo structure, and acceptance/eval specs.
+The project goal is a full-process AI-paper skill group built on Codex skills, Codex harness/App Server ideas, and role-separated workflow design. User clarification selected a design-first MVP and required PRD, skill architecture, dual-mode design, harness/eval loop, roadmap, repo structure, and acceptance/eval specs.
 
 ## Decision
 

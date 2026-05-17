@@ -6,7 +6,6 @@ Tracked repository should contain curated project docs and future implementation
 
 Ignored local directories:
 
-- `.omx/`
 - `.spec-workflow/`
 - `materials/`
 - `temp/`

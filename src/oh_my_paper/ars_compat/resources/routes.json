@@ -1,0 +1,108 @@
+{
+  "routes": [
+    {
+      "trigger": "/ars-plan",
+      "subsystem": "academic-paper",
+      "mode": "plan",
+      "owner_skill": "paper-ai-idea",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-full",
+      "subsystem": "academic-pipeline",
+      "mode": "pipeline",
+      "owner_skill": "paper-ai-orchestrator",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-lit-review",
+      "subsystem": "deep-research",
+      "mode": "lit-review",
+      "owner_skill": "paper-ai-research",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-outline",
+      "subsystem": "academic-paper",
+      "mode": "outline-only",
+      "owner_skill": "paper-ai-writing",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-abstract",
+      "subsystem": "academic-paper",
+      "mode": "abstract-only",
+      "owner_skill": "paper-ai-title-abstract",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-revision",
+      "subsystem": "academic-paper",
+      "mode": "revision",
+      "owner_skill": "paper-ai-writing",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-revision-coach",
+      "subsystem": "academic-paper",
+      "mode": "revision-coach",
+      "owner_skill": "paper-ai-reviewer",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-citation-check",
+      "subsystem": "academic-paper",
+      "mode": "citation-check",
+      "owner_skill": "paper-ai-research",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-disclosure",
+      "subsystem": "academic-paper",
+      "mode": "disclosure",
+      "owner_skill": "paper-ai-layout",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "/ars-format-convert",
+      "subsystem": "academic-paper",
+      "mode": "format-convert",
+      "owner_skill": "paper-ai-layout",
+      "literal_command": true,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "研究 X",
+      "subsystem": "deep-research",
+      "mode": "full",
+      "owner_skill": "paper-ai-research",
+      "literal_command": false,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "帮我审查这篇论文",
+      "subsystem": "academic-paper-reviewer",
+      "mode": "full",
+      "owner_skill": "paper-ai-reviewer",
+      "literal_command": false,
+      "label": "equivalent_intent"
+    },
+    {
+      "trigger": "帮我做系统性文献回顾",
+      "subsystem": "deep-research",
+      "mode": "systematic-review",
+      "owner_skill": "paper-ai-research",
+      "literal_command": false,
+      "label": "equivalent_intent"
+    }
+  ]
+}
