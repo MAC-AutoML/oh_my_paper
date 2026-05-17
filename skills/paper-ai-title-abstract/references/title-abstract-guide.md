@@ -108,3 +108,37 @@ Safe rewrite pattern:
 
 - Overclaim: `All You Need for Robust Multimodal Reasoning`
 - Safer: `Constraint-Guided Multimodal Reasoning under Compositional Layout Shifts`
+
+## Benchmark/evaluation abstract pattern
+
+For benchmark, dataset, and evaluation papers, do not open with “we introduce a new dataset.” Start with the evaluation crisis.
+
+Strong story arc:
+
+```text
+Existing benchmark is saturated or misleading
+→ new benchmark/evaluation protocol is needed
+→ our design is systematic and quality-controlled
+→ experiments reveal hidden model-human gaps or bottlenecks
+→ the benchmark becomes a diagnostic testbed
+```
+
+Abstract slot template:
+
+```markdown
+Despite recent progress in <field>, existing benchmarks increasingly <failure>, creating a gap between <leaderboard/proxy metric> and <real capability>. To address this gap, we introduce <Benchmark>, a <definition> designed to evaluate <target capability>. It is built around <hierarchy/taxonomy/protocol>, which enables <systematic diagnosis>. Unlike <old metric>, our <new evaluation> penalizes <shortcut/failure>. Constructed through <annotation/review/QA details>, <Benchmark> provides <credibility>. Experiments show <key result>. Further analysis reveals <bottleneck/condition-specific failure>. These results make <Benchmark> a challenging diagnostic testbed for <future systems>.
+```
+
+Phrase bank:
+
+- `Existing benchmarks increasingly fail to distinguish genuine <capability> from <shortcut>.`
+- `This creates a gap between inflated leaderboard scores and real-world reliability.`
+- `We organize <capability> into a progressive hierarchy: <level 1>, <level 2>, and <level 3>.`
+- `Unlike conventional per-question accuracy, the protocol scores consistency across related queries.`
+- `The best model remains substantially below human experts, revealing <bottleneck>.`
+
+Overclaim guard:
+
+- Avoid `one of the most authoritative` unless externally justified.
+- Prefer `rigorously curated`, `diagnostically informative`, and `challenging testbed`.
+- Avoid claiming “valid reasoning” unless reasoning validity is directly annotated; prefer “consistent across related queries.”

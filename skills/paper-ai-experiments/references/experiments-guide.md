@@ -76,3 +76,36 @@ Bad:
 Good:
 
 > To test whether the constraint graph improves object binding (C2), we compare against <baseline> on <dataset> using <metric>. The result shows <provided number or qualitative artifact>. This supports C2 because <interpretation>. The evidence is limited to <scope/caveat>.
+
+## Benchmark/evaluation experiment pattern
+
+Benchmark experiments must prove that the benchmark is useful, not only report leaderboard numbers.
+
+Required experiment layers:
+
+1. **Main performance:** state-of-the-art model scores, human performance, and legacy benchmark comparison if available.
+2. **Capability breakdown:** results by hierarchy level, task type, domain, duration, modality, or reasoning requirement.
+3. **Metric/protocol ablation:** compare conventional accuracy with the proposed scoring protocol.
+4. **Quality/reliability evidence:** annotation agreement, reviewer audit, leakage checks, ambiguity resolution, or QA rounds.
+5. **Error analysis:** identify recurring failure modes and whether lower-level errors propagate upward.
+6. **Condition-specific insight:** when reasoning prompts, subtitles, longer context, or tools help and when they hurt.
+
+Result interpretation pattern:
+
+```markdown
+Performance: <model> achieves <score>, compared with <human/baseline>.
+Diagnosis: The gap is largest in <capability level>, indicating <bottleneck>.
+Metric insight: Under <old metric>, the model appears stronger because <shortcut>; under <new metric>, inconsistent groups are penalized.
+Field implication: Future models need <specific capability>, not only higher average accuracy.
+```
+
+Ablation examples:
+
+| Question | Possible ablation |
+| --- | --- |
+| Does group scoring matter? | per-question accuracy vs. group-consistency score |
+| Does hierarchy diagnose failure? | score by evidence aggregation / temporal modeling / reasoning |
+| Is quality control necessary? | before-vs-after QA ambiguity/noise rate |
+| Do reasoning prompts help? | with subtitles vs. pure visual settings |
+
+Never invent annotation counts, human-hours, model scores, or reviewer numbers. If missing, use `TODO: provide artifact`.

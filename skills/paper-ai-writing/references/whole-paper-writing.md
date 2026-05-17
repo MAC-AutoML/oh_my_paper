@@ -99,3 +99,30 @@ Use this as default schedule:
 - T-14: experiments section, figures/tables, related work.
 - T-7: reviewer simulation and major fixes.
 - T-3: abstract/title, layout, language, final proof.
+
+## Benchmark/evaluation paper story pattern
+
+For benchmark or dataset papers, organize the whole paper around a field-level evaluation failure.
+
+One-line thesis:
+
+```markdown
+This paper shows that <existing evaluation overestimates/misses capability> by proposing <benchmark/protocol> and demonstrating <diagnostic finding>.
+```
+
+Whole-paper flow:
+
+1. **Abstract:** evaluation crisis → benchmark/protocol → quality → key gap → diagnostic insight.
+2. **Introduction:** problem-upgrade chain; why old benchmarks fail; why this benchmark is necessary now.
+3. **Related Work:** organize by evaluation limitations, not by a list of datasets.
+4. **Benchmark design:** capability hierarchy, example construction, annotation/QA, leakage controls.
+5. **Evaluation protocol:** old metric weakness, new scoring logic, what it can and cannot prove.
+6. **Experiments:** model/human gap, capability breakdown, metric ablation, failure modes.
+7. **Discussion:** what next-generation models need; limitations of the benchmark.
+
+Narrative closure check:
+
+- If the introduction says benchmarks are saturated, experiments must show the new benchmark is not saturated.
+- If method defines three capability levels, experiments must analyze those levels.
+- If the metric penalizes inconsistent groups, analysis must show what conventional accuracy hides.
+- If quality control is claimed, method/appendix must provide process details.

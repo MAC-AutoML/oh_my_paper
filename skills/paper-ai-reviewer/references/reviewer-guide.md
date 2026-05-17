@@ -91,3 +91,38 @@ Source excerpt:
 Imitation recipe:
 
 When first impression is weak, classify every small inconsistency as potentially major until fixed: unsupported claim, sloppy caption, notation mismatch, missing baseline, vague limitation.
+
+## Benchmark/evaluation paper review checklist
+
+When reviewing benchmark, dataset, or evaluation papers, ask whether the paper proves a real evaluation gap rather than merely adding data.
+
+Fatal or major risks:
+
+- Starts with “we introduce a dataset” but never shows why existing evaluation is failing.
+- Claims benchmark authority using adjectives instead of annotation/review/leakage evidence.
+- Uses a flat list of question types where a capability hierarchy or diagnostic taxonomy is needed.
+- Reports only average leaderboard scores without model-human gap, capability breakdown, or error analysis.
+- Proposes a new metric but does not compare it with conventional accuracy.
+- Says “valid reasoning” without a verifiable way to judge reasoning support.
+- Uses impressive annotation numbers in the abstract that are not supported in the method/appendix.
+
+Reviewer questions:
+
+```markdown
+1. What real evaluation crisis does this benchmark solve?
+2. What capability does it measure that prior benchmarks miss?
+3. Is the benchmark systematically designed or just larger/more diverse?
+4. Is the scoring protocol justified and ablated?
+5. Are annotation and QA claims concrete enough to trust?
+6. Do experiments reveal a bottleneck, or only rank models?
+7. Are impact claims restrained and evidence-backed?
+```
+
+Score-up signals:
+
+- Clear contradiction such as inflated leaderboard scores vs. real-world capability.
+- Capability hierarchy that structures both data construction and analysis.
+- Group/consistency-based evaluation that exposes shortcut correctness.
+- Human expert comparison or strong diagnostic baseline.
+- Error propagation analysis showing why models fail.
+- Honest condition-specific findings: X helps under condition A but fails under condition B.

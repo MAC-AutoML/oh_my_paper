@@ -79,3 +79,30 @@ Good:
 - We formulate <specific failure mode> as <technical problem>, enabling direct evaluation of <claim C1>.
 - We introduce <method component> to address <challenge>, with ablations isolating its effect <C2>.
 - We provide <dataset/analysis/tool> showing <scoped evidence>, not a universal claim <C3>.
+
+## Benchmark/evaluation introduction pattern
+
+For benchmark papers, the introduction should be a problem-upgrade chain, not a dataset announcement.
+
+Recommended chain:
+
+1. **Field progress:** models are improving and being used in more realistic settings.
+2. **Evaluation failure:** existing benchmarks are saturated, shortcut-prone, too isolated, or no longer diagnostic.
+3. **Consequence:** leaderboard gains no longer reflect robust real-world capability.
+4. **Challenge:** faithful evaluation requires capability decomposition, quality control, and metrics that penalize inconsistent reasoning.
+5. **Solution:** introduce the benchmark/evaluation protocol and its design principles.
+6. **Evidence preview:** show model-human gap, hidden failure, or diagnostic bottleneck.
+
+One-sentence thesis test:
+
+```markdown
+This paper shows that <current models/evaluations fail in what way> by introducing <benchmark/protocol> and demonstrating <main empirical insight>.
+```
+
+Contribution bullets should be few and strong:
+
+- `We introduce <Benchmark>, a diagnostic testbed for <capability>, organized around <hierarchy>.`
+- `We propose <evaluation protocol> that addresses <failure of conventional metric>.`
+- `We evaluate <models> and reveal <human-model gap / hierarchical bottleneck / condition-specific failure>.`
+
+Do not write contribution bullets as workload descriptions such as “we collect many examples” unless the collection process itself is a scientific contribution with quality evidence.
