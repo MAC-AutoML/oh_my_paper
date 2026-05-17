@@ -17,6 +17,7 @@ from oh_my_paper.traces.recorder import TraceRecorder
 
 SECTION_MARKERS = [
     "# ",
+    "# <descriptive paper title>",
     "## Abstract",
     "## 1. Introduction",
     "## 2. Related Work",
@@ -93,8 +94,7 @@ def generate_full_paper_from_pdf(
     )
     paper = _write_full_paper(config, source_text, related_context)
     paper_path = store.paper_dir / "FULL_PAPER_DRAFT.md"
-    if not validate_paper_sections(paper):
-        paper = complete_full_paper_text(config, paper, source_text, related_context)
+    paper = _ensure_complete_paper(config, paper, source_text, related_context)
     paper_path.write_text(paper, encoding="utf-8")
     _write_claim_artifacts(store, paper)
     recorder.record(
@@ -131,11 +131,23 @@ def generate_full_paper_from_pdf(
                 human_required=verdict != "PASS",
                 summary=f"Gemini reviewer round {round_index} verdict: {verdict}; score: {score}.",
             )
-            if verdict == "PASS" or round_index == rounds:
+            needs_local_repair = not validate_paper_sections(paper_path.read_text(encoding="utf-8"))
+            if verdict == "PASS" and not needs_local_repair and (
+                round_index == rounds or not _review_requests_revision(review)
+            ):
                 break
-            revised = revise_full_paper(paper_path, review_path, env_file=env_file, related_context=related_context)
-            if not validate_paper_sections(revised):
-                revised = complete_full_paper_text(config, revised, source_text, related_context)
+            if round_index == rounds:
+                break
+            if needs_local_repair and not _review_requests_revision(review):
+                revised = complete_full_paper_text(
+                    config,
+                    paper_path.read_text(encoding="utf-8"),
+                    source_text,
+                    related_context,
+                )
+            else:
+                revised = revise_full_paper(paper_path, review_path, env_file=env_file, related_context=related_context)
+            revised = _ensure_complete_paper(config, revised, source_text, related_context)
             paper_path.write_text(revised, encoding="utf-8")
             _write_claim_artifacts(store, revised)
             recorder.record(
@@ -154,6 +166,47 @@ def generate_full_paper_from_pdf(
     trace_ok = validate_trace(store.trace_path).ok
     return FullPaperResult(store.root, paper_path, review_path, trace_ok, section_ok, verdict, score)
 
+
+
+def _review_requests_revision(review: dict[str, object]) -> bool:
+    if review.get("verdict") != "PASS":
+        return True
+    for key in ("required_revisions", "major_issues"):
+        if _actionable_review_items(review.get(key, [])):
+            return True
+    return False
+
+
+def _ensure_complete_paper(config, paper: str, source_text: str, related_context: str) -> str:
+    current = paper
+    for _ in range(2):
+        if validate_paper_sections(current):
+            break
+        current = complete_full_paper_text(config, current, source_text, related_context)
+    return current
+
+
+def _actionable_review_items(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    items = [str(item).strip() for item in value if str(item).strip()]
+    return [item for item in items if not _is_optional_or_empty_review_item(item)]
+
+
+def _is_optional_or_empty_review_item(item: str) -> bool:
+    lowered = item.casefold()
+    empty_markers = (
+        "none",
+        "none required",
+        "no required",
+        "no mandatory",
+        "not required",
+        "n/a",
+    )
+    if lowered.strip(" .:-") in empty_markers:
+        return True
+    optional_markers = ("consider", "optional", "nice to have", "could", "may")
+    return any(marker in lowered for marker in optional_markers)
 
 
 def complete_full_paper_text(config, paper: str, source_text: str, related_context: str) -> str:
@@ -215,7 +268,7 @@ def review_full_paper(
 
 def validate_paper_sections(paper: str) -> bool:
     required_patterns = [
-        r"(?im)^#\s+\S",
+        r"(?im)^#\s+(?!title\s*$).+",
         r"(?im)^#{2,3}\s+abstract\b",
         r"(?im)^##\s+1\.?\s+introduction\b",
         r"(?im)^##\s+2\.?\s+related work\b",
@@ -247,7 +300,7 @@ def _writer_system_prompt() -> str:
 Write a coherent complete ML paper draft in markdown from provided source material.
 Use the source as test input, but do not merely copy it; reorganize it into a cleaner paper with consistent terminology.
 Preserve factual numbers only when supported by the source. If a claim is not directly supported, mark it as proposed or future work.
-Required exact markdown headings: # Title, ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References. The draft must be at least 3000 words.
+Use a descriptive top-level markdown title, not the literal text "# Title". Required exact section headings after the title: ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References. The draft must be at least 3000 words.
 Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
 Treat this as a source-derived design/reproduction draft: be conservative, and only report mechanisms, baselines, datasets, or numbers that are present in the source or explicitly labeled as proposed follow-up evaluation.
 When reporting source benchmark numbers, state they are source-reported and should be independently reproduced.
@@ -261,7 +314,7 @@ If the source paper is a reinforcement-learning paper, include objective definit
 def _completion_system_prompt() -> str:
     return """You are the oh_my_paper completeness repair agent.
 Expand and restructure the draft into a complete markdown paper of at least 3000 words.
-Use these exact headings: # Title, ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References.
+Use a descriptive top-level markdown title, not the literal text "# Title". Use these exact section headings after the title: ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References.
 Preserve conservative claim discipline: do not invent unsupported empirical results, do not claim accuracy gains over base experts, and caveat source-reported or proposed protocol values.
 Return only the complete paper markdown.
 """

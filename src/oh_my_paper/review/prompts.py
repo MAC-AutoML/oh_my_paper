@@ -15,6 +15,12 @@ Review criteria:
 7. Venue readiness: judge whether a serious reviewer would find this coherent enough for further development.
 8. Overclaim bans: fail the draft if it claims the orchestrator improves base expert benchmark accuracy without a described mechanism; claims robust key consistency from brittle hashes without caveats; or uses undefined strawman baselines.
 
+Issue severity rules:
+- blocking_issues: acceptance-blocking defects that require FAIL.
+- major_issues: serious but non-blocking weaknesses that should be revised before a clean internal pass.
+- required_revisions: only concrete mandatory edits needed for a clean pass. If the verdict is PASS and no mandatory edits remain, this array must be empty.
+- minor_issues: optional polish suggestions, including any sentence phrased as "consider", "nice to have", "could", or "optional". Never place optional suggestions in required_revisions.
+
 Return STRICT JSON only, no markdown fences:
 {
   "verdict": "PASS" or "FAIL",
@@ -27,5 +33,5 @@ Return STRICT JSON only, no markdown fences:
   "paper_sections_present": {"title": true, "abstract": true, "introduction": true, "related_work": true, "method": true, "experiments": true, "limitations": true, "conclusion": true, "references": true}
 }
 
-PASS requires score >= 8, zero blocking issues, and all required sections present.
+PASS requires score >= 8, zero blocking issues, and all required sections present. A clean PASS should have empty major_issues and empty required_revisions; otherwise the system may run another revision round.
 """

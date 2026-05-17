@@ -11,7 +11,7 @@ from oh_my_paper.workflows import full_paper
 
 class Milestone7FullPaperWorkflowTest(unittest.TestCase):
     def test_section_validator_requires_complete_long_paper(self) -> None:
-        paper = "# Title\n\n" + "\n\n".join(
+        paper = "# Descriptive Paper Title\n\n" + "\n\n".join(
             [
                 "## Abstract " + "word " * 350,
                 "## 1. Introduction " + "word " * 350,
@@ -24,6 +24,7 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             ]
         )
         self.assertTrue(full_paper.validate_paper_sections(paper))
+        self.assertFalse(full_paper.validate_paper_sections(paper.replace("# Descriptive Paper Title", "# Title")))
         self.assertFalse(full_paper.validate_paper_sections("## Abstract\nshort"))
         self.assertFalse(full_paper.validate_paper_sections(paper.replace("## 2. Related Work", "## 2. Background")))
 
@@ -102,6 +103,49 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             self.assertEqual(result.reviewer_verdict, "PASS")
             self.assertIn("revised", (root / "paper/FULL_PAPER_DRAFT.md").read_text(encoding="utf-8"))
 
+
+    def test_pass_with_required_revisions_gets_polished_when_rounds_remain(self) -> None:
+        initial = "# Draft\n\n" + "\n\n".join([
+            "## Abstract " + "initial " * 350,
+            "## 1. Introduction " + "initial " * 350,
+            "## 2. Related Work " + "initial " * 350,
+            "## 3. Method " + "initial " * 350,
+            "## 4. Experiments and Results " + "initial " * 350,
+            "## 5. Limitations " + "initial " * 350,
+            "## 6. Conclusion " + "initial " * 350,
+            "## References " + "initial " * 350,
+        ])
+        polished = initial.replace("initial", "polished")
+        reviews = iter([
+            {"verdict": "PASS", "score": 9, "blocking_issues": [], "major_issues": ["needs context"], "required_revisions": ["add figure"]},
+            {"verdict": "PASS", "score": 9, "blocking_issues": [], "major_issues": [], "required_revisions": []},
+        ])
+        with tempfile.TemporaryDirectory() as tempdir, mock.patch.object(full_paper, "extract_pdf_text") as extract:
+            root = (Path(tempdir) / "workspace").resolve()
+            source = root / ".paper-ai/SOURCE_TEXT.txt"
+            extract.side_effect = lambda _pdf, _out: source
+            source.parent.mkdir(parents=True)
+            source.write_text("source pdf text", encoding="utf-8")
+            with mock.patch.object(full_paper, "load_llm_config") as cfg, \
+                 mock.patch.object(full_paper, "_write_full_paper", return_value=initial), \
+                 mock.patch.object(full_paper, "review_full_paper", side_effect=lambda *_a, **_k: next(reviews)), \
+                 mock.patch.object(full_paper, "revise_full_paper", return_value=polished) as revise:
+                cfg.return_value = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
+                result = full_paper.generate_full_paper_from_pdf("paper.pdf", root, reviewer=True, max_review_rounds=2)
+            self.assertTrue(result.ok, result.to_dict())
+            revise.assert_called_once()
+            self.assertIn("polished", (root / "paper/FULL_PAPER_DRAFT.md").read_text(encoding="utf-8"))
+
+    def test_pass_with_optional_suggestion_does_not_force_extra_round(self) -> None:
+        review = {
+            "verdict": "PASS",
+            "score": 9,
+            "blocking_issues": [],
+            "major_issues": [],
+            "required_revisions": ["None required, but consider adding dependency versions."],
+        }
+        self.assertFalse(full_paper._review_requests_revision(review))
+
     def test_sanitizer_softens_forbidden_overclaims(self) -> None:
         text = "robust evidence-key consistency improves accuracy over Standard RAG-based System"
         sanitized = full_paper._sanitize_overclaims(text)
@@ -120,6 +164,37 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             reviewer_score=8,
         )
         self.assertFalse(result.ok)
+
+    def test_local_section_gate_repairs_even_when_reviewer_passes(self) -> None:
+        short = "# Draft\n\n## Abstract\nshort"
+        complete = "# Draft\n\n" + "\n\n".join([
+            "## Abstract " + "complete " * 350,
+            "## 1. Introduction " + "complete " * 350,
+            "## 2. Related Work " + "complete " * 350,
+            "## 3. Method " + "complete " * 350,
+            "## 4. Experiments and Results " + "complete " * 350,
+            "## 5. Limitations " + "complete " * 350,
+            "## 6. Conclusion " + "complete " * 350,
+            "## References " + "complete " * 350,
+        ])
+        reviews = iter([
+            {"verdict": "PASS", "score": 9, "blocking_issues": [], "major_issues": [], "required_revisions": []},
+            {"verdict": "PASS", "score": 9, "blocking_issues": [], "major_issues": [], "required_revisions": []},
+        ])
+        with tempfile.TemporaryDirectory() as tempdir, mock.patch.object(full_paper, "extract_pdf_text") as extract:
+            root = (Path(tempdir) / "workspace").resolve()
+            source = root / ".paper-ai/SOURCE_TEXT.txt"
+            extract.side_effect = lambda _pdf, _out: source
+            source.parent.mkdir(parents=True)
+            source.write_text("source pdf text", encoding="utf-8")
+            with mock.patch.object(full_paper, "load_llm_config") as cfg, \
+                 mock.patch.object(full_paper, "_write_full_paper", return_value=short), \
+                 mock.patch.object(full_paper, "complete_full_paper_text", return_value=complete) as repair, \
+                 mock.patch.object(full_paper, "review_full_paper", side_effect=lambda *_a, **_k: next(reviews)):
+                cfg.return_value = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
+                result = full_paper.generate_full_paper_from_pdf("paper.pdf", root, reviewer=True, max_review_rounds=2)
+            self.assertTrue(result.ok, result.to_dict())
+            repair.assert_called_once()
 
 
 if __name__ == "__main__":
