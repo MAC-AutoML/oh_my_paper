@@ -249,13 +249,11 @@ Use the source as test input, but do not merely copy it; reorganize it into a cl
 Preserve factual numbers only when supported by the source. If a claim is not directly supported, mark it as proposed or future work.
 Required exact markdown headings: # Title, ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References. The draft must be at least 3000 words.
 Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
-Explicitly define training-free as no gradient updates for orchestration components, while acknowledging off-the-shelf experts were pre-trained.
-Treat this as a source-derived design/reproduction draft: be conservative, do not claim the orchestrator improves a base expert's static benchmark accuracy unless the source explicitly describes multi-pass, ensembling, or another accuracy mechanism.
+Treat this as a source-derived design/reproduction draft: be conservative, and only report mechanisms, baselines, datasets, or numbers that are present in the source or explicitly labeled as proposed follow-up evaluation.
 When reporting source benchmark numbers, state they are source-reported and should be independently reproduced.
-Use evidence-key consistency as an exact-cache eligibility rule, not as a broad robustness guarantee; caveat pHash/MFCC-style keys as engineering options with sensitivity limits.
-Include protocol reliability checks for invalid/missing control tokens, a latency table that separates controller inference, parsing, memory lookup, expert inference, TTS/playback, and total overhead, and a memory ablation table focused on redundant calls/latency plus accuracy preservation rather than unsupported accuracy gains.
-Define every baseline concretely; if a baseline is illustrative rather than source-reported, mark it as a proposed protocol and avoid numeric superiority claims.
-Include failure modes for controller token errors, cache misuse, expert timeout, and barge-in cancellation on non-cancellable black-box experts.
+Define every baseline concretely. If a baseline is illustrative rather than source-reported, mark it as a proposed protocol and avoid numeric superiority claims.
+Include reliability checks, ablations, failure modes, and validity threats that are appropriate to the source paper's domain.
+If the source paper is a reinforcement-learning paper, include objective definitions, optimization details, ablations, and evaluation protocol caveats grounded in the source.
 """
 
 
@@ -291,11 +289,10 @@ def _revision_system_prompt() -> str:
 Revise the full paper so it can pass a hostile top-tier ML reviewer.
 You must directly address every blocking and major issue in the JSON review.
 Keep the paper as a complete markdown paper of at least 3000 words, not a response letter, and use the exact required headings including ## 2. Related Work.
-Add concrete tables, Mermaid diagrams, explicit definitions, ablations, latency accounting, failure modes, and caveated claims where needed.
+Add concrete tables, Mermaid diagrams when useful, explicit definitions, ablations, failure modes, and caveated claims where needed.
 Do not invent unsupported empirical results; if a table uses source-derived values, say so; if a protocol is proposed, mark it as a protocol.
-Remove or soften any claim that the orchestration layer improves a base expert's static benchmark accuracy unless the mechanism is explicit.
-Never call pHash/MFCC or exact evidence keys robust to real-world transformations; present them as verifiable exact-cache keys with known sensitivity.
-Replace vague/strawman baselines with clearly defined source-reported baselines or proposed evaluation protocols without numeric superiority claims.
+Remove or soften any claim that is not grounded in the source text or provided context.
+Replace vague or strawman baselines with clearly defined source-reported baselines or proposed evaluation protocols without numeric superiority claims.
 Return only the revised paper markdown.
 """
 
