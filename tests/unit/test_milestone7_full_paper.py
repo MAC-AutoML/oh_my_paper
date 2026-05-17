@@ -61,6 +61,36 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
             self.assertTrue((root / "paper/CLAIMS.md").exists())
             self.assertTrue((root / "paper/EVIDENCE_MAP.md").exists())
 
+    def test_full_paper_writer_uses_multi_round_calls(self) -> None:
+        generated = "# Draft\n\n" + "\n\n".join(
+            [
+                "## Abstract " + "multi round " * 350,
+                "## 1. Introduction " + "multi round " * 350,
+                "## 2. Related Work " + "multi round " * 350,
+                "## 3. Method " + "multi round " * 350,
+                "## 4. Experiments and Results " + "multi round " * 350,
+                "## 5. Limitations " + "multi round " * 350,
+                "## 6. Conclusion " + "multi round " * 350,
+                "## References " + "multi round " * 350,
+            ]
+        )
+        calls: list[str] = []
+
+        def fake_chat(config, *, model, messages, temperature=0.2, max_tokens=12000, timeout_s=900):
+            del config, model, temperature, max_tokens, timeout_s
+            calls.append(messages[0]["content"])
+            return ChatResult(generated, {"choices": []})
+
+        with mock.patch.object(full_paper, "chat_completion", fake_chat):
+            config = type("Config", (), {"writer_model": "writer"})()
+            paper = full_paper._write_full_paper(config, "source", "context")
+        self.assertIn("multi round", paper)
+        self.assertGreaterEqual(len(calls), 4)
+        self.assertIn("section-contract planner", calls[0])
+        self.assertIn("full-paper writing agent", calls[1])
+        self.assertIn("internal writing critic", calls[2])
+        self.assertIn("internal revision agent", calls[3])
+
     def test_review_loop_revises_after_failed_round(self) -> None:
         initial = "# Draft\n\n" + "\n\n".join([
             "## Abstract " + "initial " * 350,

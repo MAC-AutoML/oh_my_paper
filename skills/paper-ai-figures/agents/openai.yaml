@@ -1,4 +1,4 @@
 interface:
   display_name: "图表设计"
-  short_description: "设计论文图表"
-  default_prompt: "使用 $paper-ai-figures 规划当前论文的图、表和 caption。"
+  short_description: "图表与生图提示词"
+  default_prompt: "使用 $paper-ai-figures 从论文 claim 生成图表计划、caption 和 Codex imagegen 提示词。"

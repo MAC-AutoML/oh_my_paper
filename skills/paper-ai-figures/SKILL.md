@@ -1,6 +1,6 @@
 ---
 name: paper-ai-figures
-description: 设计和审查 AI 论文图、结果图、方法示意图、表格、caption 和首页视觉，使每个视觉服务一个 takeaway 和 claim；适合画图规划、表格规划、视觉层级和 caption。
+description: 设计和审查 AI 论文图、结果图、方法示意图、表格、caption 和首页视觉，使每个视觉服务一个 takeaway 和 claim；适合画图规划、imagegen 图像提示词、表格规划、视觉层级和 caption。 / Designs academic figures, tables, captions, visual hierarchy, and imagegen prompts from paper claims.
 ---
 
 # paper-ai-figures
@@ -29,8 +29,13 @@ Use for paper figures, architecture diagrams, result plots, tables, captions, vi
 
 1. Identify the claim each visual supports.
 2. Choose figure/table type based on the takeaway.
-3. Design labels, hierarchy, caption, and caveats.
-4. Check first-page visual impact and readability.
+3. For generated bitmap figures, convert article content into a figure intent card, then into an imagegen prompt.
+4. Design labels, hierarchy, caption, and caveats.
+5. Check first-page visual impact and readability.
+
+## Image generation rule
+
+When the desired output is a generated raster image, use the Codex `imagegen` skill if available. Do not replace imagegen with code-generated SVG unless the user explicitly wants deterministic vector output. If image generation is unavailable, save the imagegen prompt and mark the image status as `not_run`.
 
 ## Gate
 
@@ -48,3 +53,4 @@ Every visual must have one takeaway and a claim/evidence link.
 ## References to load as needed
 
 - `references/figures-tables-guide.md`
+- `references/imagegen-figure-workflow.md` for article-content-to-imagegen prompts, generated figure audits, and fallback status.

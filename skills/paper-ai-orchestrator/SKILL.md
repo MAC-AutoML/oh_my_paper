@@ -1,6 +1,6 @@
 ---
 name: paper-ai-orchestrator
-description: 统筹 AI 论文全流程，在选题、写作、图表、排版、审稿模拟和 rebuttal 之间选择下一步；适合启动/恢复论文工作流或判断当前最该使用哪个论文技能。
+description: 统筹 AI 论文全流程，在选题、长文多轮写作、图表、排版、审稿模拟和 rebuttal 之间选择下一步；适合启动/恢复论文工作流或判断当前最该使用哪个论文技能。 / Routes the academic paper workflow across ideation, iterative writing, figures, review simulation, revision, and rebuttal.
 ---
 
 # paper-ai-orchestrator
@@ -28,9 +28,10 @@ minimal `.paper-ai/PAPER_AI_STATE.md`, next-skill route, handoff note
 ## Workflow
 
 1. Inspect available paper artifacts and the user goal.
-2. Choose exactly one natural next skill unless the user requests a multi-step plan.
-3. Name missing evidence or human decisions.
-4. Keep state minimal and avoid creating management artifacts that do not help the paper.
+2. If the user asks for full-paper or long-section generation, require multi-round drafting rather than one-shot prose.
+3. Choose exactly one natural next skill unless the user requests a multi-step plan.
+4. Name missing evidence or human decisions.
+5. Keep state minimal and avoid creating management artifacts that do not help the paper.
 
 ## Gate
 

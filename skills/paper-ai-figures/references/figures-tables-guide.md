@@ -15,6 +15,18 @@ Figures and tables should reduce reviewer effort. Each visual needs one takeaway
 - Ablation figure/table: component contribution.
 - Qualitative examples: failure/success cases with interpretation.
 
+## Generated figure discipline
+
+If the figure is meant to be an AI-generated bitmap, route through the article-content-to-imagegen workflow:
+
+1. Extract the claim and takeaway from the written section.
+2. Draft a figure intent card before any image prompt.
+3. Convert the intent card into an imagegen prompt with exact labels and avoid-list.
+4. Generate with Codex `imagegen` when available.
+5. Audit the generated image against the claim, caption, and text labels.
+
+Do not treat code-generated SVG as the default generated-figure path. SVG/Mermaid previews are acceptable as deterministic placeholders or tests, but the user-facing image-generation path should preserve the prompt, generated bitmap, and audit trail.
+
 ## First-page visual check
 
 - One sentence takeaway is obvious.

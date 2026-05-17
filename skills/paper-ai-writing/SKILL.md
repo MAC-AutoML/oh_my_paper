@@ -1,6 +1,6 @@
 ---
 name: paper-ai-writing
-description: 统筹整篇 AI 论文写作与跨章节修改，保持读者导向的叙事流、段落功能和 claim-evidence 绑定；适合多章节起草、论文故事线构建和全文一致性检查。
+description: 统筹整篇 AI 论文写作与跨章节修改，保持读者导向的叙事流、段落功能和 claim-evidence 绑定；适合多章节起草、长文多轮迭代、论文故事线构建和全文一致性检查。 / Coordinates full-paper AI academic writing, long-form iterative drafting, narrative flow, paragraph roles, and claim-evidence consistency.
 ---
 
 # paper-ai-writing
@@ -28,9 +28,23 @@ paper story outline, section plan, claim-grounded rewrite notes
 ## Workflow
 
 1. Audit document surface, information flow, and underlying argument.
-2. Route section-specific work to title/abstract, introduction, related work, method, experiments, limitations, figures, or layout.
-3. Keep claims tied to evidence status.
-4. Revise from story to paragraphs to language.
+2. For long-form generation, do not draft the paper or a major section in one call. Use the multi-round loop below.
+3. Route section-specific work to title/abstract, introduction, related work, method, experiments, limitations, figures, or layout.
+4. Keep claims tied to evidence status.
+5. Revise from story to paragraphs to language.
+
+## Long-form multi-round loop
+
+For every major section, run at least these passes before treating the prose as usable:
+
+1. **Section contract:** reader question, section job, main claim, claim IDs, evidence status, caveats.
+2. **Paragraph plan:** one message per paragraph, support needed, transition to the next paragraph.
+3. **Draft:** write only after the contract and paragraph plan exist.
+4. **Critique:** identify unsupported claims, missing evidence, weak paragraph function, overclaiming, and flow gaps.
+5. **Revision:** fix the critique; delete or caveat unsupported claims instead of polishing them.
+6. **Rationale note:** explain in Chinese why the section is structured this way and what evidence remains missing.
+
+Never treat “one LLM call produced text” as a completed section. The stop condition is: section contract satisfied, claims mapped, critique resolved or explicitly deferred, and rationale written.
 
 ## Gate
 
@@ -49,3 +63,4 @@ Important claims must be linked to evidence or explicitly caveated before final 
 
 - `references/whole-paper-writing.md`
 - `references/full-paper-narrative-flow.md` for paragraph-function audits, section-job mapping, and full-paper narrative closure.
+- `references/long-form-iterative-writing.md` for mandatory multi-round long-paper generation and section-level critique/revision loops.

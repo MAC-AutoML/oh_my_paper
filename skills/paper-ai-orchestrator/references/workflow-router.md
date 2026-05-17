@@ -64,3 +64,15 @@ The Codex-native pipeline equivalent routes through durable artifacts rather tha
 8. Layout/disclosure/process summary.
 
 Use `paper/MATERIAL_PASSPORT.json` for reset/resume metadata. If the passport is malformed or the resume hash is invalid, do not claim the run can resume safely.
+
+## Long-form generation route
+
+When the next step is a full paper, long section, or demo paper:
+
+1. Route to `paper-ai-writing`.
+2. Require a section-contract pass before prose.
+3. Require paragraph plans before section drafts.
+4. Require a critique/revision pass before a section is considered complete.
+5. Route figure intents to `paper-ai-figures`; if the user wants generated bitmap visuals, use Codex `imagegen` rather than treating deterministic SVG as the final image workflow.
+
+The orchestrator should preserve minimal state only: current section, evidence gaps, figure intents, reviewer/integrity gate status, and next skill. Do not add process files unless they make the paper reproducible or explainable.

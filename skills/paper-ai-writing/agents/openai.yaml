@@ -1,4 +1,4 @@
 interface:
   display_name: "全文写作统筹"
-  short_description: "统筹全文故事线"
-  default_prompt: "使用 $paper-ai-writing 梳理当前论文的全文故事线和跨章节一致性。"
+  short_description: "多轮迭代写长文"
+  default_prompt: "使用 $paper-ai-writing 按章节契约、段落计划、草稿、批评、修订和中文解释来迭代生成当前论文。"

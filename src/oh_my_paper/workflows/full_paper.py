@@ -14,6 +14,7 @@ from oh_my_paper.llm.openai_compatible import chat_completion
 from oh_my_paper.review.prompts import STRICT_REVIEWER_PROMPT
 from oh_my_paper.traces.events import validate_trace
 from oh_my_paper.traces.recorder import TraceRecorder
+from oh_my_paper.workflows.full_paper_iterations import write_full_paper_iterative
 
 SECTION_MARKERS = [
     "# ",
@@ -282,32 +283,10 @@ def validate_paper_sections(paper: str) -> bool:
 
 
 def _write_full_paper(config, source_text: str, related_context: str) -> str:
-    result = chat_completion(
-        config,
-        model=config.writer_model,
-        temperature=0.25,
-        max_tokens=16000,
-        messages=[
-            {"role": "system", "content": _writer_system_prompt()},
-            {"role": "user", "content": _writer_user_prompt(source_text, related_context)},
-        ],
-    )
-    return _strip_fences(result.content)
+    """Draft a full paper through explicit multi-round planning and revision."""
 
-
-def _writer_system_prompt() -> str:
-    return """You are the oh_my_paper full-paper writing agent.
-Write a coherent complete ML paper draft in markdown from provided source material.
-Use the source as test input, but do not merely copy it; reorganize it into a cleaner paper with consistent terminology.
-Preserve factual numbers only when supported by the source. If a claim is not directly supported, mark it as proposed or future work.
-Use a descriptive top-level markdown title, not the literal text "# Title". Required exact section headings after the title: ## Abstract, ## 1. Introduction, ## 2. Related Work, ## 3. Method, ## 4. Experiments and Results, ## 5. Limitations, ## 6. Conclusion, ## References. The draft must be at least 3000 words.
-Do not use placeholder figures. Include concrete Markdown tables and Mermaid diagrams/plots when the output is markdown.
-Treat this as a source-derived design/reproduction draft: be conservative, and only report mechanisms, baselines, datasets, or numbers that are present in the source or explicitly labeled as proposed follow-up evaluation.
-When reporting source benchmark numbers, state they are source-reported and should be independently reproduced.
-Define every baseline concretely. If a baseline is illustrative rather than source-reported, mark it as a proposed protocol and avoid numeric superiority claims.
-Include reliability checks, ablations, failure modes, and validity threats that are appropriate to the source paper's domain.
-If the source paper is a reinforcement-learning paper, include objective definitions, optimization details, ablations, and evaluation protocol caveats grounded in the source.
-"""
+    paper = write_full_paper_iterative(config, source_text, related_context, chat=chat_completion)
+    return _strip_fences(_sanitize_overclaims(paper))
 
 
 

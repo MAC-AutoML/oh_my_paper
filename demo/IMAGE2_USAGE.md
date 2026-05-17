@@ -1,8 +1,8 @@
-# image2 / imagegen 使用说明
+# Codex imagegen 使用说明
 
-本 demo 已经提供确定性 SVG 图，适合复现和审计。如果你想让图更像顶会论文 overview figure，可以把 `figures/figure_prompts.md` 中的提示词复制给 Codex 的 image2 / imagegen skill。
+本 demo 不把代码生成 SVG 当作默认最终图像。SVG 只是稳定预览；真正的 AI 生图流程是使用 Codex `imagegen` skill。
 
-推荐流程：
+## 推荐流程
 
 1. 先运行确定性 demo：
 
@@ -16,12 +16,20 @@ uv run python demo/run_demo.py
 cat demo/figures/figure_prompts.md
 ```
 
-3. 用 image2 / imagegen 生成位图版本。
+3. 对每张图调用 Codex `imagegen` skill。每个 prompt 已包含：用途、论文 claim、必要元素、风格、避免事项和审查重点。
 
-4. 人工检查图中文字是否准确。如果 AI 位图中文字不清楚，保留 SVG 作为正式可审计版本。
+4. 将选中的生成图保存到：
 
-## 为什么这样设计？
+```text
+demo/figures/generated/figure1_pipeline.png
+demo/figures/generated/figure2_results.png
+demo/figures/generated/figure3_hierarchy.png
+```
 
-- SVG 图可复现，适合 demo 和测试。
-- image2 位图更美观，但生成过程天然不保证字节级复现。
-- oh my paper 的系统原则是：先保证论文逻辑和证据可审计，再用视觉生成增强表达。
+5. 按 `demo/figures/IMAGEGEN_PROCESS.md` 做 audit：文字是否正确、是否有 unsupported number、5 秒内是否能看出 takeaway、caption 是否匹配正文。
+
+## 为什么仍然保留 SVG？
+
+- SVG 可复现，适合 demo、测试和结构预览。
+- imagegen 位图更像论文插图，但每次生成不保证字节级一致。
+- oh my paper 的原则是：稳定记录输入、prompt、audit 和证据边界；视觉生成用于增强表达，不能替代可审计写作流程。
