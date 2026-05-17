@@ -36,6 +36,7 @@ class ConfigResolution:
     semantic_scholar: dict[str, object]
     privacy: dict[str, object]
     warnings: list[str]
+    env: dict[str, str] | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -48,6 +49,13 @@ class ConfigResolution:
             "privacy": self.privacy,
             "warnings": self.warnings,
         }
+
+    def semantic_api_key(self) -> str | None:
+        env = self.env or {}
+        scholar = self.semantic_scholar
+        key_env = str(scholar.get("api_key_env") or "s2_api_key")
+        value = env.get(key_env) or env.get(key_env.upper())
+        return value if value else None
 
 
 def parse_simple_yaml(path: Path) -> dict[str, Any]:
@@ -91,7 +99,8 @@ def _scalar(value: str) -> object:
 
 def resolve_config(config_path: str | Path | None = None, *, root: str | Path | None = None, env: dict[str, str] | None = None) -> ConfigResolution:
     repo = Path(root or Path.cwd())
-    environ = dict(os.environ if env is None else env)
+    environ = _load_env_file(repo / ".env")
+    environ.update(dict(os.environ if env is None else env))
     cli_path = Path(config_path) if config_path else None
     if cli_path and not cli_path.is_absolute():
         cli_path = repo / cli_path
@@ -137,6 +146,7 @@ def resolve_config(config_path: str | Path | None = None, *, root: str | Path | 
         semantic_scholar=scholar,
         privacy={"raw_materials_dir": "materials", "generated_temp_dir": "temp", "hidden_rubric_dirs": [".paper-ai/private"]},
         warnings=warnings,
+        env=environ,
     )
 
 
@@ -182,11 +192,11 @@ def _model_config(raw: dict[str, object], env: dict[str, str]) -> ModelConfig:
 def _resolve_semantic_scholar(data: dict[str, Any], env: dict[str, str]) -> dict[str, object]:
     raw = data.get("semantic_scholar") if isinstance(data.get("semantic_scholar"), dict) else {}
     mode = str(env.get("SEMANTIC_SCHOLAR_MODE") or raw.get("mode") or "auto")
-    key_env = str(raw.get("api_key_env") or "SEMANTIC_SCHOLAR_API_KEY")
-    present = bool(env.get(key_env))
+    key_env = str(raw.get("api_key_env") or "s2_api_key")
+    present = bool(env.get(key_env) or env.get(key_env.upper()))
     effective = "api_key" if mode == "auto" and present else "no_key" if mode == "auto" else mode
     interval_key = "request_interval_seconds_api_key" if effective == "api_key" else "request_interval_seconds_no_key"
-    default_interval = 0.25 if effective == "api_key" else 2.0
+    default_interval = 1.1 if effective == "api_key" else 2.0
     return {
         "mode": mode,
         "effective_mode": effective,
@@ -200,6 +210,8 @@ def _resolve_semantic_scholar(data: dict[str, Any], env: dict[str, str]) -> dict
 
 def _load_env_file(path: Path) -> dict[str, str]:
     values: dict[str, str] = {}
+    if not path.exists():
+        return values
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.strip()
         if not line or line.startswith("#") or "=" not in line:

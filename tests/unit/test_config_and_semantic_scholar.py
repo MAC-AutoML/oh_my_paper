@@ -4,11 +4,13 @@ import json
 import os
 import tempfile
 import unittest
+import urllib.request
 from pathlib import Path
 from unittest import mock
 
 from oh_my_paper.paper_core.config import resolve_config, config_status_report
 from oh_my_paper.paper_core.semantic_scholar import SemanticScholarVerifier
+from oh_my_paper.citations.semantic_scholar import verify_citations
 from oh_my_paper.paper_core.validators import validate_pipeline_state, validate_repro_lock
 from oh_my_paper.cli import main
 
@@ -41,8 +43,8 @@ class PaperConfigResolutionTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tempdir:
             root = Path(tempdir)
             config = root / "config.example.yaml"
-            config.write_text("models:\n  writer:\n    api_key_env: OPENAI_API_KEY\nsemantic_scholar:\n  api_key_env: SEMANTIC_SCHOLAR_API_KEY\n", encoding="utf-8")
-            report = config_status_report(config, root=root, env={"OPENAI_API_KEY": "secret-value", "SEMANTIC_SCHOLAR_API_KEY": "ss-key"})
+            config.write_text("models:\n  writer:\n    api_key_env: OPENAI_API_KEY\nsemantic_scholar:\n  api_key_env: s2_api_key\n", encoding="utf-8")
+            report = config_status_report(config, root=root, env={"OPENAI_API_KEY": "secret-value", "s2_api_key": "ss-key"})
         payload = json.dumps(report, ensure_ascii=False)
         self.assertNotIn("secret-value", payload)
         self.assertNotIn("ss-key", payload)
@@ -54,8 +56,23 @@ class PaperConfigResolutionTest(unittest.TestCase):
         self.assertEqual(report.semantic_scholar["effective_mode"], "no_key")
         self.assertEqual(report.status, "ok")
 
+    def test_semantic_scholar_auto_mode_detects_s2_api_key_from_dotenv(self) -> None:
+        report = resolve_config(None, root=ROOT, env={})
+        self.assertEqual(report.semantic_scholar["api_key_env"], "s2_api_key")
+        self.assertTrue(report.semantic_scholar["api_key_present"])
+        self.assertEqual(report.semantic_scholar["effective_mode"], "api_key")
+        self.assertGreaterEqual(float(report.semantic_scholar["request_interval_seconds"]), 1.0)
+
+    def test_root_env_example_documents_s2_api_key_and_relay_url(self) -> None:
+        text = (ROOT / ".env.example").read_text(encoding="utf-8")
+        self.assertIn("s2_api_key=", text)
+        self.assertIn("OPENAI_BASE_URL=https://automl.aiserverai.online/v1", text)
+
     def test_semantic_scholar_api_key_mode_requires_key_or_reports_error(self) -> None:
-        report = resolve_config(None, root=ROOT, env={"SEMANTIC_SCHOLAR_MODE": "api_key"})
+        with tempfile.TemporaryDirectory() as tempdir:
+            root = Path(tempdir)
+            (root / "config.example.yaml").write_text("semantic_scholar:\n  mode: api_key\n  api_key_env: s2_api_key\n", encoding="utf-8")
+            report = resolve_config(None, root=root, env={})
         self.assertEqual(report.status, "error")
         self.assertIn("Semantic Scholar api_key mode requires", " ".join(report.warnings))
 
@@ -124,6 +141,41 @@ class SemanticScholarVerifierTest(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertEqual(report["checks"][0]["status"], "verified")
         self.assertEqual(report["semantic_scholar_mode"], "no_key")
+
+    def test_pipeline_verifier_sends_s2_api_key_header_and_respects_interval(self) -> None:
+        captured: dict[str, object] = {}
+
+        class FakeResponse:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args):
+                return False
+
+            def read(self) -> bytes:
+                return json.dumps({"data": [{"paperId": "p1", "title": "Proximal Policy Optimization Algorithms", "authors": [{"name": "Schulman"}], "year": 2017}]}).encode()
+
+        def fake_urlopen(request: urllib.request.Request, timeout: int):
+            captured["header"] = request.headers.get("X-api-key") or request.headers.get("x-api-key")
+            captured["timeout"] = timeout
+            return FakeResponse()
+
+        with tempfile.TemporaryDirectory() as tempdir, mock.patch("urllib.request.urlopen", side_effect=fake_urlopen), mock.patch("time.sleep") as sleep:
+            root = Path(tempdir)
+            (root / "config.example.yaml").write_text(
+                "semantic_scholar:\n  mode: auto\n  api_key_env: s2_api_key\n  request_interval_seconds_api_key: 1.1\n",
+                encoding="utf-8",
+            )
+            with mock.patch.dict(os.environ, {"s2_api_key": "keyed"}, clear=False):
+                report = verify_citations(
+                    [{"citation_id": "ppo", "title": "Proximal Policy Optimization Algorithms", "authors": ["Schulman"], "year": 2017}],
+                    config_path=root / "config.example.yaml",
+                    workspace=root,
+                )
+        self.assertEqual(captured["header"], "keyed")
+        sleep.assert_called_once_with(1.1)
+        self.assertEqual(report["semantic_scholar_mode"], "api_key")
+        self.assertEqual(report["checks"][0]["status"], "verified")
 
 
 class PaperPipelineCommandTest(unittest.TestCase):

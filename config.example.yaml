@@ -13,9 +13,9 @@ models:
     model: ${OPENAI_REVIEWER_MODEL}
 semantic_scholar:
   mode: auto            # auto | api_key | no_key | disabled
-  api_key_env: SEMANTIC_SCHOLAR_API_KEY
+  api_key_env: s2_api_key
   request_interval_seconds_no_key: 2.0
-  request_interval_seconds_api_key: 0.25
+  request_interval_seconds_api_key: 1.1
   cache_dir: .paper-ai/cache/semantic-scholar
   title_similarity_threshold: 0.70
 pipeline:

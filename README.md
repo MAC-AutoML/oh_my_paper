@@ -46,7 +46,8 @@ Put the runtime dependencies in place before installing or using the skills:
 | uv | Local version `0.9.28` | Python environment and command runner. Use `uv run` / `uv add`; do not use conda-style setup. |
 | Codex CLI | Local version `codex-cli 0.129.0` | Hosts and invokes Codex skills. |
 | Codex Skills installer | Official `install-skill-from-github.py` path-based installer | Installs selected top-level and helper skill folders. |
-| API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
+| API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint such as `https://automl.aiserverai.online/v1` when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
+| Semantic Scholar | `.env` supports `s2_api_key`; keyed mode sends it as `x-api-key` | Verifies citation existence and metadata with the official Graph API. |
 | Node.js / npm | Local Node.js `v22.14.0`, npm `10.9.2` | Needed only for Node-based tooling such as Playwright-backed utilities. |
 | npm package | Local `package.json` declares `playwright ^1.60.0` | Optional browser/automation dependency for local tooling. |
 
@@ -61,14 +62,16 @@ cp config.example.yaml config.yaml
 uv run oh-my-paper config-status --config config.yaml
 ```
 
-`config.yaml` is ignored by git. Configure OpenAI-compatible model fields there or through environment variables such as `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, and `OPENAI_REVIEWER_MODEL`.
+`config.yaml` is ignored by git. Configure OpenAI-compatible model fields there or through environment variables such as `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, and `OPENAI_REVIEWER_MODEL`. The example `.env` keeps the relay URL explicit: `https://automl.aiserverai.online/v1`.
 
 Semantic Scholar citation verification supports four modes in `config.example.yaml`:
 
-- `auto`: use `SEMANTIC_SCHOLAR_API_KEY` when present, otherwise fall back to no-key mode.
+- `auto`: use `s2_api_key` when present, otherwise fall back to no-key mode.
 - `api_key`: require the configured API key environment variable.
 - `no_key`: call the public endpoint without a key; this is slower and should rely on cache reuse.
 - `disabled`: skip live verification and mark checks honestly as skipped.
+
+Semantic Scholar allows one request per second across endpoints. Keep `request_interval_seconds_api_key` at or above `1.1` unless you know you are fully cache-bound.
 
 ## Highlights
 

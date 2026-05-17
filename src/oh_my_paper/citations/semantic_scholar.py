@@ -68,7 +68,7 @@ def verify_citations(
             retry_after = retry
         interval = _interval(config, mode)
         if not fixture_dir and mode != "disabled" and interval > 0:
-            time.sleep(min(interval, 0.01))
+            time.sleep(interval)
     status = "skipped" if mode == "disabled" else "clear"
     if stats["not_found"] or stats["error"] or stats["rate_limited"]:
         status = "blocked" if any(c.get("required", False) and c["status"] == "not_found" for c in checks) else "suspected"

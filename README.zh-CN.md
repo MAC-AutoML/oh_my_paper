@@ -46,7 +46,8 @@
 | uv | 当前版本 `0.9.28` | Python 环境与命令运行器。请使用 `uv run` / `uv add`，不要使用 conda-style setup。 |
 | Codex CLI | 当前版本 `codex-cli 0.129.0` | 承载并调用 Codex skills。 |
 | Codex Skills installer | 官方 `install-skill-from-github.py` path-based installer | 按路径安装选定的主技能与 helper skill 文件夹。 |
-| API endpoint | `.env` 支持 `OPENAI_API_KEY`；启用模型调用时，生成、严格审稿和修订流程需要 OpenAI-compatible endpoint | 驱动 full-paper generation、strict review 和 revision loop。 |
+| API endpoint | `.env` 支持 `OPENAI_API_KEY`；启用模型调用时，生成、严格审稿和修订流程需要 OpenAI-compatible endpoint，例如 `https://automl.aiserverai.online/v1` | 驱动 full-paper generation、strict review 和 revision loop。 |
+| Semantic Scholar | `.env` 支持 `s2_api_key`；keyed mode 会通过 `x-api-key` 请求头发送 | 用官方 Graph API 核验引用存在性与元数据。 |
 | Node.js / npm | 当前 Node.js `v22.14.0`，npm `10.9.2` | 仅在使用 Playwright 等 Node-based tooling 时需要。 |
 | npm package | 当前 `package.json` 声明 `playwright ^1.60.0` | 本地浏览器/自动化工具的可选依赖。 |
 
@@ -61,14 +62,16 @@ cp config.example.yaml config.yaml
 uv run oh-my-paper config-status --config config.yaml
 ```
 
-`config.yaml` 默认被 git 忽略。你可以在这里配置 OpenAI-compatible 模型字段，也可以通过 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`OPENAI_MODEL`、`OPENAI_REVIEWER_MODEL` 等环境变量提供。
+`config.yaml` 默认被 git 忽略。你可以在这里配置 OpenAI-compatible 模型字段，也可以通过 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`OPENAI_MODEL`、`OPENAI_REVIEWER_MODEL` 等环境变量提供。示例 `.env` 会显式保留中转 URL：`https://automl.aiserverai.online/v1`。
 
 Semantic Scholar 引用核验在 `config.example.yaml` 中支持四种模式：
 
-- `auto`：有 `SEMANTIC_SCHOLAR_API_KEY` 就用 key，否则自动走 no-key。
+- `auto`：有 `s2_api_key` 就用 key，否则自动走 no-key。
 - `api_key`：要求配置的 API key 环境变量存在。
 - `no_key`：无 key 调公共端点；速度较慢，建议依赖 cache。
 - `disabled`：跳过 live verification，并诚实标记为 skipped。
+
+Semantic Scholar 限制所有 endpoint 合计每秒 1 次请求。除非完全命中 cache，否则 `request_interval_seconds_api_key` 应保持 `1.1` 或更高。
 
 ## 当前能力
 

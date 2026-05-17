@@ -120,7 +120,7 @@ def cmd_verify_citations(args: Namespace) -> int:
         scholar = report.semantic_scholar
         verifier = SemanticScholarVerifier(
             mode=str(scholar["effective_mode"]),
-            api_key=None,
+            api_key=report.semantic_api_key(),
             cache_dir=str(scholar["cache_dir"]),
             request_interval_seconds=float(scholar["request_interval_seconds"]),
             title_similarity_threshold=float(scholar["title_similarity_threshold"]),
