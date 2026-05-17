@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "paperId": "ppo-2017",
+      "title": "Proximal Policy Optimization Algorithms",
+      "authors": [{"name": "John Schulman"}, {"name": "Filip Wolski"}],
+      "year": 2017,
+      "externalIds": {"DOI": "10.48550/arXiv.1707.06347"},
+      "venue": "arXiv"
+    }
+  ]
+}

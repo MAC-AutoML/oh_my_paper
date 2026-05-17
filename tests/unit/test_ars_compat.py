@@ -30,6 +30,10 @@ from oh_my_paper.llm.config import load_llm_config
 ROOT = Path(__file__).resolve().parents[2]
 PUBLIC_TARGETS = [ROOT / "README.md", ROOT / "README.zh-CN.md", ROOT / ".codex-plugin" / "plugin.json"]
 PUBLIC_TARGETS.extend((ROOT / "docs").glob("**/*.md"))
+PUBLIC_TARGETS.extend((ROOT / "skills").glob("deep-research/SKILL.md"))
+PUBLIC_TARGETS.extend((ROOT / "skills").glob("academic-paper/SKILL.md"))
+PUBLIC_TARGETS.extend((ROOT / "skills").glob("academic-paper-reviewer/SKILL.md"))
+PUBLIC_TARGETS.extend((ROOT / "skills").glob("academic-pipeline/SKILL.md"))
 PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/SKILL.md"))
 PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/references/**/*.md"))
 PUBLIC_TARGETS.extend((ROOT / "skills").glob("paper-ai-*/agents/openai.yaml"))
@@ -38,6 +42,15 @@ FORBIDDEN = ["OMX", "oh-my-codex", "$ralph", "$team", "$ultragoal", "$autoresear
 
 
 class ArsCompatRegistryTest(unittest.TestCase):
+    def test_four_top_level_skills_have_bilingual_descriptions(self) -> None:
+        for skill in ["deep-research", "academic-paper", "academic-paper-reviewer", "academic-pipeline"]:
+            with self.subTest(skill=skill):
+                text = (ROOT / "skills" / skill / "SKILL.md").read_text(encoding="utf-8")
+                self.assertIn("description:", text)
+                self.assertRegex(text, r"[\u4e00-\u9fff]")
+                self.assertIn(" / ", text)
+                self.assertIn("Root config", text)
+
     def test_mode_registry_schema_and_count(self) -> None:
         modes = mode_registry()
         self.assertEqual(len(modes), 25)

@@ -185,14 +185,16 @@ def _resolve_semantic_scholar(data: dict[str, Any], env: dict[str, str]) -> dict
     key_env = str(raw.get("api_key_env") or "SEMANTIC_SCHOLAR_API_KEY")
     present = bool(env.get(key_env))
     effective = "api_key" if mode == "auto" and present else "no_key" if mode == "auto" else mode
+    interval_key = "request_interval_seconds_api_key" if effective == "api_key" else "request_interval_seconds_no_key"
+    default_interval = 0.25 if effective == "api_key" else 2.0
     return {
         "mode": mode,
         "effective_mode": effective,
         "api_key_env": key_env,
         "api_key_present": present,
-        "cache_dir": str(raw.get("cache_dir") or ".paper-ai/cache/semantic_scholar"),
+        "cache_dir": str(raw.get("cache_dir") or ".paper-ai/cache/semantic-scholar"),
         "title_similarity_threshold": float(raw.get("title_similarity_threshold") or 0.7),
-        "request_interval_seconds": float(raw.get("request_interval_seconds") or 1.0),
+        "request_interval_seconds": float(raw.get(interval_key) or raw.get("request_interval_seconds") or default_interval),
     }
 
 

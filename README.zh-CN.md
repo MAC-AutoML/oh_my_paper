@@ -45,16 +45,34 @@
 | Python | 项目要求 `>=3.11`；当前 uv 环境为 Python `3.13.7` | 运行本地 `oh-my-paper` CLI 与论文 workflow harness。 |
 | uv | 当前版本 `0.9.28` | Python 环境与命令运行器。请使用 `uv run` / `uv add`，不要使用 conda-style setup。 |
 | Codex CLI | 当前版本 `codex-cli 0.129.0` | 承载并调用 Codex skills。 |
-| Codex Skills installer | 官方 `install-skill-from-github.py` path-based installer | 按路径安装选定的 `skills/paper-ai-*` 文件夹。 |
+| Codex Skills installer | 官方 `install-skill-from-github.py` path-based installer | 按路径安装选定的主技能与 helper skill 文件夹。 |
 | API endpoint | `.env` 支持 `OPENAI_API_KEY`；启用模型调用时，生成、严格审稿和修订流程需要 OpenAI-compatible endpoint | 驱动 full-paper generation、strict review 和 revision loop。 |
 | Node.js / npm | 当前 Node.js `v22.14.0`，npm `10.9.2` | 仅在使用 Playwright 等 Node-based tooling 时需要。 |
 | npm package | 当前 `package.json` 声明 `playwright ^1.60.0` | 本地浏览器/自动化工具的可选依赖。 |
 
 当前 Python package metadata 除项目自身外，没有声明额外 runtime third-party Python dependencies。
 
+## 先配置
+
+从根目录模板开始：
+
+```bash
+cp config.example.yaml config.yaml
+uv run oh-my-paper config-status --config config.yaml
+```
+
+`config.yaml` 默认被 git 忽略。你可以在这里配置 OpenAI-compatible 模型字段，也可以通过 `OPENAI_API_KEY`、`OPENAI_BASE_URL`、`OPENAI_MODEL`、`OPENAI_REVIEWER_MODEL` 等环境变量提供。
+
+Semantic Scholar 引用核验在 `config.example.yaml` 中支持四种模式：
+
+- `auto`：有 `SEMANTIC_SCHOLAR_API_KEY` 就用 key，否则自动走 no-key。
+- `api_key`：要求配置的 API key 环境变量存在。
+- `no_key`：无 key 调公共端点；速度较慢，建议依赖 cache。
+- `disabled`：跳过 live verification，并诚实标记为 skipped。
+
 ## 当前能力
 
-- 🧠 **14 个自然论文流程 skills**，位于 `skills/paper-ai-*`。
+- 🧠 **4 个用户级主技能**与 **14 个 helper 技能**并存，适合不同粒度控制。
 - 📚 **材料内化 references**：每个 skill 内置 case card、原材料启发案例、bad/good 对照、模仿配方。
 - 🧾 **Claim/Evidence artifacts**：`CLAIMS.md`、`EVIDENCE_MAP.md`、`.paper-ai/TRACE.jsonl` 显式记录 claim、证据和流程轨迹。
 - 🔍 **Evidence gate**：在 unsupported / inconsistent claims 被写成漂亮废话之前拦截。
@@ -71,27 +89,17 @@
 
 | 阶段 | Skill | 用途 |
 | --- | --- | --- |
-| 🧭 全流程路由 | `paper-ai-orchestrator` | 路由写作任务，协调 skill handoff。 |
-| 💡 选题 / Idea | `paper-ai-idea` | 打磨 research question、contribution、novelty 和 evidence pressure。 |
-| 🔎 前置研究 | `paper-ai-research` | 澄清研究问题、规划文献检索、评估来源质量并综合证据。 |
-| ✍️ 全文写作 | `paper-ai-writing` | 保持 story、claims、sections、evidence 一致。 |
-| 🏷️ 标题摘要 | `paper-ai-title-abstract` | 优化第一印象、可检索性和 claim discipline。 |
-| 🚪 引言 | `paper-ai-introduction` | 建立 motivation、gap、contribution 和阅读推进。 |
-| 🧾 相关工作 | `paper-ai-related-work` | 定位 prior work，避免 literature dump。 |
-| ⚙️ 方法 | `paper-ai-method` | 从直觉到形式化细节解释方法。 |
-| 🧪 实验 | `paper-ai-experiments` | 设计 evidence、ablation、comparison 和 result narrative。 |
-| 📊 图表 | `paper-ai-figures` | 让图表 claim-linked、readable、reviewer-friendly。 |
-| ⚠️ 局限性 | `paper-ai-limitations` | 说明边界但不摧毁贡献。 |
-| 🧩 排版润色 | `paper-ai-layout` | 改善页数预算、flow、readability 和 final polish。 |
-| 🧑‍⚖️ 审稿模拟 | `paper-ai-reviewer` | 从 reviewer / AC 视角压力测试论文。 |
-| 🛡️ Rebuttal | `paper-ai-rebuttal` | 起草 grounded rebuttal 和安全 revision promises。 |
+| 🧭 研究与证据策略 | `deep-research` | 文献范围、来源分级、引用核验和 evidence passport。 |
+| ✍️ 论文正文 | `academic-paper` | 全文规划、章节写作、双语摘要与证据约束。 |
+| 🧪 严格审稿 | `academic-paper-reviewer` | EIC/reviewer 模拟、反阿谀检查和修订路线图。 |
+| 🧭 流水线编排 | `academic-pipeline` | 串联 research → writing → review → integrity closure。 |
 
 ## 架构
 
 oh_my_paper 有两种兼容交付模式：
 
 1. 🖥️ **本机 installed skills 模式**
-   - 将 `skills/paper-ai-*` 安装到用户 Codex skills 目录。
+   - 将选定主技能与 helper skills 安装到用户 Codex skills 目录。
    - 在本地 paper workspace 中工作。
    - `CLAIMS.md`、`EVIDENCE_MAP.md`、`.paper-ai/TRACE.jsonl` 与草稿一起维护。
 
@@ -197,7 +205,12 @@ uv run oh-my-paper revise-paper \
 ```bash
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
+  --path skills/deep-research \
+  --path skills/academic-paper \
+  --path skills/academic-paper-reviewer \
+  --path skills/academic-pipeline \
   --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-idea \
   --path skills/paper-ai-research \
   --path skills/paper-ai-writing \
   --path skills/paper-ai-title-abstract \
@@ -212,7 +225,7 @@ install-skill-from-github.py \
   --path skills/paper-ai-rebuttal
 ```
 
-可以按需求安装任意 `skills/paper-ai-*` 子集。
+可以按需求安装任意主技能与 helper 技能子集。
 
 ## 文档
 

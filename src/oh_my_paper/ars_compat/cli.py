@@ -18,6 +18,7 @@ from oh_my_paper.ars_compat.validators import (
     validate_material_passport,
     validate_sprint_contract,
 )
+from oh_my_paper.workflows.ars_pipeline import ars_stage_status, run_ars_pipeline
 
 
 def print_json(data: object) -> None:
@@ -86,6 +87,24 @@ def cmd_pipeline_plan(args: Namespace) -> int:
     return 0
 
 
+def cmd_run_ars_pipeline(args: Namespace) -> int:
+    result = run_ars_pipeline(
+        args.material,
+        args.workspace,
+        config=args.config,
+        offline_fixtures=args.offline_fixtures,
+        max_review_rounds=args.max_review_rounds,
+        live=not bool(args.offline_fixtures),
+    )
+    print_json(result)
+    return 0 if result.get("ok") else 1
+
+
+def cmd_ars_stage_status(args: Namespace) -> int:
+    print_json(ars_stage_status(args.workspace))
+    return 0
+
+
 def cmd_config_status(args: Namespace) -> int:
     report = config_status_report(args.config)
     print_json(report)
@@ -143,6 +162,18 @@ def add_ars_subcommands(subparsers) -> None:
     pipeline = subparsers.add_parser("ars-pipeline-plan", help="show Codex-native ARS pipeline stage plan")
     pipeline.add_argument("--stage", default="research")
     pipeline.set_defaults(func=cmd_pipeline_plan)
+
+    run_pipeline = subparsers.add_parser("run-ars-pipeline", help="run offline-capable four-skill ARS pipeline")
+    run_pipeline.add_argument("material")
+    run_pipeline.add_argument("workspace")
+    run_pipeline.add_argument("--config")
+    run_pipeline.add_argument("--offline-fixtures")
+    run_pipeline.add_argument("--max-review-rounds", type=int, default=1)
+    run_pipeline.set_defaults(func=cmd_run_ars_pipeline)
+
+    stage_status = subparsers.add_parser("ars-stage-status", help="show ARS pipeline state and next stage")
+    stage_status.add_argument("workspace")
+    stage_status.set_defaults(func=cmd_ars_stage_status)
 
     passport = subparsers.add_parser("ars-validate-passport", help="validate Material Passport JSON")
     passport.add_argument("path", type=Path)

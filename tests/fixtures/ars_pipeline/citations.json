@@ -1,0 +1,15 @@
+[
+  {
+    "citation_id": "ppo",
+    "title": "Proximal Policy Optimization Algorithms",
+    "authors": ["Schulman"],
+    "year": 2017,
+    "required": true
+  },
+  {
+    "citation_id": "near_ppo",
+    "title": "Proximal Policy Optimization Algorithm",
+    "authors": ["Schulman"],
+    "year": 2017
+  }
+]

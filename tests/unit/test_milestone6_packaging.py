@@ -7,6 +7,10 @@ from oh_my_paper.packaging.skills import official_install_command, packaging_sta
 
 ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_SKILLS = {
+    "deep-research",
+    "academic-paper",
+    "academic-paper-reviewer",
+    "academic-pipeline",
     "paper-ai-orchestrator",
     "paper-ai-idea",
     "paper-ai-research",
@@ -30,7 +34,7 @@ class Milestone6PackagingTest(unittest.TestCase):
         self.assertEqual({info.name for info in infos}, EXPECTED_SKILLS)
         for info in infos:
             self.assertTrue(info.has_skill_md, info)
-            self.assertTrue(info.path.startswith("skills/paper-ai-"))
+            self.assertTrue(info.path.startswith("skills/"))
             text = (ROOT / info.path / "SKILL.md").read_text(encoding="utf-8")
             self.assertTrue(text.startswith("---\n"))
             self.assertIn(f"name: {info.name}", text)
@@ -48,6 +52,8 @@ class Milestone6PackagingTest(unittest.TestCase):
         self.assertTrue(status["ok"])
         self.assertEqual(status["installer"], "Codex system skill-installer")
         self.assertIn("official_command", status)
+        packaged = {row["name"] for row in status["skills"]}
+        self.assertTrue({"deep-research", "academic-paper", "academic-paper-reviewer", "academic-pipeline"} <= packaged)
 
     def test_config_templates_are_safe_placeholders(self) -> None:
         env_example = (ROOT / "templates/env.example").read_text(encoding="utf-8")

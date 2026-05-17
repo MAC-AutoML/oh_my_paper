@@ -5,7 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
-SKILL_PREFIX = "paper-ai-"
+HELPER_SKILL_PREFIX = "paper-ai-"
+TOP_LEVEL_SKILLS = ("deep-research", "academic-paper", "academic-paper-reviewer", "academic-pipeline")
 REPO = "MAC-AutoML/oh_my_paper"
 OFFICIAL_INSTALLER = "install-skill-from-github.py"
 
@@ -36,7 +37,9 @@ def source_skills_dir(root: Path | None = None) -> Path:
 
 def discover_source_skills(root: Path | None = None) -> list[Path]:
     base = source_skills_dir(root)
-    return sorted(path for path in base.glob(f"{SKILL_PREFIX}*") if path.is_dir())
+    helpers = [path for path in base.glob(f"{HELPER_SKILL_PREFIX}*") if path.is_dir()]
+    top_level = [base / name for name in TOP_LEVEL_SKILLS if (base / name).is_dir()]
+    return sorted([*top_level, *helpers], key=lambda path: path.name)
 
 
 def skill_package_info(root: Path | None = None) -> list[SkillPackageInfo]:

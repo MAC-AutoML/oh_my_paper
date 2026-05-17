@@ -9,6 +9,7 @@ from unittest import mock
 
 from oh_my_paper.ars_compat.config import resolve_config, config_status_report
 from oh_my_paper.ars_compat.semantic_scholar import SemanticScholarVerifier
+from oh_my_paper.ars_compat.validators import validate_pipeline_state, validate_repro_lock
 from oh_my_paper.cli import main
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -115,9 +116,64 @@ class SemanticScholarVerifierTest(unittest.TestCase):
             fixtures = root / "semantic_scholar"
             fixtures.mkdir()
             citations.write_text(json.dumps([{"citation_id": "ppo", "title": "Proximal Policy Optimization Algorithms", "authors": ["Schulman"], "year": 2017}]), encoding="utf-8")
-            (fixtures / "search_ppo.json").write_text(json.dumps({"data": [{"paperId": "p1", "title": "Proximal Policy Optimization Algorithms", "authors": [{"name": "Schulman"}], "year": 2017}]}), encoding="utf-8")
-            code = main(["verify-citations", str(citations), "--offline-fixtures", str(fixtures), "--config", "config.example.yaml"])
+            (fixtures / "search_proximal_policy_optimization_algorithms.json").write_text(json.dumps({"data": [{"paperId": "p1", "title": "Proximal Policy Optimization Algorithms", "authors": [{"name": "Schulman"}], "year": 2017}]}), encoding="utf-8")
+            with mock.patch("sys.stdout") as stdout:
+                code = main(["verify-citations", str(citations), "--offline-fixtures", str(fixtures), "--config", "config.example.yaml"])
+        printed = "".join(call.args[0] for call in stdout.write.call_args_list if call.args)
+        report = json.loads(printed)
         self.assertEqual(code, 0)
+        self.assertEqual(report["checks"][0]["status"], "verified")
+        self.assertEqual(report["semantic_scholar_mode"], "no_key")
+
+
+class ArsPipelineCommandTest(unittest.TestCase):
+    def test_run_ars_pipeline_offline_fixtures_produces_required_artifacts(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            workspace = Path(tempdir) / "workspace"
+            material = ROOT / "tests/fixtures/ars_pipeline/ppo_excerpt.txt"
+            fixtures = ROOT / "tests/fixtures/ars_pipeline"
+            with mock.patch("sys.stdout") as stdout:
+                code = main([
+                    "run-ars-pipeline",
+                    str(material),
+                    str(workspace),
+                    "--config",
+                    "config.example.yaml",
+                    "--offline-fixtures",
+                    str(fixtures),
+                ])
+            printed = "".join(call.args[0] for call in stdout.write.call_args_list if call.args)
+            result = json.loads(printed)
+            self.assertEqual(code, 0)
+            self.assertTrue(result["ok"])
+            for relative in [
+                "paper/CITATION_VERIFICATION_REPORT.json",
+                "paper/INTEGRITY_REPORT_STAGE_2_5.json",
+                "paper/FULL_PAPER_DRAFT.md",
+                "paper/GEMINI_REVIEW_ROUND_1.json",
+                "paper/INTEGRITY_REPORT_FINAL.json",
+                "paper/REPRO_LOCK.json",
+                "paper/PIPELINE_SUMMARY.md",
+                ".paper-ai/PIPELINE_STATE.json",
+            ]:
+                self.assertTrue((workspace / relative).exists(), relative)
+            self.assertTrue(validate_pipeline_state(workspace / ".paper-ai/PIPELINE_STATE.json").ok)
+            self.assertTrue(validate_repro_lock(workspace / "paper/REPRO_LOCK.json").ok)
+
+    def test_ars_stage_status_uses_pipeline_state_next_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as tempdir:
+            workspace = Path(tempdir) / "workspace"
+            fixtures = ROOT / "tests/fixtures/ars_pipeline"
+            material = fixtures / "ppo_excerpt.txt"
+            with mock.patch("sys.stdout"):
+                self.assertEqual(main(["run-ars-pipeline", str(material), str(workspace), "--config", "config.example.yaml", "--offline-fixtures", str(fixtures)]), 0)
+            with mock.patch("sys.stdout") as stdout:
+                code = main(["ars-stage-status", str(workspace)])
+        printed = "".join(call.args[0] for call in stdout.write.call_args_list if call.args)
+        status = json.loads(printed)
+        self.assertEqual(code, 0)
+        self.assertEqual(status["next_stage"], "complete")
+        self.assertEqual(status["blocked_reasons"], [])
 
 
 if __name__ == "__main__":

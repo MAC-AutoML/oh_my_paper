@@ -28,7 +28,7 @@ def verify_citations_file(
     workspace: str | Path | None = None,
 ) -> dict[str, Any]:
     data = json.loads(Path(citations_path).read_text(encoding="utf-8"))
-    citations = data.get("citations", data if isinstance(data, list) else [])
+    citations = data if isinstance(data, list) else data.get("citations", data.get("sources", []))
     if not isinstance(citations, list):
         raise ValueError("citation input must be a list or {'citations': [...]} object")
     report = verify_citations(citations, config_path=config_path, offline_fixtures=offline_fixtures, workspace=workspace)

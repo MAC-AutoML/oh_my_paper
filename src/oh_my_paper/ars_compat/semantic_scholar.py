@@ -112,15 +112,13 @@ def verifier_from_offline_fixtures(fixtures: str | Path) -> SemanticScholarVerif
 
     def http_get(url: str, _headers: dict[str, str], _timeout: float) -> dict[str, object]:
         query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query).get("query", [""])[0].lower()
-        for path in sorted(base.glob("*.json")):
-            stem_tokens = set(path.stem.lower().split("_"))
-            query_tokens = {part for part in query.split() if len(part) > 2}
-            if stem_tokens & query_tokens:
-                return json.loads(path.read_text(encoding="utf-8"))
+        slug_path = base / f"search_{_fixture_slug(query)}.json"
+        if slug_path.exists():
+            return json.loads(slug_path.read_text(encoding="utf-8"))
         not_found = base / "search_fabricated.json"
         return json.loads(not_found.read_text(encoding="utf-8")) if not_found.exists() else {"data": []}
 
-    return SemanticScholarVerifier(mode="disabled", http_get=http_get)
+    return SemanticScholarVerifier(mode="no_key", http_get=http_get)
 
 
 def load_citations(path: str | Path) -> list[dict[str, Any]]:
@@ -145,6 +143,16 @@ def _cache_key(citation: dict[str, Any]) -> str:
 
 def _similarity(left: str, right: str) -> float:
     return SequenceMatcher(None, left.lower(), right.lower()).ratio()
+
+
+def _fixture_slug(title: str) -> str:
+    text = "".join(ch.lower() if ch.isalnum() else "_" for ch in title)
+    parts = [part for part in text.split("_") if part]
+    if any(part == "ppo" for part in parts):
+        return "ppo"
+    if any(part == "fabricated" for part in parts):
+        return "fabricated"
+    return "_".join(parts[:5]) or "empty"
 
 
 def _empty_check(citation: dict[str, Any], status: str, reasons: list[str], cache_key: str) -> dict[str, object]:

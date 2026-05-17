@@ -1,0 +1,2 @@
+Proximal Policy Optimization (PPO) is a reinforcement learning policy optimization method.
+This public-safe fixture excerpt is used only to exercise the offline ARS pipeline.

@@ -45,16 +45,34 @@ Put the runtime dependencies in place before installing or using the skills:
 | Python | Project requires `>=3.11`; local uv environment uses Python `3.13.7` | Runs the local `oh-my-paper` CLI and paper workflow harness. |
 | uv | Local version `0.9.28` | Python environment and command runner. Use `uv run` / `uv add`; do not use conda-style setup. |
 | Codex CLI | Local version `codex-cli 0.129.0` | Hosts and invokes Codex skills. |
-| Codex Skills installer | Official `install-skill-from-github.py` path-based installer | Installs selected `skills/paper-ai-*` folders. |
+| Codex Skills installer | Official `install-skill-from-github.py` path-based installer | Installs selected top-level and helper skill folders. |
 | API endpoint | `.env` supports `OPENAI_API_KEY`; review/generation flows expect an OpenAI-compatible endpoint when model calls are enabled | Powers full-paper generation, strict review, and revision loops. |
 | Node.js / npm | Local Node.js `v22.14.0`, npm `10.9.2` | Needed only for Node-based tooling such as Playwright-backed utilities. |
 | npm package | Local `package.json` declares `playwright ^1.60.0` | Optional browser/automation dependency for local tooling. |
 
 Python package metadata currently has no runtime third-party Python dependencies beyond the project package itself.
 
+## Configure first
+
+Start from the root template:
+
+```bash
+cp config.example.yaml config.yaml
+uv run oh-my-paper config-status --config config.yaml
+```
+
+`config.yaml` is ignored by git. Configure OpenAI-compatible model fields there or through environment variables such as `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`, and `OPENAI_REVIEWER_MODEL`.
+
+Semantic Scholar citation verification supports four modes in `config.example.yaml`:
+
+- `auto`: use `SEMANTIC_SCHOLAR_API_KEY` when present, otherwise fall back to no-key mode.
+- `api_key`: require the configured API key environment variable.
+- `no_key`: call the public endpoint without a key; this is slower and should rely on cache reuse.
+- `disabled`: skip live verification and mark checks honestly as skipped.
+
 ## Highlights
 
-- 🧠 **14 natural paper workflow skills** under `skills/paper-ai-*`.
+- 🧠 **4 user-facing top-level skills** and **14 helper skills** are available.
 - 📚 **Material-derived references** inside each skill: case cards, source-derived examples, bad/good contrasts, and imitation recipes.
 - 🧾 **Claim/Evidence artifacts**: `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` keep claims, evidence, and workflow trace visible.
 - 🔍 **Evidence gate**: unsupported or inconsistent claims are flagged before they become polished prose.
@@ -71,27 +89,17 @@ The public skill surface follows the paper lifecycle rather than many tiny manag
 
 | Stage | Skill | Purpose |
 | --- | --- | --- |
-| 🧭 Workflow routing | `paper-ai-orchestrator` | Route the writing task and coordinate handoffs between skills. |
-| 💡 Idea | `paper-ai-idea` | Sharpen research question, contribution, novelty, and evidence pressure. |
-| 🔎 Research | `paper-ai-research` | Scope research questions, plan literature search, grade sources, and synthesize evidence. |
-| ✍️ Whole-paper writing | `paper-ai-writing` | Keep story, claims, sections, and evidence aligned. |
-| 🏷️ Title + Abstract | `paper-ai-title-abstract` | Optimize first impression, searchability, and claim discipline. |
-| 🚪 Introduction | `paper-ai-introduction` | Build motivation, gap, contribution, and reader momentum. |
-| 🧾 Related Work | `paper-ai-related-work` | Position against prior work without becoming a literature dump. |
-| ⚙️ Method | `paper-ai-method` | Explain the method from intuition to formal detail. |
-| 🧪 Experiments | `paper-ai-experiments` | Design evidence, ablations, comparisons, and result narrative. |
-| 📊 Figures + Tables | `paper-ai-figures` | Make visuals claim-linked, readable, and reviewer-friendly. |
-| ⚠️ Limitations | `paper-ai-limitations` | State boundaries without destroying the contribution. |
-| 🧩 Layout + Polish | `paper-ai-layout` | Improve page budget, flow, readability, and final polish. |
-| 🧑‍⚖️ Reviewer | `paper-ai-reviewer` | Stress-test the paper from reviewer/AC perspective. |
-| 🛡️ Rebuttal | `paper-ai-rebuttal` | Draft grounded rebuttals and safe revision promises. |
+| 🧭 Research & evidence strategy | `deep-research` | Drive literature scoping, source grading, citation checks, and evidence passports. |
+| ✍️ Core manuscript | `academic-paper` | Do end-to-end planning and whole-paper writing with section discipline. |
+| 🧪 Reviewer simulation | `academic-paper-reviewer` | Run strict review, anti-sycophancy checks, and revision routing. |
+| 🧭 Workflow orchestration | `academic-pipeline` | Orchestrate research → writing → review → integrity closure. |
 
 ## Architecture
 
 oh_my_paper has two compatible delivery modes:
 
 1. 🖥️ **Local installed skills mode**
-   - Install selected `skills/paper-ai-*` into the user's Codex skills directory.
+   - Install selected top-level and helper skills into the user's Codex skills directory.
    - Work inside a local paper workspace.
    - Keep artifacts such as `CLAIMS.md`, `EVIDENCE_MAP.md`, and `.paper-ai/TRACE.jsonl` close to the draft.
 
@@ -197,7 +205,12 @@ Packaging follows the official Codex `skill-installer` standard. Use this repo's
 ```bash
 install-skill-from-github.py \
   --repo MAC-AutoML/oh_my_paper \
+  --path skills/deep-research \
+  --path skills/academic-paper \
+  --path skills/academic-paper-reviewer \
+  --path skills/academic-pipeline \
   --path skills/paper-ai-orchestrator \
+  --path skills/paper-ai-idea \
   --path skills/paper-ai-research \
   --path skills/paper-ai-writing \
   --path skills/paper-ai-title-abstract \
@@ -212,7 +225,7 @@ install-skill-from-github.py \
   --path skills/paper-ai-rebuttal
 ```
 
-Install any subset of `skills/paper-ai-*` depending on the workflow surface you want.
+Install any subset of the top-level + helper skill surface depending on your workflow.
 
 ## Docs
 

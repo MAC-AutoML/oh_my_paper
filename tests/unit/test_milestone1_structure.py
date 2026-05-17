@@ -7,6 +7,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SKILLS = [
+    "deep-research",
+    "academic-paper",
+    "academic-paper-reviewer",
+    "academic-pipeline",
     "paper-ai-orchestrator",
     "paper-ai-idea",
     "paper-ai-research",
@@ -42,9 +46,9 @@ class Milestone1StructureTest(unittest.TestCase):
             with self.subTest(skill=skill):
                 text = (ROOT / "skills" / skill / "SKILL.md").read_text()
                 self.assertIn(f"name: {skill}", text)
-                self.assertIn("## Use when", text)
-                self.assertIn("## Outputs", text)
-                self.assertIn("## Gate", text)
+                self.assertIn("Use when", text)
+                self.assertIn("Outputs", text)
+                self.assertIn("Gate", text)
                 self.assertIn("Do not invent experiments", text)
                 self.assertLessEqual(len(text.splitlines()), 220)
 

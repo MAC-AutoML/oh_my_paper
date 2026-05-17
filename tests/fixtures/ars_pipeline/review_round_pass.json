@@ -1,0 +1,12 @@
+{
+  "verdict": "PASS",
+  "score": 82,
+  "dimension_scores": {
+    "soundness": 82,
+    "evidence": 84,
+    "clarity": 80
+  },
+  "required_revisions": [],
+  "optional_suggestions": ["Tighten the abstract if targeting a shorter venue."],
+  "round_index": 1
+}

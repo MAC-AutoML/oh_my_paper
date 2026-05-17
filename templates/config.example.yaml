@@ -1,5 +1,5 @@
 # Primary non-secret oh_my_paper configuration template.
-# Copy to config.yaml for local use. config.yaml is gitignored.
+# Copy root config.example.yaml to config.yaml for local use. config.yaml is gitignored.
 models:
   writer:
     provider: openai-compatible
@@ -28,3 +28,6 @@ privacy:
   hidden_rubric_dirs:
     - hidden
     - rubrics
+
+transport: stdio
+websocket remains experimental

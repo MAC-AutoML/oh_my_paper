@@ -49,11 +49,11 @@ def run_ars_pipeline(
     _write_json(paper / "INTEGRITY_REPORT_FINAL.json", final_stage)
     repro = _repro_lock(root, config, material_path)
     _write_json(paper / "REPRO_LOCK.json", repro)
+    summary = _summary(root, citation_report, review, live)
+    _write_text(paper / "PIPELINE_SUMMARY.md", summary)
     state_payload = _pipeline_state(root, citation_report, review, blocked=citation_report.get("status") == "blocked")
     _write_json(state / "PIPELINE_STATE.json", state_payload)
     _write_trace(state / "TRACE.jsonl", root)
-    summary = _summary(root, citation_report, review, live)
-    _write_text(paper / "PIPELINE_SUMMARY.md", summary)
     return {"ok": citation_report.get("status") != "blocked" and review.get("verdict") == "PASS", "workspace": str(root), "pipeline_state": str(state / "PIPELINE_STATE.json"), "citation_status": citation_report.get("status"), "reviewer_verdict": review.get("verdict"), "live_e2e": "run" if live else "not_run: offline fixture tier"}
 
 
