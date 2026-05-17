@@ -30,13 +30,40 @@ def write_full_paper_iterative(
 ) -> str:
     """Write a complete paper using plan, draft, critique, and revision calls."""
 
-    plan = draft_section_plan(config, source_text, related_context, chat=chat)
-    draft = draft_from_plan(config, plan, source_text, related_context, chat=chat)
-    critique = critique_draft(config, draft, plan, source_text, related_context, chat=chat)
-    return revise_from_internal_critique(config, draft, critique, plan, source_text, related_context, chat=chat)
+    selection = select_paper_direction(config, source_text, related_context, chat=chat)
+    plan = draft_section_plan(config, source_text, related_context, selection=selection, chat=chat)
+    paper = draft_from_plan(config, plan, source_text, related_context, chat=chat)
+    for _round_index in range(3):
+        review = score_draft(config, paper, plan, source_text, related_context, chat=chat)
+        if _review_score(review) >= 85:
+            return paper
+        critique = critique_draft(config, paper, plan, source_text, related_context, review=review, chat=chat)
+        paper = revise_from_internal_critique(config, paper, critique, plan, source_text, related_context, chat=chat)
+    return paper
 
 
-def draft_section_plan(config, source_text: str, related_context: str, *, chat: ChatFn = chat_completion) -> str:
+def select_paper_direction(config, source_text: str, related_context: str, *, chat: ChatFn = chat_completion) -> str:
+    result = chat(
+        config,
+        model=config.reviewer_model,
+        temperature=0.1,
+        max_tokens=5000,
+        messages=[
+            {"role": "system", "content": _selection_system_prompt()},
+            {"role": "user", "content": _source_user_prompt(source_text, related_context)},
+        ],
+    )
+    return _strip_fences(result.content)
+
+
+def draft_section_plan(
+    config,
+    source_text: str,
+    related_context: str,
+    *,
+    selection: str = "",
+    chat: ChatFn = chat_completion,
+) -> str:
     result = chat(
         config,
         model=config.writer_model,
@@ -44,7 +71,7 @@ def draft_section_plan(config, source_text: str, related_context: str, *, chat: 
         max_tokens=6000,
         messages=[
             {"role": "system", "content": _section_plan_system_prompt()},
-            {"role": "user", "content": _source_user_prompt(source_text, related_context)},
+            {"role": "user", "content": _planning_user_prompt(source_text, related_context, selection)},
         ],
     )
     return _strip_fences(result.content)
@@ -71,7 +98,7 @@ def draft_from_plan(
     return _strip_fences(result.content)
 
 
-def critique_draft(
+def score_draft(
     config,
     draft: str,
     plan: str,
@@ -82,12 +109,35 @@ def critique_draft(
 ) -> str:
     result = chat(
         config,
+        model=config.reviewer_model,
+        temperature=0,
+        max_tokens=5000,
+        messages=[
+            {"role": "system", "content": _score_system_prompt()},
+            {"role": "user", "content": _review_round_user_prompt(draft, plan, source_text, related_context)},
+        ],
+    )
+    return _strip_fences(result.content)
+
+
+def critique_draft(
+    config,
+    draft: str,
+    plan: str,
+    source_text: str,
+    related_context: str,
+    *,
+    review: str = "",
+    chat: ChatFn = chat_completion,
+) -> str:
+    result = chat(
+        config,
         model=config.writer_model,
         temperature=0.1,
         max_tokens=7000,
         messages=[
             {"role": "system", "content": _internal_critique_system_prompt()},
-            {"role": "user", "content": _internal_critique_user_prompt(draft, plan, source_text, related_context)},
+            {"role": "user", "content": _internal_critique_user_prompt(draft, plan, source_text, related_context, review)},
         ],
     )
     return _strip_fences(result.content)
@@ -116,6 +166,29 @@ def revise_from_internal_critique(
     return _strip_fences(result.content)
 
 
+def _review_score(review: str) -> int:
+    import json
+    import re
+
+    match = re.search(r"\{.*\}", review, flags=re.DOTALL)
+    if match:
+        try:
+            value = json.loads(match.group(0)).get("score", 0)
+            return int(value) if isinstance(value, int | float | str) and str(value).isdigit() else 0
+        except Exception:
+            pass
+    match = re.search(r"score[^0-9]{0,12}([0-9]{1,3})", review, flags=re.IGNORECASE)
+    return int(match.group(1)) if match else 0
+
+
+def _selection_system_prompt() -> str:
+    return """You are a strict academic program chair.
+From the user's material, propose and score 3-5 original paper directions before any drafting.
+Do not reuse a fixed project name from examples. Select the best direction by novelty, feasibility, evidence fit, and risk.
+Return concise JSON or markdown with selected_candidate, score, rationale, risks, and required caveats.
+"""
+
+
 def _section_plan_system_prompt() -> str:
     return """You are the oh_my_paper section-contract planner.
 Do not draft prose yet. Create a complete writing contract for a long ML paper.
@@ -141,6 +214,14 @@ If the source paper is a reinforcement-learning paper, include objective definit
 """
 
 
+def _score_system_prompt() -> str:
+    return """You are the oh_my_paper reviewer agent.
+Score the draft from 0 to 100. Be strict: below 85 means another revision is required.
+Evaluate problem framing, originality from user material, evidence discipline, method clarity, experiment credibility, figure readiness, limitations, and overall paper flow.
+Return JSON with score, verdict, blocking_issues, required_revisions, and satisfied_items.
+"""
+
+
 def _internal_critique_system_prompt() -> str:
     return """You are the oh_my_paper internal writing critic.
 Audit the draft before external review. Return a concise but strict markdown report, not revised prose.
@@ -157,6 +238,16 @@ Fix unsupported claims by grounding, caveating, converting to proposed work, or 
 Preserve a reader-centered top-tier paper flow: problem -> gap -> design -> evidence -> insight -> impact.
 Return only the revised complete paper markdown.
 """
+
+
+def _planning_user_prompt(source_text: str, related_context: str, selection: str) -> str:
+    return f"""Reviewer-selected paper direction:
+<<<SELECTION
+{selection[:30000] or '(not provided)'}
+SELECTION
+>>>
+
+{_source_user_prompt(source_text, related_context)}"""
 
 
 def _source_user_prompt(source_text: str, related_context: str) -> str:
@@ -182,8 +273,36 @@ Generate the full paper draft using the extracted PDF as the primary test materi
 {_source_user_prompt(source_text[:120000], related_context)}"""
 
 
-def _internal_critique_user_prompt(draft: str, plan: str, source_text: str, related_context: str) -> str:
+def _review_round_user_prompt(draft: str, plan: str, source_text: str, related_context: str) -> str:
     return f"""Section contract:
+<<<SECTION_CONTRACT
+{plan[:30000]}
+SECTION_CONTRACT
+>>>
+
+{_source_user_prompt(source_text[:30000], related_context)}
+
+Draft to score:
+<<<DRAFT
+{draft[:100000]}
+DRAFT
+>>>"""
+
+
+def _internal_critique_user_prompt(
+    draft: str,
+    plan: str,
+    source_text: str,
+    related_context: str,
+    review: str = "",
+) -> str:
+    return f"""Reviewer score packet:
+<<<REVIEW
+{review[:30000] or '(not provided)'}
+REVIEW
+>>>
+
+Section contract:
 <<<SECTION_CONTRACT
 {plan[:40000]}
 SECTION_CONTRACT

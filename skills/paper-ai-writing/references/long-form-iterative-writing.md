@@ -52,13 +52,27 @@ Ask these questions before finalizing each section:
 
 For a full paper, use a global loop plus section loops:
 
-1. Global thesis and contribution check.
-2. Section contracts for all major sections.
-3. Section drafts using contracts.
-4. Cross-section critique: repeated claims, missing loops, unsupported evidence, inconsistent terminology.
-5. Full-paper revision.
-6. Figure/table prompt generation from final claims.
-7. Final rationale and integrity note.
+1. Candidate direction extraction from the user's material.
+2. Reviewer-model selection of the strongest direction; use the configured Gemini-compatible reviewer if available.
+3. Global thesis and contribution check for the selected direction.
+4. Section contracts for all major sections.
+5. Section drafts using contracts.
+6. Reviewer score pass.
+7. Cross-section critique: repeated claims, missing loops, unsupported evidence, inconsistent terminology.
+8. Full-paper revision.
+9. Repeat score/critique/revision until score is at least 85 or the maximum round limit is reached.
+10. Figure/table prompt generation from final claims.
+11. Final rationale and integrity note.
+
+## Reviewer threshold loop
+
+Use this loop for live API-backed writing:
+
+```text
+draft -> reviewer score -> if score < 85: revision brief -> revise -> reviewer score
+```
+
+The reviewer should return structured output with `score`, `verdict`, `blocking_issues`, and `required_revisions`. A low score is not a failure of the workflow; it is the next revision input.
 
 ## Figure integration
 

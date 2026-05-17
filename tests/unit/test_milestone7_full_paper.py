@@ -10,6 +10,25 @@ from oh_my_paper.workflows import full_paper
 
 
 class Milestone7FullPaperWorkflowTest(unittest.TestCase):
+    def test_section_based_demo_layout_replaces_single_paper_output(self) -> None:
+        root = Path(__file__).resolve().parents[2] / "demo"
+        self.assertTrue((root / "sections/01_sec_abstract.md").exists())
+        self.assertTrue((root / "figures/fig_01_workflow_prompt.md").exists())
+        self.assertTrue((root / "explain/01_why_abstract.md").exists())
+        self.assertTrue((root / "MODEL_SELECTION_PROTOCOL.md").exists())
+        self.assertTrue((root / "REVIEW_LOOP_PROTOCOL.md").exists())
+        self.assertFalse((root / "paper.md").exists())
+        self.assertFalse((root / "figures/figure_prompts.md").exists())
+
+        combined = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in root.glob("**/*")
+            if path.is_file() and path.suffix in {".md", ".py"}
+        )
+        self.assertNotIn("MME", combined)
+        self.assertIn("score >= 85", combined)
+        self.assertIn("Gemini-compatible", combined)
+
     def test_section_validator_requires_complete_long_paper(self) -> None:
         paper = "# Descriptive Paper Title\n\n" + "\n\n".join(
             [
@@ -79,17 +98,50 @@ class Milestone7FullPaperWorkflowTest(unittest.TestCase):
         def fake_chat(config, *, model, messages, temperature=0.2, max_tokens=12000, timeout_s=900):
             del config, model, temperature, max_tokens, timeout_s
             calls.append(messages[0]["content"])
+            if "reviewer agent" in messages[0]["content"]:
+                return ChatResult('{"score": 87, "verdict": "pass"}', {"choices": []})
             return ChatResult(generated, {"choices": []})
 
         with mock.patch.object(full_paper, "chat_completion", fake_chat):
-            config = type("Config", (), {"writer_model": "writer"})()
+            config = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
             paper = full_paper._write_full_paper(config, "source", "context")
         self.assertIn("multi round", paper)
         self.assertGreaterEqual(len(calls), 4)
-        self.assertIn("section-contract planner", calls[0])
-        self.assertIn("full-paper writing agent", calls[1])
-        self.assertIn("internal writing critic", calls[2])
-        self.assertIn("internal revision agent", calls[3])
+        self.assertIn("program chair", calls[0])
+        self.assertIn("section-contract planner", calls[1])
+        self.assertIn("full-paper writing agent", calls[2])
+        self.assertIn("reviewer agent", calls[3])
+
+    def test_full_paper_writer_revises_until_reviewer_score_threshold(self) -> None:
+        generated = "# Draft\n\n" + "\n\n".join(
+            [
+                "## Abstract " + "iterative " * 350,
+                "## 1. Introduction " + "iterative " * 350,
+                "## 2. Related Work " + "iterative " * 350,
+                "## 3. Method " + "iterative " * 350,
+                "## 4. Experiments and Results " + "iterative " * 350,
+                "## 5. Limitations " + "iterative " * 350,
+                "## 6. Conclusion " + "iterative " * 350,
+                "## References " + "iterative " * 350,
+            ]
+        )
+        scores = iter([72, 81, 87])
+        calls: list[str] = []
+
+        def fake_chat(config, *, model, messages, temperature=0.2, max_tokens=12000, timeout_s=900):
+            del config, model, temperature, max_tokens, timeout_s
+            system = messages[0]["content"]
+            calls.append(system)
+            if "reviewer agent" in system:
+                return ChatResult(f'{{"score": {next(scores)}, "verdict": "revise"}}', {"choices": []})
+            return ChatResult(generated, {"choices": []})
+
+        with mock.patch.object(full_paper, "chat_completion", fake_chat):
+            config = type("Config", (), {"writer_model": "writer", "reviewer_model": "reviewer"})()
+            paper = full_paper._write_full_paper(config, "source", "context")
+        self.assertIn("iterative", paper)
+        self.assertEqual(sum("reviewer agent" in call for call in calls), 3)
+        self.assertGreaterEqual(sum("internal revision agent" in call for call in calls), 2)
 
     def test_review_loop_revises_after_failed_round(self) -> None:
         initial = "# Draft\n\n" + "\n\n".join([

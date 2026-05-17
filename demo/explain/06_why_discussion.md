@@ -1,0 +1,10 @@
+# 为什么这样写：5. Discussion
+
+讨论章解释系统价值：长文需要治理、审稿分数驱动返修、图像不能替代证据。它把 demo 上升到设计哲学。
+
+## 迭代说明
+
+- 第一轮：确定本节回答的 reader question。
+- 第二轮：检查是否有 unsupported claim。
+- 第三轮：把批评转成修订或 caveat。
+- 通过条件：本节不把 demo/synthetic 内容写成真实实证结论。

@@ -1,3 +1,13 @@
+# Input summary
+
+- Source file: `demo/input_material.md`
+- SHA256: `5added71fdfdf86ebb4d146f7424179e8d761425db7fe5ea690d6965afe84c52`
+- User intent interpreted by the demo: build a section-based academic writing workflow from PPO-oriented material.
+- Forbidden behavior: do not hard-code a fixed benchmark acronym from prior examples; do not claim synthetic values are real experiments.
+
+## Raw input excerpt
+
+```markdown
 # 输入素材：PPO 与强化学习算法评测
 
 Proximal Policy Optimization (PPO) 是强化学习中广泛使用的 policy-gradient 方法。它通过 clipped surrogate objective 限制单次策略更新幅度，从而在实现简单、样本效率和训练稳定性之间取得平衡。PPO 常被用于连续控制、游戏环境、机器人策略学习和 RLHF 等场景。
@@ -16,3 +26,4 @@ Proximal Policy Optimization (PPO) 是强化学习中广泛使用的 policy-grad
 长文写作必须是多轮过程：每个章节先有 section contract 和 paragraph plan，然后由写作 agent 起草，再由 critic/reviewer agent 评分与指出问题，最后返修。若 reviewer score 低于 85，应继续返修，直到达到阈值或达到最大轮数。所有 synthetic numbers 必须明确标注为示例，不得写成真实 PPO/SAC/TD3 实验结果。
 
 图像生成也必须从正文 claim 出发：先生成 figure intent，再生成 Codex imagegen prompt，最后由 imagegen 生成位图并审查。demo 可以保存 prompt 和 audit，不应把代码生成 SVG 当作默认最终图像。
+```

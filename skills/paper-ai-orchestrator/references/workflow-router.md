@@ -69,10 +69,13 @@ Use `paper/MATERIAL_PASSPORT.json` for reset/resume metadata. If the passport is
 
 When the next step is a full paper, long section, or demo paper:
 
-1. Route to `paper-ai-writing`.
-2. Require a section-contract pass before prose.
-3. Require paragraph plans before section drafts.
-4. Require a critique/revision pass before a section is considered complete.
-5. Route figure intents to `paper-ai-figures`; if the user wants generated bitmap visuals, use Codex `imagegen` rather than treating deterministic SVG as the final image workflow.
+1. Extract 3-5 candidate paper directions from the user's material; do not hard-code a title, acronym, or benchmark name from examples.
+2. Ask the configured reviewer model to select the strongest direction. If the config points to Gemini or a Gemini-compatible endpoint, this is the Gemini selection pass.
+3. Route the selected direction to `paper-ai-writing`.
+4. Require a section-contract pass before prose.
+5. Require paragraph plans before section drafts.
+6. Require reviewer scoring and critique/revision passes before a section is considered complete.
+7. Continue revision until the configured reviewer threshold is reached; use 85 as the default acceptance target for demo/full-paper generation.
+8. Route figure intents to `paper-ai-figures`; if the user wants generated bitmap visuals, use Codex `imagegen` rather than treating deterministic SVG as the final image workflow.
 
-The orchestrator should preserve minimal state only: current section, evidence gaps, figure intents, reviewer/integrity gate status, and next skill. Do not add process files unless they make the paper reproducible or explainable.
+The orchestrator should preserve minimal state only: selected candidate, reviewer score, current section, evidence gaps, figure intents, reviewer/integrity gate status, and next skill. Do not add process files unless they make the paper reproducible or explainable.

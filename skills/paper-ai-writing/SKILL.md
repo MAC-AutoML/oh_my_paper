@@ -29,9 +29,10 @@ paper story outline, section plan, claim-grounded rewrite notes
 
 1. Audit document surface, information flow, and underlying argument.
 2. For long-form generation, do not draft the paper or a major section in one call. Use the multi-round loop below.
-3. Route section-specific work to title/abstract, introduction, related work, method, experiments, limitations, figures, or layout.
-4. Keep claims tied to evidence status.
-5. Revise from story to paragraphs to language.
+3. If no paper direction has been selected yet, generate candidate directions from the user's material and ask the configured reviewer model to choose before drafting.
+4. Route section-specific work to title/abstract, introduction, related work, method, experiments, limitations, figures, or layout.
+5. Keep claims tied to evidence status.
+6. Revise from story to paragraphs to language.
 
 ## Long-form multi-round loop
 
@@ -45,6 +46,8 @@ For every major section, run at least these passes before treating the prose as 
 6. **Rationale note:** explain in Chinese why the section is structured this way and what evidence remains missing.
 
 Never treat “one LLM call produced text” as a completed section. The stop condition is: section contract satisfied, claims mapped, critique resolved or explicitly deferred, and rationale written.
+
+For full-paper generation, run reviewer scoring after the first complete draft and after each revision. Use 85 as the default acceptance target unless the user config sets a different score. A score below target must produce a revision brief and another writing pass, not a final answer.
 
 ## Gate
 
