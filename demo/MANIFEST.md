@@ -21,9 +21,9 @@
 | `explain/why_fig_01_workflow_prompt.md` | `ded7c015640d15e94b249ebc99da2d423704509fb71c2226516581bc953f2cf4` |
 | `explain/why_fig_02_score_loop_prompt.md` | `9fae1d02e6be19a8dceef48bf5be1827362f66be754ad341a9f613828e3e19ae` |
 | `explain/why_fig_03_section_artifacts_prompt.md` | `c8a54778ad8c705870368061d06172c6f25d232ae7f31d7a9baee50872a00437` |
-| `figures/fig_01_workflow_prompt.md` | `e59876661d3c772935b20012720f30794fa060ec539b470678c4d6566c302056` |
-| `figures/fig_02_score_loop_prompt.md` | `13fea81b1ddfeca4d0297df2a1fc65e66fc238880f4f91883c26c6f672327d1b` |
-| `figures/fig_03_section_artifacts_prompt.md` | `30034cefbb906ac2943a3ab83cc0cc3559412a260339ca28215cfca51d681399` |
+| `figures/fig_01_workflow_prompt.md` | `402a2b3d94305bbd7257f6bb37889c8b3213e5acb6f9c514ea0a55ef2d6feed6` |
+| `figures/fig_02_score_loop_prompt.md` | `2dbb67736197e6ab133875700deaec730f334027b7285c371fa2c38b94214892` |
+| `figures/fig_03_section_artifacts_prompt.md` | `40582ebd51b86ed71ea0c3457f9e37ba5859f3087f740f26663e33fc71597c89` |
 | `references.bib` | `d9d5f35f96af2e3fe57d7d963b42117c1533ed38d37271bc41fa9d87d9c4a994` |
 | `sections/00_full_paper.md` | `16956841c63ec183b227d0315788193cdf4451ffd0529fb787e05ba539b4734b` |
 | `sections/01_sec_abstract.md` | `3010b303724d7fef49fac8723599a42861e918087829622c03e69055a5fc33e9` |

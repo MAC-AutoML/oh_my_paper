@@ -51,6 +51,18 @@ For method/benchmark papers, a strong first figure often combines three layers:
 2. **Design layer:** what the new workflow/benchmark changes.
 3. **Evidence layer:** what output, score, or artifact verifies the change.
 
+## CCF-A / benchmark paper style cues
+
+Observed from Video-MME-style benchmark papers and common CV/ML conference figures:
+
+- **Figure 1 often does two jobs:** left side defines the benchmark taxonomy or data hierarchy; right side gives a compact leaderboard or example-driven result.
+- **Use real-paper density:** multiple subpanels are acceptable, but each subpanel has one visual grammar: taxonomy wheel/tree, timeline strip, bar ranking, radar, or example card.
+- **Benchmark examples look like evidence boards:** question card at top, answer highlighted with a restrained color, several thumbnails or evidence snippets below, then a time strip or grouping line.
+- **Capability taxonomies use nested rings, sunbursts, ladders, or grouped blocks:** color separates levels, not decoration.
+- **Leaderboards use bars with exact values outside bars:** solid vs striped fills can compare two metrics; do not fake values.
+- **Captions carry explanation:** the image should avoid long paragraphs; caption explains left/right panels and caveats.
+- **Top-tier style is not empty minimalism:** it is information-dense but spatially organized, with clear panel boundaries and repeated motifs.
+
 ## Generated figure discipline
 
 If the figure is meant to be an AI-generated bitmap, route through the article-content-to-imagegen workflow:

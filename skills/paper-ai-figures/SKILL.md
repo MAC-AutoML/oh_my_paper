@@ -59,6 +59,8 @@ For complex paper figures, request a multi-panel academic schematic instead of o
 4. Use thin connectors and one accent color to show the main causal path.
 5. Keep dense information in grouped panels, not in long in-image sentences.
 
+For benchmark/evaluation papers, prefer a CCF-A Figure-1 composite: taxonomy/hierarchy panel + diagnostic ranking/score panel + representative evidence strip. Keep it information-dense but organized; do not make it a cartoon overview.
+
 ## Image generation rule
 
 When the desired output is a generated raster image, use the Codex `imagegen` skill if available. Do not replace imagegen with code-generated SVG unless the user explicitly wants deterministic vector output. If image generation is unavailable, save the imagegen prompt and mark the image status as `not_run`.

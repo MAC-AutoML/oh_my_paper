@@ -155,6 +155,9 @@ FIGURES = [
         'Pipeline / feedback loop',
         'A reliable academic draft emerges from repeated selection, writing, review, revision, figure generation, and packaging rather than from one prompt.',
         [
+            'A',
+            'B',
+            'C',
             'One-shot prompt',
             'User material',
             'Candidate ideas',
@@ -163,11 +166,13 @@ FIGURES = [
             'Citation check',
             'Review score',
             'Revise to 85+',
+            'Citation gaps',
+            'Critique packet',
             'Imagegen figures',
             'LaTeX package',
             'Auditable draft',
         ],
-        'Create a three-layer journal-style schematic. Top lane: a faint contrast card labeled One-shot prompt fading out before the loop. Middle lane: the main left-to-right pipeline from User material to LaTeX package. Lower lane: a curved feedback path from Review score back to Section agents labeled Revise to 85+. End with a stronger output card labeled Auditable draft. Use panel grouping, not a single flat row.',
+        'Create a CCF-A benchmark-paper Figure-1 composite with three labeled subpanels. Panel A: a small contrast card labeled One-shot prompt fading out. Panel B: the main left-to-right workflow from User material to LaTeX package with the Revise to 85+ feedback loop. Panel C: an output card labeled Auditable draft. Use panel grouping, thin separators, and a caption-ready layout, not a single flat row. Do not include score charts, axes, leaderboards, threshold lines, or numeric markers.',
         'Show that the paper is produced by layered selection, evidence checking, review, revision, figure generation, and packaging rather than a one-shot prompt.',
     ),
     (
@@ -176,6 +181,8 @@ FIGURES = [
         'Score trajectory with feedback packets',
         'The reviewer does not merely grade; it creates targeted revision packets until the draft crosses the acceptance threshold.',
         [
+            'A',
+            'B',
             'Draft v1',
             '72',
             'Critique packet',
@@ -187,7 +194,7 @@ FIGURES = [
             'Accept threshold',
             'Repair loop',
         ],
-        'Create a two-panel score figure. Upper panel: stepped trajectory from Draft v1 to Draft v3 with score markers 72, 81, 87 and an Accept threshold line. Lower panel: two compact feedback packets, Critique packet and Citation gaps, feeding upward into the next draft; label the lower feedback lane Repair loop.',
+        'Create a CCF-A evaluation diagnostic figure with two labeled subpanels. Panel A: a clean stepped score trajectory from Draft v1 to Draft v3 with score markers 72, 81, 87 and an Accept threshold line. Panel B: a repair lane with Critique packet and Citation gaps feeding upward into the next draft; label the lane Repair loop. Do not add internal icon text, micro badges, or any extra words inside the packet cards.',
         'Show a revision trajectory from 72 to 81 to 87, with critique packets and citation gaps feeding a repair loop until the draft crosses the accept threshold.',
     ),
     (
@@ -196,21 +203,22 @@ FIGURES = [
         'Artifact map / file grid',
         'The workflow is auditable because every section, figure prompt, explanation, reference file, and optional package workspace is saved as a separate artifact.',
         [
+            'A',
+            'B',
+            'C',
             'sections/',
             '01 Abstract',
             '02 Introduction',
             '03 Related Work',
             '04 Method',
             'figures/',
-            'fig prompts',
             'explain/',
-            'why files',
             'references.bib',
             'latex workspace',
             'audit trail',
         ],
-        'Create a layered artifact-map plate with three grouped columns: sections/ on the left, figures/ in the center, explain/ on the right. Put references.bib and latex workspace as foundation cards at the bottom, connected to a small audit trail badge. Use stacked cards to imply multiple files without rendering long filenames.',
-        'Show grouped artifact families only: section cards, figure prompt cards, explanation cards, references, LaTeX workspace, and audit trail. Use only the allowed labels, not full filenames.',
+        'Create a clean CCF-A appendix-style artifact map with three labeled subpanels. Panel A: sections/ as four stacked file cards. Panel B: figures/ and explain/ as two simple stacked card groups connected by arrows. Panel C: references.bib and latex workspace connected to audit trail. Use no tags, no badges, no header ribbons, no small helper labels, and no extra words.',
+        'Show grouped artifact families only: section cards, figure cards, explanation cards, references, LaTeX workspace, and audit trail. Use only the allowed labels, not full filenames.',
     ),
 ]
 
@@ -392,6 +400,42 @@ def figure_prompt(
     intent: str,
 ) -> str:
     quoted_labels = ", ".join(f'"{label}"' for label in labels)
+    helper_words = [
+        "score",
+        "threshold",
+        "audit",
+        "overview",
+        "workflow",
+        "caption",
+        "figure",
+        "foundation",
+        "repair",
+        "evidence",
+        "prompt",
+        "support",
+        "tax",
+        "hair",
+    ]
+    allowed_lower = " | ".join(labels).lower()
+    forbidden = [label for label in helper_words if label.lower() not in allowed_lower]
+    if "audit trail" in allowed_lower and "audit" not in forbidden:
+        forbidden.append("audit")
+    if "figures/" in labels and "figure" not in forbidden:
+        forbidden.append("figure")
+    forbidden.extend(["Figure 1", "academic paper", "publication-ready", "CCF-A", "CVPR", "NeurIPS"])
+    # Preserve order while removing duplicates.
+    forbidden = list(dict.fromkeys(forbidden))
+    forbidden_examples = ", ".join(f'"{label}"' for label in forbidden)
+    forbidden_line = (
+        f"Do not render these common hallucinated labels unless they are in the allowed list: {forbidden_examples}."
+        if forbidden
+        else "No extra helper labels are allowed beyond the exact allowed-label list."
+    )
+    helper_word_line = (
+        f"Do not add helper words such as {', '.join(forbidden)} unless they appear in the allowed-label list."
+        if forbidden
+        else "Do not add any helper words beyond the allowed-label list."
+    )
     return f"""# {title}
 
 ## Figure intent
@@ -418,6 +462,9 @@ Reader takeaway:
 Paper context:
 Section-based oh my paper demo for iterative academic writing, citation checking, reviewer scoring, image generation, and LaTeX packaging.
 
+Style reference:
+CCF-A/CVPR/NeurIPS benchmark Figure 1 style: information-dense but organized; left or top panels define structure, right or lower panels show diagnostic outputs or evidence artifacts. Use restrained pastel category colors, thin separators, small panel letters, compact evidence cards, and caption-ready composition. Avoid cartoon overview art.
+
 Paper-content extraction:
 - Entities: user material, candidate directions, writing agents, citation checks, reviewer score, revision loop, figure prompts, package artifacts.
 - Relationships: evidence flows forward; critique and citation gaps flow backward into revision; generated figures and package outputs must remain auditable.
@@ -438,6 +485,8 @@ Layer stack:
 Allowed visible labels:
 Use only these exact labels: {quoted_labels}.
 Do not render the internal asset name, style names, explanatory sentences, captions, or any other words inside the image.
+Forbidden visible labels:
+{forbidden_line}
 
 Required visual elements:
 {intent}
@@ -446,10 +495,12 @@ Aesthetic contract:
 NeurIPS / ICLR / Nature Methods style; elegant editorial scientific schematic; white background; muted slate-blue, teal, warm gray, and one amber accent for revision/warning; thin 1.5px-style strokes; simple rounded rectangles; layered panel composition; small-multiple rhythm; generous whitespace; no clipart; no 3D; no glossy gradients; no stock-photo look.
 
 Text policy:
-Short labels only. No title, subtitle, paragraphs, pseudo-text, random letters, filenames beyond the allowed labels, fake citations, tiny footnotes, or unsupported numbers inside the image. If a card needs more text than the allowed label, leave the card visually simple rather than inventing text.
+Short labels only. No title, subtitle, paragraphs, pseudo-text, random letters, filenames beyond the allowed labels, fake citations, tiny footnotes, or unsupported numbers inside the image. {helper_word_line} If a card needs more text than the allowed label, leave the card visually simple rather than inventing text.
+Absolutely no caption, footer paragraph, explanatory sentence, or auto-generated figure description inside the image. Do not reserve a caption/footer band; crop the canvas to the figure content with balanced margins.
+Layout words in the prompt are instructions only, not visible text.
 
 Negative prompt:
-Avoid fake logos, watermarks, decorative icons, busy background, oversaturated colors, marketing-slide style, cartoon mascots, comic-book style, isometric app illustration, fake axes, invented metrics, unsupported numeric claims, and any text not listed in the allowed labels.
+Avoid fake logos, watermarks, decorative icons, busy background, oversaturated colors, marketing-slide style, cartoon mascots, comic-book style, isometric app illustration, fake axes, invented metrics, unsupported numeric claims, micro badges with text, thumbnail pseudo-text, and any text not listed in the allowed labels.
 
 Retry rule:
 If any visible label differs from the allowed list, if pseudo-text appears, if the visual focal point is unclear in 5 seconds, or if it looks like a generic business infographic rather than an academic figure, regenerate or repair before using it.
@@ -458,6 +509,7 @@ If any visible label differs from the allowed list, if pseudo-text appears, if t
 
 - The takeaway is visible in 5 seconds: {takeaway}
 - Text labels exactly match the allowed list.
+- No forbidden helper label appears.
 - Layout follows the specified grammar.
 - No unsupported empirical claim appears in the image.
 - Caption can link the figure to a section claim.

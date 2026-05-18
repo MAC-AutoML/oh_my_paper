@@ -53,6 +53,11 @@ Allowed visible labels:
 Use only these exact short labels: "<label 1>", "<label 2>", ...
 Do not render the internal file name, prompt metadata, style names, title, subtitle, caption, or explanatory sentences inside the image unless explicitly listed here.
 
+Forbidden visible labels:
+List common hallucinated helper words that must not appear, e.g. "score", "threshold", "audit", "overview", "workflow", "caption", "figure", unless they are explicitly in the allowed-label list.
+Also forbid prompt-meta words such as "Figure 1", "academic paper", "publication-ready", venue names, and any auto-generated caption text unless explicitly requested.
+If a word is used only as a layout concept, such as "foundation", "support", "repair", "evidence", or "prompt", either put it in the allowed-label list or explicitly forbid it as visible text.
+
 Required visual elements:
 <boxes, arrows, panels, axes, callouts, data values only if supported>
 
@@ -61,9 +66,12 @@ NeurIPS / ICLR / Nature Methods style; editorial, minimalist, white background, 
 
 Text policy:
 Short labels only. No title, subtitle, paragraphs, pseudo-text, random letters, tiny footnotes, filenames, style names, or fake citations inside the image.
+Do not add helper labels beyond the allowed list.
+Absolutely no caption, footer paragraph, or generated figure description inside the bitmap; captions belong outside the image. Do not reserve an empty caption/footer band.
+Layout words in the prompt are instructions only, not visible text.
 
 Negative prompt:
-Avoid decorative icons, stock-photo look, over-saturated colors, busy backgrounds, fake logos, watermark, fake axes, unsupported numeric claims, and any text not listed above.
+Avoid decorative icons, stock-photo look, over-saturated colors, busy backgrounds, fake logos, watermark, fake axes, unsupported numeric claims, micro badges with text, thumbnail pseudo-text, and any text not listed above.
 
 Output audit:
 The generated image must make the takeaway obvious in 5 seconds and all visible labels must match the allowed list.
@@ -73,6 +81,8 @@ The generated image must make the takeaway obvious in 5 seconds and all visible 
 
 - **Pipeline / method overview:** 4--7 aligned boxes, one arrow direction, optional feedback loop; no more than two nested levels.
 - **Layered mechanism schematic:** three semantic layers: input/evidence at bottom or left, method loop in the middle, outputs/diagnostics at top or right.
+- **Benchmark Figure 1 composite:** left taxonomy/hierarchy panel + right ranked result or diagnostic panel + bottom example/evidence strip.
+- **Evidence-board example:** question card, highlighted answer, supporting evidence thumbnails/cards, and a timeline or grouping rail.
 - **Score trajectory:** one clean line or stepped path, 3--5 labeled milestones, restrained callouts; no fake confidence intervals.
 - **Artifact map:** file/card grid with grouped folders and ownership boundaries; use consistent icon-free cards.
 - **Taxonomy / capability hierarchy:** tree or ladder; emphasize hierarchy with position and spacing, not rainbow colors.
@@ -87,6 +97,17 @@ The generated image must make the takeaway obvious in 5 seconds and all visible 
 - Prefer consistent small multiples when showing repeated sections, agents, or iterations.
 - If the figure needs many labels, split into subpanels A/B/C rather than shrinking text.
 - Ask for “editorial scientific schematic” or “journal figure plate,” not “comic,” “cute,” “cartoon,” “3D render,” or “isometric app illustration.”
+
+## Video-benchmark style prompt add-ons
+
+Use these only when the paper is a benchmark/evaluation paper:
+
+```text
+Style reference:
+CCF-A/CVPR/NeurIPS benchmark Figure 1 style: information-dense but organized; left panel defines capability hierarchy, right panel shows diagnostic ranking or score gap, bottom strip shows representative evidence cards. Use restrained pastel category colors, thin separators, small panel letters, and a caption-ready layout. Avoid cartoon illustration and avoid decorative icons.
+```
+
+For video or multimodal papers, prefer evidence strips, timeline rails, taxonomy wheels/trees, radar/bar diagnostics, and side-by-side “old metric vs new metric” comparisons.
 
 ## Caption/audit pattern
 
@@ -107,6 +128,7 @@ Audit:
 Retry or repair the figure when any of these occur:
 
 - visible text differs from the allowed labels;
+- forbidden helper labels appear;
 - decorative art dominates the claim;
 - the reader cannot infer the takeaway in 5 seconds;
 - arrows or panel order contradict the paper section;
