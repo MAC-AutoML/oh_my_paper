@@ -8,7 +8,9 @@ Use this reference when the user wants Codex-generated paper visuals. The intend
 2. Write a figure intent card:
    - supported claim ID;
    - one-sentence takeaway;
+   - paper-content extraction: entities, relations, evidence status, and failure mode;
    - figure type and layout grammar;
+   - layer stack;
    - required visual elements;
    - exact text labels if any;
    - evidence or data source;
@@ -34,6 +36,19 @@ Layout grammar:
 <horizontal pipeline | vertical evidence stack | 2x2 panel grid | score trajectory | taxonomy tree | comparison matrix>
 Use strict alignment, consistent margins, and a clear reading path.
 
+Paper-content extraction:
+- Entities: <objects/modules/sections/models/datasets>
+- Relationships: <causal flow, dependency, comparison, feedback, hierarchy>
+- Evidence status: <real, synthetic, proposed, placeholder>
+- Failure mode to avoid: <what old evaluation or weak figure hides>
+
+Layer stack:
+1. Background: clean white or very light grid, no texture.
+2. Major panels: 2--4 grouped regions with clear boundaries.
+3. Mechanism flow: arrows, brackets, or paths showing dependencies.
+4. Evidence callouts: small tags or score markers only if supported.
+5. Text labels: short labels from the allowed list only.
+
 Allowed visible labels:
 Use only these exact short labels: "<label 1>", "<label 2>", ...
 Do not render the internal file name, prompt metadata, style names, title, subtitle, caption, or explanatory sentences inside the image unless explicitly listed here.
@@ -57,11 +72,21 @@ The generated image must make the takeaway obvious in 5 seconds and all visible 
 ## Figure-type patterns
 
 - **Pipeline / method overview:** 4--7 aligned boxes, one arrow direction, optional feedback loop; no more than two nested levels.
+- **Layered mechanism schematic:** three semantic layers: input/evidence at bottom or left, method loop in the middle, outputs/diagnostics at top or right.
 - **Score trajectory:** one clean line or stepped path, 3--5 labeled milestones, restrained callouts; no fake confidence intervals.
 - **Artifact map:** file/card grid with grouped folders and ownership boundaries; use consistent icon-free cards.
 - **Taxonomy / capability hierarchy:** tree or ladder; emphasize hierarchy with position and spacing, not rainbow colors.
 - **Comparison matrix:** rows are methods/conditions, columns are criteria; use abstract checkmarks only when grounded.
 - **Qualitative panel:** few examples with concise labels; avoid photorealistic claims unless source images are provided.
+
+## Dense figure tactics
+
+- Use panels, lanes, and grouped cards to carry density; avoid making a single crowded flowchart.
+- Put detail in spatial structure, not paragraphs: nesting, brackets, badges, and repeated visual motifs.
+- Use a restrained color system: neutral structure, one evidence color, one warning/revision color.
+- Prefer consistent small multiples when showing repeated sections, agents, or iterations.
+- If the figure needs many labels, split into subpanels A/B/C rather than shrinking text.
+- Ask for “editorial scientific schematic” or “journal figure plate,” not “comic,” “cute,” “cartoon,” “3D render,” or “isometric app illustration.”
 
 ## Caption/audit pattern
 

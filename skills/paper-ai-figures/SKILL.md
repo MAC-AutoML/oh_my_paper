@@ -38,14 +38,26 @@ Use for paper figures, architecture diagrams, result plots, tables, captions, vi
 For imagegen figures, do not prompt with “make it beautiful.” Write a compact design brief:
 
 - **Claim/takeaway:** the one sentence the reader should learn in 5 seconds.
+- **Paper-content extraction:** list entities, relationships, evidence status, failure modes, and section dependencies before drawing.
 - **Figure type:** pipeline, taxonomy, score trajectory, ablation plot, evidence map, comparison matrix, or qualitative panel.
 - **Layout grammar:** reading direction, panel structure, alignment grid, arrows, grouping, and focal point.
+- **Layer stack:** background grid -> major panels -> mechanism flow -> evidence callouts -> minimal text labels.
 - **Allowed visible labels:** exact short labels only; quote labels when the image model must render them.
 - **Title policy:** do not ask the image model to render titles, subtitles, captions, style names, or internal file names unless they are in the allowed-label list.
 - **Aesthetic contract:** conference-paper style, white background, muted accessible palette, thin strokes, generous whitespace, no clipart.
 - **Evidence boundary:** supported values only; synthetic or illustrative values must be marked as such in caption/prompt.
 - **Negative prompt:** no pseudo-text, logos, watermarks, glossy 3D, decorative icons, dense paragraphs, fake axes, or unsupported numbers.
 - **Retry rule:** regenerate or repair if labels drift, pseudo-text appears, the focal claim is not obvious, or the figure looks like marketing art.
+
+## Layered / dense figure mode
+
+For complex paper figures, request a multi-panel academic schematic instead of one flat row of boxes:
+
+1. Panel A: problem or input evidence.
+2. Panel B: method/mechanism with 2--3 semantic layers.
+3. Panel C: diagnostic output, score, or artifact map.
+4. Use thin connectors and one accent color to show the main causal path.
+5. Keep dense information in grouped panels, not in long in-image sentences.
 
 ## Image generation rule
 

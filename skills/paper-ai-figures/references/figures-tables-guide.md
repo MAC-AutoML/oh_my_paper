@@ -28,8 +28,28 @@ Treat the image prompt as a design brief, not a beauty request:
 - **Typography:** large short labels; avoid tiny legends and paragraphs inside the bitmap.
 - **Density:** prefer fewer stronger elements over many small decorative details.
 - **Evidence honesty:** do not visualize unsupported numbers, fake curves, or invented screenshots.
+- **Layering:** use nested panels, lanes, brackets, and small multiples to organize complexity without turning the figure into a poster.
 
 This protocol follows public scientific-visualization guidance: adapt figures to the medium, keep labels readable and stand-alone, use consistent accessible colors, avoid dense overlapping text, and treat scientific figures as objective evidence carriers rather than decorative artwork.
+
+## From paper content to figure
+
+Before prompting an image model, extract:
+
+| Paper element | Figure translation |
+| --- | --- |
+| Research gap | contrast panel or warning callout |
+| Core mechanism | central layered schematic |
+| Evaluation protocol | loop, gate, or score trajectory |
+| Data / artifacts | grouped cards or table-like map |
+| Failure mode | highlighted bottleneck, crossed shortcut, or red/amber badge |
+| Contribution list | three-panel overview, not a bullet list |
+
+For method/benchmark papers, a strong first figure often combines three layers:
+
+1. **Problem layer:** what old evaluation misses.
+2. **Design layer:** what the new workflow/benchmark changes.
+3. **Evidence layer:** what output, score, or artifact verifies the change.
 
 ## Generated figure discipline
 

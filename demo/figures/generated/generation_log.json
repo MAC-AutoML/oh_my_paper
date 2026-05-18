@@ -5,7 +5,7 @@
     "model": "gemini-3.1-flash-image-preview",
     "attempt": 1,
     "status": "ok",
-    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
+    "note": "Regenerated from layered scientific image brief with content extraction, exact-label, dense-layout, and academic-aesthetic constraints."
   },
   {
     "file": "demo/figures/generated/fig_02_score_loop.jpg",
@@ -13,14 +13,14 @@
     "model": "gemini-3.1-flash-image-preview",
     "attempt": 1,
     "status": "ok",
-    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
+    "note": "Regenerated from layered scientific image brief with content extraction, exact-label, dense-layout, and academic-aesthetic constraints."
   },
   {
     "file": "demo/figures/generated/fig_03_section_artifacts.jpg",
     "prompt": "demo/figures/fig_03_section_artifacts_prompt.md",
     "model": "gemini-3.1-flash-image-preview",
-    "attempt": 2,
+    "attempt": 1,
     "status": "ok",
-    "note": "Regenerated from structured scientific image brief with exact-label and academic-aesthetic constraints."
+    "note": "Regenerated from layered scientific image brief with content extraction, exact-label, dense-layout, and academic-aesthetic constraints."
   }
 ]

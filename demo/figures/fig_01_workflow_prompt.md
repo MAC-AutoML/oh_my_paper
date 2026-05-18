@@ -4,10 +4,11 @@
 
 - Figure type: Pipeline / feedback loop
 - Reader takeaway: A reliable academic draft emerges from repeated selection, writing, review, revision, figure generation, and packaging rather than from one prompt.
-- Required content: Show the full loop: user material -> candidate ideas -> reviewer selection -> citation-aware section writing agents -> reviewer score -> revision until >=85 -> imagegen figures -> LaTeX packaging.
+- Required content: Show that the paper is produced by layered selection, evidence checking, review, revision, figure generation, and packaging rather than a one-shot prompt.
 - Evidence boundary: workflow illustration only; do not invent empirical measurements.
-- Layout grammar: Use a left-to-right pipeline with a single curved feedback arrow from Review score back to Section agents; place Imagegen figures and LaTeX package as the final two output cards.
-- Allowed visible labels: "User material", "Candidate ideas", "Reviewer selection", "Section agents", "Citation check", "Review score", "Revise to 85+", "Imagegen figures", "LaTeX package"
+- Layout grammar: Create a three-layer journal-style schematic. Top lane: a faint contrast card labeled One-shot prompt fading out before the loop. Middle lane: the main left-to-right pipeline from User material to LaTeX package. Lower lane: a curved feedback path from Review score back to Section agents labeled Revise to 85+. End with a stronger output card labeled Auditable draft. Use panel grouping, not a single flat row.
+- Layer stack: background grid -> grouped panels -> mechanism arrows -> evidence/revision callouts -> exact short labels.
+- Allowed visible labels: "One-shot prompt", "User material", "Candidate ideas", "Reviewer selection", "Section agents", "Citation check", "Review score", "Revise to 85+", "Imagegen figures", "LaTeX package", "Auditable draft"
 
 ## Codex imagegen prompt
 
@@ -15,7 +16,7 @@ Use case: infographic-diagram
 Asset type: academic paper figure
 
 Design brief:
-Create a publication-ready Pipeline / feedback loop for a computer science / machine learning paper. Internal asset name: "Workflow overview".
+Create a publication-ready Pipeline / feedback loop for a computer science / machine learning paper. Do not render a title inside the image; the paper caption will provide the title outside the bitmap.
 
 Reader takeaway:
 A reliable academic draft emerges from repeated selection, writing, review, revision, figure generation, and packaging rather than from one prompt.
@@ -23,25 +24,38 @@ A reliable academic draft emerges from repeated selection, writing, review, revi
 Paper context:
 Section-based oh my paper demo for iterative academic writing, citation checking, reviewer scoring, image generation, and LaTeX packaging.
 
+Paper-content extraction:
+- Entities: user material, candidate directions, writing agents, citation checks, reviewer score, revision loop, figure prompts, package artifacts.
+- Relationships: evidence flows forward; critique and citation gaps flow backward into revision; generated figures and package outputs must remain auditable.
+- Evidence status: workflow demonstration, not empirical experiment.
+- Failure mode to avoid: a one-shot fluent draft that hides unsupported claims, fake citations, or unreviewed figures.
+
 Layout grammar:
-Use a left-to-right pipeline with a single curved feedback arrow from Review score back to Section agents; place Imagegen figures and LaTeX package as the final two output cards.
-Use strict alignment, consistent margins, balanced whitespace, and a clear reading path. Keep the drawing flat and editorial, not cartoon-like.
+Create a three-layer journal-style schematic. Top lane: a faint contrast card labeled One-shot prompt fading out before the loop. Middle lane: the main left-to-right pipeline from User material to LaTeX package. Lower lane: a curved feedback path from Review score back to Section agents labeled Revise to 85+. End with a stronger output card labeled Auditable draft. Use panel grouping, not a single flat row.
+Use strict alignment, consistent margins, balanced whitespace, grouped panels, and a clear reading path. Keep the drawing flat and editorial, not cartoon-like.
+
+Layer stack:
+1. Background: clean white or very light gray grid, no texture.
+2. Major panels: grouped lanes or columns that carry the scientific story.
+3. Mechanism flow: thin arrows and brackets showing dependency and feedback.
+4. Evidence callouts: compact score, threshold, repair, or audit badges only when listed.
+5. Text labels: exact short labels from the allowed list only.
 
 Allowed visible labels:
-Use only these exact labels: "User material", "Candidate ideas", "Reviewer selection", "Section agents", "Citation check", "Review score", "Revise to 85+", "Imagegen figures", "LaTeX package".
+Use only these exact labels: "One-shot prompt", "User material", "Candidate ideas", "Reviewer selection", "Section agents", "Citation check", "Review score", "Revise to 85+", "Imagegen figures", "LaTeX package", "Auditable draft".
 Do not render the internal asset name, style names, explanatory sentences, captions, or any other words inside the image.
 
 Required visual elements:
-Show the full loop: user material -> candidate ideas -> reviewer selection -> citation-aware section writing agents -> reviewer score -> revision until >=85 -> imagegen figures -> LaTeX packaging.
+Show that the paper is produced by layered selection, evidence checking, review, revision, figure generation, and packaging rather than a one-shot prompt.
 
 Aesthetic contract:
-NeurIPS / ICLR / Nature Methods style; minimalist editorial diagram; white background; muted slate-blue, teal, and warm gray palette; thin 1.5px-style strokes; simple rounded rectangles; subtle accent color only for the key feedback or threshold; no clipart; no 3D; no glossy gradients; no stock-photo look.
+NeurIPS / ICLR / Nature Methods style; elegant editorial scientific schematic; white background; muted slate-blue, teal, warm gray, and one amber accent for revision/warning; thin 1.5px-style strokes; simple rounded rectangles; layered panel composition; small-multiple rhythm; generous whitespace; no clipart; no 3D; no glossy gradients; no stock-photo look.
 
 Text policy:
 Short labels only. No title, subtitle, paragraphs, pseudo-text, random letters, filenames beyond the allowed labels, fake citations, tiny footnotes, or unsupported numbers inside the image. If a card needs more text than the allowed label, leave the card visually simple rather than inventing text.
 
 Negative prompt:
-Avoid fake logos, watermarks, decorative icons, busy background, oversaturated colors, marketing-slide style, cartoon mascots, fake axes, invented metrics, unsupported numeric claims, and any text not listed in the allowed labels.
+Avoid fake logos, watermarks, decorative icons, busy background, oversaturated colors, marketing-slide style, cartoon mascots, comic-book style, isometric app illustration, fake axes, invented metrics, unsupported numeric claims, and any text not listed in the allowed labels.
 
 Retry rule:
 If any visible label differs from the allowed list, if pseudo-text appears, if the visual focal point is unclear in 5 seconds, or if it looks like a generic business infographic rather than an academic figure, regenerate or repair before using it.
